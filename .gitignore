@@ -1,0 +1,26 @@
+# Laravel
+/vendor/
+.env
+.env.*
+!.env.example
+/storage/*.key
+/public/storage
+/storage/logs/*.log
+
+# Node/Vite
+/node_modules/
+/public/build/
+/public/hot
+resources/js/*.local.js
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
