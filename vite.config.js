@@ -8,7 +8,10 @@ export default defineConfig({
     plugins: [
         // Laravel plugin: connects Laravel with Vite
         laravel({
-            input: ['resources/js/app.js'], // Entry point for our Vue app
+            input: [
+                'resources/js/app.js', // Entry point for our Vue app
+                'resources/js/admin.js' // Entry point for admin assets
+            ], 
             refresh: true, // Auto-refresh browser on changes
         }),
         // Vue plugin: lets Vite understand Vue files
