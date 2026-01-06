@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admin.layouts.admin')
 
 @section('title', 'Dashboard - Analytics | Vuexy - Bootstrap Dashboard PRO')
 @section('description', 'Analytics dashboard for Vuexy admin template')

@@ -41,9 +41,9 @@
             </li>
             <!-- / Style Switcher-->
 
-            @include('partials.notifications')
+            @include('admin.partials.notifications')
             
-            @include('partials.user-dropdown')
+            @include('admin.partials.user-dropdown')
         </ul>
     </div>
 </nav>

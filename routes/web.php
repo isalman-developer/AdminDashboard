@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/test', 'welcome');
+Route::view('/test', 'admin.welcome');
 /**
  * Catch ALL routes and send to Vue and Vue Router will handle the actual routing
  * Matches every possible URL and Returns the same Blade view every time
