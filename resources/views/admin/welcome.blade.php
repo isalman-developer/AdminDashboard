@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 
-@section('title', 'Dashboard - Analytics | Vuexy - Bootstrap Dashboard PRO')
-@section('description', 'Analytics dashboard for Vuexy admin template')
+@section('title', 'Admin Dashboard')
+@section('description', 'Admin dashboard for Bootstrap admin template')
 
 @section('styles')
     <!-- Page specific styles -->
