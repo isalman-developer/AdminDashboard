@@ -10,7 +10,6 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/js/app.js', // Entry point for our Vue app
-                'resources/js/admin.js' // Entry point for admin assets
             ], 
             refresh: true, // Auto-refresh browser on changes
         }),

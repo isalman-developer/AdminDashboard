@@ -19,7 +19,7 @@
                         class="dropdown-notifications-all p-2 btn btn-icon"
                         data-bs-toggle="tooltip" data-bs-placement="top"
                         title="Mark all as read"><i
-                            class="icon-base ti tabler-mail-open text-heading"></i></a>
+                            class="icon-base ti tabler-mail-opened text-heading"></i></a>
                 </div>
             </div>
         </li>

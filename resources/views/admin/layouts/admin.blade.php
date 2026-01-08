@@ -22,7 +22,6 @@
         rel="stylesheet" />
 
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/iconify-icons.css') }}" />
-    <script src="{{ asset('admin/assets/vendor/libs/@algolia/autocomplete-js.js') }}"></script>
 
     <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/core.css') }}" />
     <link rel="stylesheet" href="{{ asset('admin/assets/css/demo.css') }}" />
