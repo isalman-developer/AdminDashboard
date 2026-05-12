@@ -19,8 +19,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'referral_code',
+        'parent_id',
+        'wallet_balance',
+        'status',
     ];
 
     /**
@@ -44,5 +49,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the parent user (upline).
+     */
+    public function parent()
+    {
+        return $this->belongsTo(User::class, 'parent_id');
+    }
+
+    /**
+     * Get the child users (downlines).
+     */
+    public function children()
+    {
+        return $this->hasMany(User::class, 'parent_id');
     }
 }
