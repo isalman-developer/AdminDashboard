@@ -29,5 +29,7 @@ class DatabaseSeeder extends Seeder
             'wallet_balance' => 0,
             'status' => 'active',
         ]);
+
+        $this->call(SettingsSeeder::class);
     }
 }
