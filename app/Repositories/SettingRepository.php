@@ -7,56 +7,51 @@ use Illuminate\Contracts\Cache\Repository as Cache;
 
 class SettingRepository
 {
-    /**
-     * Cache key prefix for settings.
-     */
     protected const CACHE_PREFIX = 'setting.';
 
     /**
-     * Cache TTL in seconds (1 hour).
+     * In-memory cache for the current request.
+     * @var array<string, mixed>
+     */
+    protected static array $loaded = [];
+
+    /**
+     * Cache TTL in seconds (1 hour). Safety net for stale data.
      */
     protected const CACHE_TTL = 3600;
 
-    /**
-     * Create a new SettingRepository instance.
-     */
     public function __construct(
         protected Cache $cache
     ) {}
 
     /**
-     * Get all settings (raw model arrays).
-     */
-    public function all(): array
-    {
-        return Setting::all()->toArray();
-    }
-
-    /**
      * Get a setting value by key.
+     * Resolution order: in-memory → Redis → DB.
      */
     public function get(string $key, mixed $default = null): mixed
     {
+        if (array_key_exists($key, self::$loaded)) {
+            return self::$loaded[$key];
+        }
+
         $cacheKey = self::CACHE_PREFIX . $key;
+        $value = $this->cache->get($cacheKey);
 
-        $cached = $this->cache->get($cacheKey);
-        if ($cached !== null) {
-            return $cached;
+        if ($value === null) {
+            $value = Setting::where('key', $key)->value('value');
+
+            if ($value !== null) {
+                $this->cache->put($cacheKey, $value, self::CACHE_TTL);
+            }
         }
 
-        $setting = Setting::where('key', $key)->first();
-        if (!$setting) {
-            return $default;
-        }
+        self::$loaded[$key] = $value ?? $default;
 
-        $value = $setting->value;
-        $this->cache->put($cacheKey, $value, self::CACHE_TTL);
-
-        return $value;
+        return self::$loaded[$key];
     }
 
     /**
-     * Get multiple settings by keys.
+     * Get multiple settings by keys in a single pass.
      */
     public function getMultiple(array $keys): array
     {
@@ -64,64 +59,90 @@ class SettingRepository
             return [];
         }
 
-        $cacheKeys = array_map(fn($k) => self::CACHE_PREFIX . $k, $keys);
-        $cached = $this->cache->getMultiple($cacheKeys);
-
         $results = [];
-        foreach ($cached as $key => $value) {
-            $results[str_replace(self::CACHE_PREFIX, '', $key)] = $value;
+        $missingFromMemory = [];
+
+        // 1. Drain in-memory hits
+        foreach ($keys as $key) {
+            if (array_key_exists($key, self::$loaded)) {
+                $results[$key] = self::$loaded[$key];
+            } else {
+                $missingFromMemory[] = $key;
+            }
         }
 
-        $missingKeys = array_diff($keys, array_keys($results));
-        if (empty($missingKeys)) {
+        if (empty($missingFromMemory)) {
             return $results;
         }
 
-        $settings = Setting::whereIn('key', $missingKeys)->get();
-        foreach ($settings as $setting) {
-            $cacheKey = self::CACHE_PREFIX . $setting->key;
-            $this->cache->put($cacheKey, $setting->value, self::CACHE_TTL);
-            $results[$setting->key] = $setting->value;
+        // 2. Check Redis for the remainder
+        $cacheKeys = array_map(fn($k) => self::CACHE_PREFIX . $k, $missingFromMemory);
+        $cached = $this->cache->getMultiple($cacheKeys);
+
+        $missingFromCache = [];
+
+        foreach ($cached as $cacheKey => $value) {
+            $key = substr($cacheKey, strlen(self::CACHE_PREFIX));
+            if ($value !== null) {
+                $results[$key] = $value;
+                self::$loaded[$key] = $value;
+            } else {
+                $missingFromCache[] = $key;
+            }
         }
 
-        foreach ($missingKeys as $missingKey) {
-            if (!isset($results[$missingKey])) {
-                $results[$missingKey] = null;
+        if (empty($missingFromCache)) {
+            return $results;
+        }
+
+        // 3. Single DB query for the rest
+        $dbSettings = Setting::whereIn('key', $missingFromCache)
+            ->pluck('value', 'key');
+
+        foreach ($missingFromCache as $key) {
+            $value = $dbSettings[$key] ?? null;
+
+            if ($value !== null) {
+                $this->cache->put(self::CACHE_PREFIX . $key, $value, self::CACHE_TTL);
             }
+
+            $results[$key] = $value;
+            self::$loaded[$key] = $value;
         }
 
         return $results;
     }
 
     /**
-     * Set a setting value by key.
+     * Create or update a setting.
      */
     public function set(string $key, string $value): Setting
     {
-        $setting = Setting::firstOrNew(['key' => $key]);
-        $setting->value = $value;
-        $setting->save();
+        $setting = Setting::updateOrCreate(['key' => $key], ['value' => $value]);
+
+        // Eagerly warm both caches so the next read is instant
+        $this->cache->put(self::CACHE_PREFIX . $key, $value, self::CACHE_TTL);
+        self::$loaded[$key] = $value;
 
         return $setting;
     }
 
     /**
-     * Delete a setting by key.
+     * Delete a setting.
      */
     public function delete(string $key): bool
     {
-        $setting = Setting::where('key', $key)->first();
-        if (!$setting) {
-            return false;
+        $deleted = Setting::where('key', $key)->delete() > 0;
+
+        if ($deleted) {
+            $this->forgetKey($key);
         }
 
-        $result = $setting->delete();
-
-        return $result;
+        return $deleted;
     }
 
     /**
-     * Check if a setting exists.
+     * Check if a setting exists (in cache or DB).
      */
     public function exists(string $key): bool
     {
@@ -129,12 +150,37 @@ class SettingRepository
     }
 
     /**
-     * Clear all settings cache.
+     * Forget a single key from both cache layers.
+     */
+    public function forgetKey(string $key): void
+    {
+        $this->cache->forget(self::CACHE_PREFIX . $key);
+        unset(self::$loaded[$key]);
+    }
+
+    /**
+     * Clear everything — both Redis and in-memory.
+     * Rarely used; prefer forgetKey() for single settings.
      */
     public function clearCache(): void
     {
-        Setting::cursor()->each(function ($setting) {
-            $this->cache->forget(self::CACHE_PREFIX . $setting->key);
-        });
+        $keys = array_unique(array_merge(
+            array_keys(self::$loaded),
+            Setting::pluck('key')->toArray()
+        ));
+
+        foreach ($keys as $key) {
+            $this->cache->forget(self::CACHE_PREFIX . $key);
+        }
+
+        self::$loaded = [];
+    }
+
+    /**
+     * Clear in-memory cache only.
+     */
+    public static function clearInMemory(): void
+    {
+        self::$loaded = [];
     }
 }

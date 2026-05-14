@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Setting;
 use App\Repositories\SettingRepository;
-use Illuminate\Contracts\Cache\Repository as Cache;
 
 class SettingService
 {
@@ -19,12 +18,8 @@ class SettingService
         'app_url',
     ];
 
-    /**
-     * Create a new SettingService instance.
-     */
     public function __construct(
-        protected SettingRepository $repository,
-        protected Cache $cache
+        protected SettingRepository $repository
     ) {}
 
     /**
@@ -48,19 +43,15 @@ class SettingService
      */
     public function set(string $key, mixed $value): Setting
     {
-        if (in_array(strtolower($key), self::RESERVED_KEYS, true)) {
-            throw new \RuntimeException("Cannot modify reserved setting key: {$key}");
-        }
+        $this->guardReserved($key, 'modify');
 
-        $storable = $this->toStorableValue($value);
-
-        return $this->repository->set($key, $storable);
+        return $this->repository->set($key, $this->toStorableValue($value));
     }
 
     /**
      * Set multiple settings at once.
      *
-     * @param array<string, mixed> $settings  ['key' => value, ...]
+     * @param array<string, mixed> $settings ['key' => value, ...]
      */
     public function setMultiple(array $settings): array
     {
@@ -77,9 +68,7 @@ class SettingService
      */
     public function delete(string $key): bool
     {
-        if (in_array(strtolower($key), self::RESERVED_KEYS, true)) {
-            throw new \RuntimeException("Cannot delete reserved setting key: {$key}");
-        }
+        $this->guardReserved($key, 'delete');
 
         return $this->repository->delete($key);
     }
@@ -93,19 +82,21 @@ class SettingService
     }
 
     /**
-     * Get all settings keys.
-     */
-    public function allKeys(): array
-    {
-        return Setting::pluck('key')->toArray();
-    }
-
-    /**
      * Clear all settings cache.
      */
     public function clearCache(): void
     {
         $this->repository->clearCache();
+    }
+
+    /**
+     * Throw if the key is reserved.
+     */
+    protected function guardReserved(string $key, string $action): void
+    {
+        if (in_array(strtolower($key), self::RESERVED_KEYS, true)) {
+            throw new \RuntimeException("Cannot {$action} reserved setting key: {$key}");
+        }
     }
 
     /**
@@ -116,7 +107,6 @@ class SettingService
         return match (true) {
             is_array($value) || is_object($value) => json_encode($value),
             is_bool($value) => $value ? '1' : '0',
-            is_int($value) || is_float($value) => (string) $value,
             default => (string) $value,
         };
     }

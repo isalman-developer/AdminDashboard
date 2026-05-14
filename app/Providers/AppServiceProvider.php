@@ -16,13 +16,12 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(SettingRepository::class, function ($app) {
-            return new SettingRepository($app['cache']);
+            return new SettingRepository($app['cache']->store());
         });
 
         $this->app->singleton(SettingService::class, function ($app) {
             return new SettingService(
-                $app->make(SettingRepository::class),
-                $app['cache']
+                $app->make(SettingRepository::class)
             );
         });
     }

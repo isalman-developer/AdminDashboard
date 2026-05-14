@@ -3,15 +3,20 @@
 namespace App\Observers;
 
 use App\Models\Setting;
+use App\Repositories\SettingRepository;
 
 class SettingObserver
 {
+    public function __construct(
+        protected SettingRepository $repository
+    ) {}
+
     /**
      * Handle the Setting "created" event.
      */
     public function created(Setting $setting): void
     {
-        cache()->forget('setting.' . $setting->key);
+        $this->repository->forgetKey($setting->key);
     }
 
     /**
@@ -19,7 +24,7 @@ class SettingObserver
      */
     public function updated(Setting $setting): void
     {
-        cache()->forget('setting.' . $setting->key);
+        $this->repository->forgetKey($setting->key);
     }
 
     /**
@@ -27,6 +32,6 @@ class SettingObserver
      */
     public function deleted(Setting $setting): void
     {
-        cache()->forget('setting.' . $setting->key);
+        $this->repository->forgetKey($setting->key);
     }
 }
