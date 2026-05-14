@@ -257,5 +257,34 @@
             </ul>
         </li>
         <!-- e-commerce-app menu end -->
+
+        <!-- Access Management -->
+        <li class="menu-header small mt-3">
+            <span class="menu-header-text" data-i18n="Access Management">Access Management</span>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon menu-icon icon-base ti tabler-shield"></i>
+                <div data-i18n="Roles & Permissions">Roles & Permissions</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ url('admin/roles') }}" class="menu-link">
+                        <div data-i18n="Roles">Roles</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ url('admin/permissions') }}" class="menu-link">
+                        <div data-i18n="Permissions">Permissions</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="{{ url('admin/users') }}" class="menu-link">
+                <i class="menu-icon icon-base ti tabler-users"></i>
+                <div data-i18n="Users">Users</div>
+            </a>
+        </li>
     </ul>
 </aside>
