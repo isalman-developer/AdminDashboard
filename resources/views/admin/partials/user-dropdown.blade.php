@@ -37,8 +37,10 @@
         <li>
             <a class="dropdown-item" href="pages-account-settings-billing.html">
                 <span class="d-flex align-items-center align-middle">
-                    <i class="flex-shrink-0 icon-base ti tabler-file-dollar me-3"></i><span class="flex-grow-1 align-middle">Billing</span>
-                    <span class="flex-shrink-0 badge bg-danger d-flex align-items-center justify-content-center">4</span>
+                    <i class="flex-shrink-0 icon-base ti tabler-file-dollar me-3"></i><span
+                        class="flex-grow-1 align-middle">Billing</span>
+                    <span
+                        class="flex-shrink-0 badge bg-danger d-flex align-items-center justify-content-center">4</span>
                 </span>
             </a>
         </li>
@@ -57,10 +59,13 @@
         </li>
         <li>
             <div class="d-grid px-2 pt-2 pb-1">
-                <a class="btn btn-sm btn-danger d-flex" href="auth-login-cover.html" target="_blank">
-                    <small class="align-middle">Logout</small>
-                    <i class="icon-base ti tabler-logout ms-2"></i>
-                </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="btn btn-sm btn-danger d-flex w-100" type="submit">
+                        <small class="align-middle">Logout</small>
+                        <i class="icon-base ti tabler-logout ms-2"></i>
+                    </button>
+                </form>
             </div>
         </li>
     </ul>

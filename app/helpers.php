@@ -11,9 +11,11 @@ use App\Services\SettingService;
  *
  * @example setting('site_name', 'Default Site')
  */
-function setting(string $key, mixed $default = null): mixed
-{
-    return app(SettingService::class)->get($key, $default);
+if (!function_exists('setting')) {
+    function setting(string $key, mixed $default = null): mixed
+    {
+        return app(SettingService::class)->get($key, $default);
+    }
 }
 
 /**
@@ -24,7 +26,9 @@ function setting(string $key, mixed $default = null): mixed
  *
  * @example settings(['site_name', 'admin_email', 'items_per_page'])
  */
-function settings(array $keys): array
-{
-    return app(SettingService::class)->getMultiple($keys);
+if (!function_exists('settings')) {
+    function settings(array $keys): array
+    {
+        return app(SettingService::class)->getMultiple($keys);
+    }
 }

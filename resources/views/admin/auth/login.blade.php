@@ -57,37 +57,47 @@
                                     </span>
 
                                 </span>
-                                <span class="app-brand-text demo text-heading fw-bold">Rehab</span>
+                                <span class="app-brand-text demo text-heading fw-bold">{{ config('app.name') }}</span>
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1">Welcome to Rehab! 👋</h4>
+                        <h4 class="mb-1">Welcome to {{ config('app.name') }}! 👋</h4>
                         <p class="mb-6">Please sign-in to your account and start the adventure</p>
 
-                        <form id="formAuthentication" class="mb-4" action="index.html" method="GET">
+                        <form id="formAuthentication" class="mb-4" action="{{ route('login') }}" method="POST">
+                            @csrf
                             <div class="mb-6 form-control-validation">
                                 <label for="email" class="form-label">Email or Username</label>
-                                <input type="text" class="form-control" id="email" name="email-username"
-                                    placeholder="Enter your email or username" autofocus />
+                                <input type="text"
+                                    class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" id="email"
+                                    name="email" placeholder="Enter your email or username" autofocus />
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="mb-6 form-password-toggle form-control-validation">
                                 <label class="form-label" for="password">Password</label>
-                                <div class="input-group input-group-merge">
+                                <div
+                                    class="input-group input-group-merge {{ $errors->has('password') ? 'is-invalid' : '' }}">
                                     <input type="password" id="password" class="form-control" name="password"
                                         placeholder="Enter Your Password" aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i
-                                            class="icon-base ti tabler-eye-off"></i></span>
+
+                                    <span class="input-group-text cursor-pointer">
+                                        <i class="icon-base ti tabler-eye-off"></i>
+                                    </span>
+                                    @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
+
                             <div class="my-8">
                                 <div class="d-flex justify-content-between">
                                     <div class="form-check mb-0 ms-2">
                                         <input class="form-check-input" type="checkbox" id="remember-me" />
                                         <label class="form-check-label" for="remember-me"> Remember Me </label>
                                     </div>
-                                    <a href="auth-forgot-password-basic.html">
-                                        <p class="mb-0">Forgot Password?</p>
-                                    </a>
+
                                 </div>
                             </div>
                             <div class="mb-6">
@@ -117,4 +127,5 @@
         });
     </script>
 </body>
+
 </html>
