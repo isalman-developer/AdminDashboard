@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\User\UserRoleUpateRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
@@ -22,10 +23,10 @@ class UserManagementController extends Controller
         $statusFilter = $request->get('status');
 
         $users = User::when($search, function ($query) use ($search) {
-                return $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhere('username', 'like', "%{$search}%");
-            })
+            return $query->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('username', 'like', "%{$search}%");
+        })
             ->when($roleFilter, function ($query) use ($roleFilter) {
                 return $query->whereHas('roles', function ($q) use ($roleFilter) {
                     $q->where('name', $roleFilter);
@@ -59,17 +60,9 @@ class UserManagementController extends Controller
     /**
      * Update user roles and permissions.
      */
-    public function updateRoles(Request $request, User $user)
+    public function updateRoles(UserRoleUpateRequest $request, User $user)
     {
-        $validated = $request->validate([
-            'roles' => 'nullable|array',
-            'roles.*' => 'exists:roles,name',
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'exists:permissions,name',
-        ], [
-            'roles.*.exists' => 'Invalid role selected',
-            'permissions.*.exists' => 'Invalid permission selected',
-        ]);
+        $validated = $request->validated();
 
         // Sync roles
         if (isset($validated['roles'])) {

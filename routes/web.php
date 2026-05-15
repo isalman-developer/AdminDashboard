@@ -7,9 +7,6 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserManagementController;
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
 // Admin Authentication Routes
 Route::middleware('guest:web')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
@@ -17,6 +14,11 @@ Route::middleware('guest:web')->group(function () {
 });
 
 Route::middleware('auth:web')->group(function () {
+
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+
+
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
     // Role Management Routes

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Permission\PermissionStoreRequest;
+use App\Http\Requests\Admin\Permission\PermissionUpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\Permission;
 use Illuminate\Support\Str;
@@ -16,9 +18,9 @@ class PermissionController extends Controller
     {
         $search = $request->get('search');
         $permissions = Permission::when($search, function ($query) use ($search) {
-                return $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('guard_name', 'like', "%{$search}%");
-            })
+            return $query->where('name', 'like', "%{$search}%")
+                ->orWhere('guard_name', 'like', "%{$search}%");
+        })
             ->orderBy('name', 'asc')
             ->paginate(15)
             ->withQueryString();
@@ -37,24 +39,15 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PermissionStoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:permissions,name',
-            'category' => 'nullable|string|max:100',
-        ], [
-            'name.required' => 'Permission name is required',
-            'name.unique' => 'Permission name already exists',
-            'category.max' => 'Category name is too long',
-        ]);
+        $validated = $request->validated();
 
-        $permissionData = [
+        Permission::create([
             'name' => $validated['name'],
             'guard_name' => 'web',
             'category' => $validated['category'] ?? '',
-        ];
-
-        Permission::create($permissionData);
+        ]);
 
         return redirect()->route('admin.permissions.index')
             ->with('success', 'Permission created successfully.');
@@ -80,16 +73,9 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Permission $permission)
+    public function update(PermissionUpdateRequest $request, Permission $permission)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
-            'category' => 'nullable|string|max:100',
-        ], [
-            'name.required' => 'Permission name is required',
-            'name.unique' => 'Permission name already exists',
-            'category.max' => 'Category name is too long',
-        ]);
+        $validated = $request->validated();
 
         $permission->update([
             'name' => $validated['name'],

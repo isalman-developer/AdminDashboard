@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Role\RoleUpdateRequest;
+use App\Http\Requests\AdminRoleRoleUpdateRequest;
+use App\Http\Requests\RoleStoreRequest;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\Permission;
@@ -16,9 +19,9 @@ class RoleController extends Controller
     {
         $search = $request->get('search');
         $roles = Role::when($search, function ($query) use ($search) {
-                return $query->where('name', 'like', "%{$search}%")
-                    ->orWhere('guard_name', 'like', "%{$search}%");
-            })
+            return $query->where('name', 'like', "%{$search}%")
+                ->orWhere('guard_name', 'like', "%{$search}%");
+        })
             ->orderBy('name', 'asc')
             ->paginate(10)
             ->withQueryString();
@@ -38,17 +41,9 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoleStoreRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name',
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id',
-        ], [
-            'name.required' => 'Role name is required',
-            'name.unique' => 'Role name already exists',
-            'permissions.*.exists' => 'Invalid permission selected',
-        ]);
+        $validated = $request->validated();
 
         $role = Role::create(['name' => $validated['name'], 'guard_name' => 'web']);
 
@@ -83,17 +78,9 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Role $role)
+    public function update(RoleUpdateRequest $request, Role $role)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id',
-        ], [
-            'name.required' => 'Role name is required',
-            'name.unique' => 'Role name already exists',
-            'permissions.*.exists' => 'Invalid permission selected',
-        ]);
+        $validated = $request->validated();
 
         $role->update(['name' => $validated['name']]);
 
