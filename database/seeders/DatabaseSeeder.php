@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,19 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Admin User',
-            'username' => 'admin',
-            'email' => 'admin@mlm.com',
-            'password' => Hash::make('12345678'),
-            'referral_code' => strtoupper(Str::random(10)),
-            'parent_id' => null,
-            'wallet_balance' => 0,
-            'status' => 'active',
-        ]);
-
+        $this->call(PermissionSeeder::class);
+        $this->call(RoleSeeder::class);
+        $this->call(UserSeeder::class);
         $this->call(SettingsSeeder::class);
     }
 }

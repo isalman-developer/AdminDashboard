@@ -11,9 +11,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center flex-wrap gap-4">
                         <div class="avatar avatar-xl me-2">
-                            <span class="avatar-initial bg-label-primary rounded-circle" style="font-size: 2.5rem;">
-                                {{ strtoupper(substr($user->name, 0, 1)) }}
-                            </span>
+                            <img src="{{ $avatarUrl }}" alt="{{ $user->name }}" class="rounded-circle" style="width: 96px; height: 96px; object-fit: cover;" />
                         </div>
                         <div class="flex-grow-1">
                             <h3 class="mb-1">{{ $user->name }}</h3>

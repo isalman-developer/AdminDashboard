@@ -38,7 +38,7 @@ if (!function_exists('settings')) {
 
 
 if (!function_exists('uploadMedia')) {
-    function uploadMedia($file, $folder = 'media', $model): string
+    function uploadMedia($file, $folder = 'media', $model, $fileType = 'default'): string
     {
         $fileExtension = $file->getClientOriginalExtension();
         $fileName = strtolower(Str::random(15) . '.' . $fileExtension);
@@ -49,12 +49,12 @@ if (!function_exists('uploadMedia')) {
         $file->move($filePath, $fileName);
 
         $media = Media::create([
+            'file_name' => $fileName,
             'file_path' => $folder . DIRECTORY_SEPARATOR . $fileName,
+            'mime_type' => $file->getMimeType(),
             'model_type' => get_class($model),
             'model_id' => $model->id,
-            'file_name' => $fileName,
-            'file_size' => $file->getSize(),
-            'file_type' => $file->getMimeType(),
+            'file_type' => $fileType,
         ]);
 
         return $media->file_path;

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('referral_code')->unique();
+            $table->string('referral_code')->default('default');
             $table->foreignId('parent_id')->nullable()->constrained('users')->onDelete('set null');
             $table->decimal('wallet_balance', 15, 2)->default(0);
             $table->enum('status', ['active', 'inactive', 'blocked'])->default('active');

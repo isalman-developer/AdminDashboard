@@ -11,54 +11,78 @@
                     <h4 class="card-title">Edit Profile</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.profile.update') }}">
+                    <form method="POST" action="{{ route('admin.profile.update') }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
-                            <input type="text" name="name" id="name" class="form-control"
-                                value="{{ old('name', $user->name) }}" required>
-                            @error('name')
-                                <div class="text-danger mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <div class="row">
+                            <!-- Avatar upload -->
+                            <div class="col-md-4 text-center mb-4">
+                                <div class="avatar avatar-xxxl mb-3 mx-auto">
+                                    <img src="{{ $avatarUrl }}" alt="{{ $user->name }}" class="rounded-circle" style="width: 120px; height: 120px; object-fit: cover;" />
+                                </div>
+                                <div class="mb-3">
+                                    <input type="file" name="avatar" id="avatar" class="form-control" accept="image/jpeg,image/png,image/webp">
+                                    <small class="text-muted">JPG, PNG or WEBP. Max 2 MB.</small>
+                                </div>
+                                @error('avatar')
+                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                            <input type="email" name="email" id="email" class="form-control"
-                                value="{{ old('email', $user->email) }}" required>
-                            @error('email')
-                                <div class="text-danger mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
+                            <!-- Text fields -->
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="name" id="name" class="form-control"
+                                        value="{{ old('name', $user->name) }}" required>
+                                    @error('name')
+                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" name="username" id="username" class="form-control"
-                                value="{{ old('username', $user->username) }}">
-                            <small class="text-muted">Letters, numbers, dashes, and underscores only.</small>
-                            @error('username')
-                                <div class="text-danger mt-1">{{ $message }}</div>
-                            @enderror
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                    <input type="email" name="email" id="email" class="form-control"
+                                        value="{{ old('email', $user->email) }}" required>
+                                    @error('email')
+                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <input type="text" name="username" id="username" class="form-control"
+                                        value="{{ old('username', $user->username) }}">
+                                    <small class="text-muted">Letters, numbers, dashes, and underscores only.</small>
+                                    @error('username')
+                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
                         <hr class="my-4">
 
                         <h5 class="mb-3">Change Password <span class="text-muted fw-normal small">(leave blank to keep current)</span></h5>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">New Password</label>
-                            <input type="password" name="password" id="password" class="form-control">
-                            @error('password')
-                                <div class="text-danger mt-1">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="password_confirmation" class="form-label">Confirm New Password</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation"
-                                class="form-control">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">New Password</label>
+                                    <input type="password" name="password" id="password" class="form-control">
+                                    @error('password')
+                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                                    <input type="password" name="password_confirmation" id="password_confirmation"
+                                        class="form-control">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mt-3">

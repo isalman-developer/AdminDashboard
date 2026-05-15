@@ -48,11 +48,12 @@ class AdminAuthController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function editProfile()
+    public function editProfile(UserService $userService)
     {
         $user = auth()->user();
+        $avatarUrl = $userService->getAuthUserAvatarUrl();
 
-        return view('admin.profile.edit', compact('user'));
+        return view('admin.profile.edit', compact('user', 'avatarUrl'));
     }
 
     /**
@@ -67,6 +68,11 @@ class AdminAuthController extends Controller
         $validated = $request->validated();
 
         $userService->updateProfile($validated);
+
+        if ($request->hasFile('avatar')) {
+            $userService->updateAvatar($request->file('avatar'));
+        }
+
         return redirect()->route('admin.profile')
             ->with('success', 'Profile updated successfully.');
     }
@@ -76,11 +82,12 @@ class AdminAuthController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function profile()
+    public function profile(UserService $userService)
     {
-        return view('admin.profile', [
-            'user' => auth()->user(),
-        ]);
+        $user = auth()->user();
+        $avatarUrl = $userService->getAuthUserAvatarUrl();
+
+        return view('admin.profile', compact('user', 'avatarUrl'));
     }
 
     /**

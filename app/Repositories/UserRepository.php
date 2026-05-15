@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\Media;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserRepository
@@ -82,5 +83,51 @@ class UserRepository
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * Update the user's avatar using the uploadMedia() helper.
+     * Removes any previously stored avatar media first.
+     */
+    public function updateAvatar(User $user, mixed $file): string
+    {
+        // Remove old avatars
+        foreach ($user->media()->where('type', 'avatar')->get() as $old) {
+            @unlink(public_path('uploads/avatars/' . basename($old->file_path)));
+            $old->delete();
+        }
+
+        // uploadMedia() stores the file and creates the pivot record;
+        // mark it as an avatar by updating the type field.
+        $filePath = uploadMedia($file, 'avatars', $user);
+
+        $latest = $user->media()
+            ->where('file_path', $filePath)
+            ->latest('id')
+            ->first();
+
+        if ($latest) {
+            $latest->update(['type' => 'avatar']);
+        }
+
+        return $filePath;
+    }
+
+    /**
+     * Get the URL of the user's current avatar image.
+     * Falls back to the default placeholder if no avatar is stored.
+     */
+    public function getAvatarUrl(User $user): string
+    {
+        $avatar = $user->media()
+            ->where('type', 'avatar')
+            ->latest('id')
+            ->first();
+
+        if ($avatar) {
+            return asset('uploads/avatars/' . basename($avatar->file_path));
+        }
+
+        return asset('admin-assets/img/avatars/1.png');
     }
 }

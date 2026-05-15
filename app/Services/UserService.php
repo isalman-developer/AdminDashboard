@@ -46,4 +46,23 @@ class UserService
 
         return $user;
     }
+
+    /**
+     * Update the authenticated user's avatar.
+     *
+     * @return string The uploaded file path.
+     */
+    public function updateAvatar(mixed $file): string
+    {
+        $user = $this->repository->authUser();
+        return $this->repository->updateAvatar($user, $file);
+    }
+
+    /**
+     * Get the avatar URL for the authenticated user.
+     */
+    public function getAuthUserAvatarUrl(): string
+    {
+        return $this->repository->getAvatarUrl($this->repository->authUser());
+    }
 }
