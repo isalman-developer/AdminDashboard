@@ -31,7 +31,7 @@ class SettingStoreRequest extends FormRequest
 
     public function messages(): array
     {
-        return  [
+        return [
             'site_name.required' => 'Site name is required.',
             'items_per_page.min' => 'Items per page must be at least 5.',
             'items_per_page.max' => 'Items per page cannot exceed 100.',

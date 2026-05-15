@@ -6,7 +6,6 @@ use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Models\Permission;
 use App\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -19,7 +18,7 @@ class RoleSeeder extends Seeder
         $roles = RoleEnum::cases();
         foreach ($roles as $role) {
             $roleModel = Role::create([
-                'name' => $role->value
+                'name' => $role->value,
             ]);
 
             if ($roleModel->name == RoleEnum::SuperAdmin->value) {

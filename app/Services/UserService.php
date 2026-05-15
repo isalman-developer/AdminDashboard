@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Hash;
 class UserService
 {
     public function __construct(
-        protected UserRepository $repository
+        protected UserRepository $repository,
+        protected MediaService $mediaService
     ) {}
 
     /**
@@ -34,13 +35,13 @@ class UserService
             'email' => $data['email'],
         ];
 
-        if (!empty($data['username'])) {
+        if (! empty($data['username'])) {
             $updates['username'] = $data['username'];
         }
 
         $user = $this->repository->updateProfile($user, $updates);
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $user = $this->repository->updatePassword($user, Hash::make($data['password']));
         }
 
@@ -48,21 +49,29 @@ class UserService
     }
 
     /**
-     * Update the authenticated user's avatar.
+     * Replace the authenticated user's avatar image.
+     * Old file is removed from both DB and disk by MediaService::replace().
      *
-     * @return string The uploaded file path.
+     * @return string The stored file path, e.g. "uploads/avatars/{fileName}"
      */
     public function updateAvatar(mixed $file): string
     {
         $user = $this->repository->authUser();
-        return $this->repository->updateAvatar($user, $file);
+
+        return $this->mediaService->replace($file, 'avatars', $user, 'avatar')->file_path;
     }
 
     /**
-     * Get the avatar URL for the authenticated user.
+     * Get the public URL of the authenticated user's avatar.
      */
     public function getAuthUserAvatarUrl(): string
     {
-        return $this->repository->getAvatarUrl($this->repository->authUser());
+        $user = $this->repository->authUser();
+        $path = $user->media()
+            ->where('file_type', 'avatar')
+            ->latest('id')
+            ->value('file_path');
+
+        return $path ? asset($path) : asset('admin-assets/img/avatars/1.png');
     }
 }

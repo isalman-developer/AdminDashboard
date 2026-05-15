@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\RoleController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserManagementController;
+use Illuminate\Support\Facades\Route;
 
 // Admin Authentication Routes
 Route::middleware('guest:web')->group(function () {
@@ -23,7 +23,6 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
     Route::get('/profile/edit', [AdminAuthController::class, 'editProfile'])->name('profile.edit');
     Route::put('/profile', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
     Route::resource('settings', SettingsController::class)->only(['index', 'store']);
-
 
     // Role Management Routes
     Route::prefix('roles')->name('roles.')->group(function () {

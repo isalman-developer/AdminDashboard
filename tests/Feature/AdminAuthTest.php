@@ -27,7 +27,7 @@ class AdminAuthTest extends TestCase
 
         $response->assertRedirect(route('home'));
         $this->assertAuthenticatedAs($user);
-        
+
         // Check remember token exists in database
         $this->assertNotNull($user->refresh()->remember_token);
         $this->assertNotEmpty($user->refresh()->remember_token);
@@ -55,7 +55,7 @@ class AdminAuthTest extends TestCase
 
         $response->assertRedirect(route('home'));
         $this->assertAuthenticated();
-        
+
         // User should have a session - the authentication guard should work
         $this->assertTrue(\Illuminate\Support\Facades\Auth::check());
     }
@@ -103,7 +103,7 @@ class AdminAuthTest extends TestCase
 
         // Login first
         $this->actingAs($user);
-        
+
         // Set remember token manually to simulate "remember me"
         $user->update(['remember_token' => 'test-token-123']);
         $this->assertNotNull($user->refresh()->remember_token);
@@ -113,7 +113,7 @@ class AdminAuthTest extends TestCase
 
         $response->assertRedirect(route('login'));
         $this->assertGuest();
-        
+
         // Remember token should still exist (logout doesn't clear it by default in Laravel)
         // It's cleared on next login or when explicitly cleared
     }

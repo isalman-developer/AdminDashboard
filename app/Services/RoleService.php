@@ -30,6 +30,7 @@ class RoleService
         if ($role) {
             $role->load('permissions');
         }
+
         return $role;
     }
 
@@ -37,12 +38,13 @@ class RoleService
      * Create a new role and optionally sync permissions.
      *
      * @param  array<string, mixed>  $data
-     * @param  array<int>|null       $permissionIds
+     * @param  array<int>|null  $permissionIds
      */
     public function create(array $data, ?array $permissionIds = null): Role
     {
         $role = $this->repository->create($data);
         $this->repository->syncPermissions($role, $permissionIds);
+
         return $role;
     }
 
@@ -50,12 +52,13 @@ class RoleService
      * Update a role name and optionally sync permissions.
      *
      * @param  array<string, mixed>  $data
-     * @param  array<int>|null       $permissionIds
+     * @param  array<int>|null  $permissionIds
      */
     public function update(Role $role, array $data, ?array $permissionIds = null): Role
     {
         $this->repository->update($role, $data);
         $this->repository->syncPermissions($role, $permissionIds);
+
         return $role;
     }
 

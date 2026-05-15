@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\User\UserRoleUpateRequest;
+use App\Models\User;
 use App\Services\UserManagementService;
 use Illuminate\Http\Request;
-use App\Models\User;
 
 class UserManagementController extends Controller
 {

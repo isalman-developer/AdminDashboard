@@ -60,6 +60,7 @@ class RoleRepository
     public function update(Role $role, array $data): Role
     {
         $role->update(['name' => $data['name']]);
+
         return $role;
     }
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\Setting\SettingStoreRequest;
 use App\Services\SettingService;
-use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {

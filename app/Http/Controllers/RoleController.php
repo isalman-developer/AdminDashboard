@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\Role\RoleUpdateRequest;
 use App\Http\Requests\RoleStoreRequest;
+use App\Models\Role;
 use App\Services\RoleService;
 use Illuminate\Http\Request;
-use App\Models\Role;
 
 class RoleController extends Controller
 {
@@ -90,9 +90,10 @@ class RoleController extends Controller
     {
         try {
             $roleService->delete($role);
+
             return response()->json(['success' => true, 'message' => 'Role deleted successfully']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to delete role: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Failed to delete role: '.$e->getMessage()], 500);
         }
     }
 }

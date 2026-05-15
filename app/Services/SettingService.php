@@ -51,7 +51,7 @@ class SettingService
     /**
      * Set multiple settings at once.
      *
-     * @param array<string, mixed> $settings ['key' => value, ...]
+     * @param  array<string, mixed>  $settings  ['key' => value, ...]
      */
     public function setMultiple(array $settings): array
     {

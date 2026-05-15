@@ -2,9 +2,9 @@
 <li class="nav-item navbar-dropdown dropdown-user dropdown">
     <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
         <div class="avatar avatar-online">
-            @php $navAvatar = auth()->user()?->media()->where('type', 'avatar')->latest('id')->first(); @endphp
+            @php $navAvatar = auth()->user()?->media()->where('file_type', 'avatar')->latest('id')->first(); @endphp
             @if ($navAvatar)
-                <img src="{{ asset('uploads/avatars/' . basename($navAvatar->file_path)) }}" alt class="rounded-circle" />
+                <img src="{{ asset($navAvatar->file_path) }}" alt class="rounded-circle" />
             @else
                 <img src="{{ asset('admin-assets/img/avatars/1.png') }}" alt class="rounded-circle" />
             @endif
@@ -17,7 +17,7 @@
                     <div class="flex-shrink-0 me-2">
                         <div class="avatar avatar-online">
                             @if ($navAvatar)
-                                <img src="{{ asset('uploads/avatars/' . basename($navAvatar->file_path)) }}" alt class="rounded-circle" />
+                                <img src="{{ asset($navAvatar->file_path) }}" alt class="rounded-circle" />
                             @else
                                 <img src="{{ asset('admin-assets/img/avatars/1.png') }}" alt class="rounded-circle" />
                             @endif

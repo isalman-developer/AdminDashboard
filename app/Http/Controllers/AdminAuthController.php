@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\Auth\UpdateProfileRequest;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\UserService;
 
 class AdminAuthController extends Controller
 {
@@ -22,7 +22,6 @@ class AdminAuthController extends Controller
     /**
      * Handle admin login request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request)
@@ -60,7 +59,6 @@ class AdminAuthController extends Controller
      * Update the admin profile.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Services\UserService           $userService
      * @return \Illuminate\Http\Response
      */
     public function updateProfile(UpdateProfileRequest $request, UserService $userService)
@@ -93,7 +91,6 @@ class AdminAuthController extends Controller
     /**
      * Logout the admin user.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)

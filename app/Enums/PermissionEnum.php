@@ -14,10 +14,10 @@ enum PermissionEnum: string
     case ROLES_UPDATE = 'roles.update';
     case ROLES_DELETE = 'roles.delete';
 
-    static public function userPermissions(): array
+    public static function userPermissions(): array
     {
         return [
-            self::USERS_VIEW
+            self::USERS_VIEW,
         ];
     }
 }

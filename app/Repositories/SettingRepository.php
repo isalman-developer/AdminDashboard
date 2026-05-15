@@ -11,6 +11,7 @@ class SettingRepository
 
     /**
      * In-memory cache for the current request.
+     *
      * @var array<string, mixed>
      */
     protected static array $loaded = [];
@@ -34,7 +35,7 @@ class SettingRepository
             return self::$loaded[$key];
         }
 
-        $cacheKey = self::CACHE_PREFIX . $key;
+        $cacheKey = self::CACHE_PREFIX.$key;
         $value = $this->cache->get($cacheKey);
 
         if ($value === null) {
@@ -76,7 +77,7 @@ class SettingRepository
         }
 
         // 2. Check Redis for the remainder
-        $cacheKeys = array_map(fn($k) => self::CACHE_PREFIX . $k, $missingFromMemory);
+        $cacheKeys = array_map(fn ($k) => self::CACHE_PREFIX.$k, $missingFromMemory);
         $cached = $this->cache->getMultiple($cacheKeys);
 
         $missingFromCache = [];
@@ -103,7 +104,7 @@ class SettingRepository
             $value = $dbSettings[$key] ?? null;
 
             if ($value !== null) {
-                $this->cache->put(self::CACHE_PREFIX . $key, $value, self::CACHE_TTL);
+                $this->cache->put(self::CACHE_PREFIX.$key, $value, self::CACHE_TTL);
             }
 
             $results[$key] = $value;
@@ -121,7 +122,7 @@ class SettingRepository
         $setting = Setting::updateOrCreate(['key' => $key], ['value' => $value]);
 
         // Eagerly warm both caches so the next read is instant
-        $this->cache->put(self::CACHE_PREFIX . $key, $value, self::CACHE_TTL);
+        $this->cache->put(self::CACHE_PREFIX.$key, $value, self::CACHE_TTL);
         self::$loaded[$key] = $value;
 
         return $setting;
@@ -154,7 +155,7 @@ class SettingRepository
      */
     public function forgetKey(string $key): void
     {
-        $this->cache->forget(self::CACHE_PREFIX . $key);
+        $this->cache->forget(self::CACHE_PREFIX.$key);
         unset(self::$loaded[$key]);
     }
 
@@ -170,7 +171,7 @@ class SettingRepository
         ));
 
         foreach ($keys as $key) {
-            $this->cache->forget(self::CACHE_PREFIX . $key);
+            $this->cache->forget(self::CACHE_PREFIX.$key);
         }
 
         self::$loaded = [];

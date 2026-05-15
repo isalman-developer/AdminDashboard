@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\User;
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
 use App\Repositories\UserRepository;
 
 class UserManagementService
@@ -43,6 +43,7 @@ class UserManagementService
     public function loadRelationships(User $user): User
     {
         $user->load('roles', 'permissions');
+
         return $user;
     }
 

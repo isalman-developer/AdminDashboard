@@ -12,7 +12,7 @@ class Media extends Model
         'mime_type',
         'file_type',
         'mediable_id',
-        'mediable_type'
+        'mediable_type',
     ];
 
     public function mediable()

@@ -79,7 +79,7 @@ class PermissionController extends Controller
         $model = $permissionService->find($permission);
         $success = $permissionService->delete($model);
 
-        if (!$success) {
+        if (! $success) {
             return response()->json(['success' => false, 'message' => 'Failed to delete permission.'], 500);
         }
 
