@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\Auth\UpdateProfileRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\UserService;
@@ -61,24 +62,11 @@ class AdminAuthController extends Controller
      * @param  \App\Services\UserService           $userService
      * @return \Illuminate\Http\Response
      */
-    public function updateProfile(Request $request, UserService $userService)
+    public function updateProfile(UpdateProfileRequest $request, UserService $userService)
     {
-        $validated = $request->validate([
-            'name'    => ['required', 'string', 'max:255'],
-            'email'   => ['required', 'email', 'max:255'],
-            'username' => ['nullable', 'string', 'max:255', 'alpha_dash'],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-        ], [
-            'name.required'    => 'Name is required.',
-            'email.required'   => 'Email is required.',
-            'email.email'      => 'Please provide a valid email address.',
-            'username.alpha_dash' => 'Username may only contain letters, numbers, dashes, and underscores.',
-            'password.min'     => 'Password must be at least 8 characters.',
-            'password.confirmed' => 'Password confirmation does not match.',
-        ]);
+        $validated = $request->validated();
 
         $userService->updateProfile($validated);
-
         return redirect()->route('admin.profile')
             ->with('success', 'Profile updated successfully.');
     }
