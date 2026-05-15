@@ -2,28 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Permission\PermissionStoreRequest;
 use App\Http\Requests\Admin\Permission\PermissionUpdateRequest;
+use App\Services\PermissionService;
 use Illuminate\Http\Request;
-use App\Models\Permission;
-use Illuminate\Support\Str;
 
 class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, PermissionService $permissionService)
     {
         $search = $request->get('search');
-        $permissions = Permission::when($search, function ($query) use ($search) {
-            return $query->where('name', 'like', "%{$search}%")
-                ->orWhere('guard_name', 'like', "%{$search}%");
-        })
-            ->orderBy('name', 'asc')
-            ->paginate(15)
-            ->withQueryString();
+        $permissions = $permissionService->paginate($search);
 
         return view('admin.permissions.index', compact('permissions', 'search'));
     }
@@ -39,15 +31,9 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PermissionStoreRequest $request)
+    public function store(PermissionStoreRequest $request, PermissionService $permissionService)
     {
-        $validated = $request->validated();
-
-        Permission::create([
-            'name' => $validated['name'],
-            'guard_name' => 'web',
-            'category' => $validated['category'] ?? '',
-        ]);
+        $permissionService->create($request->validated());
 
         return redirect()->route('admin.permissions.index')
             ->with('success', 'Permission created successfully.');
@@ -56,31 +42,30 @@ class PermissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Permission $permission)
+    public function show(int $permission, PermissionService $permissionService)
     {
-        $roles = $permission->roles;
+        $permission = $permissionService->find($permission);
+        $roles = $permissionService->getRoles($permission);
+
         return view('admin.permissions.show', compact('permission', 'roles'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Permission $permission)
+    public function edit(int $permission, PermissionService $permissionService)
     {
+        $permission = $permissionService->find($permission);
+
         return view('admin.permissions.edit', compact('permission'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(PermissionUpdateRequest $request, Permission $permission)
+    public function update(PermissionUpdateRequest $request, int $permission, PermissionService $permissionService)
     {
-        $validated = $request->validated();
-
-        $permission->update([
-            'name' => $validated['name'],
-            'category' => $validated['category'] ?? '',
-        ]);
+        $permissionService->update($permissionService->find($permission), $request->validated());
 
         return redirect()->route('admin.permissions.index')
             ->with('success', 'Permission updated successfully.');
@@ -89,13 +74,15 @@ class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Permission $permission)
+    public function destroy(int $permission, PermissionService $permissionService)
     {
-        try {
-            $permission->delete();
-            return response()->json(['success' => true, 'message' => 'Permission deleted successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to delete permission: ' . $e->getMessage()], 500);
+        $model = $permissionService->find($permission);
+        $success = $permissionService->delete($model);
+
+        if (!$success) {
+            return response()->json(['success' => false, 'message' => 'Failed to delete permission.'], 500);
         }
+
+        return response()->json(['success' => true, 'message' => 'Permission deleted successfully']);
     }
 }

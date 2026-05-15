@@ -20,6 +20,8 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
+    Route::get('/profile/edit', [AdminAuthController::class, 'editProfile'])->name('profile.edit');
+    Route::put('/profile', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
     Route::resource('settings', SettingsController::class)->only(['index', 'store']);
 
 

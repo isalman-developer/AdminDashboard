@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\Setting\SettingStoreRequest;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
 
@@ -30,18 +31,9 @@ class SettingsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, SettingService $settingService)
+    public function store(SettingStoreRequest $request, SettingService $settingService)
     {
-        $validated = $request->validate([
-            'site_name' => ['required', 'string', 'max:255'],
-            'site_email' => ['nullable', 'email', 'max:255'],
-            'site_description' => ['nullable', 'string', 'max:500'],
-            'items_per_page' => ['required', 'integer', 'min:5', 'max:100'],
-        ], [
-            'site_name.required' => 'Site name is required.',
-            'items_per_page.min' => 'Items per page must be at least 5.',
-            'items_per_page.max' => 'Items per page cannot exceed 100.',
-        ]);
+        $validated = $request->validated();
 
         $settingService->setMultiple([
             'site_name' => $validated['site_name'],

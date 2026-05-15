@@ -27,6 +27,9 @@
                             @else
                                 <span class="badge bg-label-secondary">No roles assigned</span>
                             @endif
+                            <a href="{{ route('admin.profile.edit') }}" class="btn btn-outline-primary mt-3">
+                                <i class="icon-base ti tabler-edit me-1"></i> Edit Profile
+                            </a>
                         </div>
                     </div>
                 </div>

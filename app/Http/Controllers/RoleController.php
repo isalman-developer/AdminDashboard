@@ -2,29 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Role\RoleUpdateRequest;
-use App\Http\Requests\AdminRoleRoleUpdateRequest;
 use App\Http\Requests\RoleStoreRequest;
+use App\Services\RoleService;
 use Illuminate\Http\Request;
 use App\Models\Role;
-use App\Models\Permission;
 
 class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, RoleService $roleService)
     {
         $search = $request->get('search');
-        $roles = Role::when($search, function ($query) use ($search) {
-            return $query->where('name', 'like', "%{$search}%")
-                ->orWhere('guard_name', 'like', "%{$search}%");
-        })
-            ->orderBy('name', 'asc')
-            ->paginate(10)
-            ->withQueryString();
+        $roles = $roleService->paginate($search);
 
         return view('admin.roles.index', compact('roles', 'search'));
     }
@@ -32,25 +24,25 @@ class RoleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(RoleService $roleService)
     {
-        $permissions = Permission::orderBy('name')->get()->groupBy('category');
+        $permissions = $roleService->allPermissionsGrouped();
+
         return view('admin.roles.create', compact('permissions'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RoleStoreRequest $request)
+    public function store(RoleStoreRequest $request, RoleService $roleService)
     {
         $validated = $request->validated();
+        $permissionIds = $validated['permissions'] ?? null;
 
-        $role = Role::create(['name' => $validated['name'], 'guard_name' => 'web']);
-
-        if (isset($validated['permissions'])) {
-            $permissions = Permission::whereIn('id', $validated['permissions'])->get();
-            $role->syncPermissions($permissions);
-        }
+        $roleService->create([
+            'name' => $validated['name'],
+            'guard_name' => 'web',
+        ], $permissionIds);
 
         return redirect()->route('admin.roles.index')
             ->with('success', 'Role created successfully.');
@@ -59,37 +51,33 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Role $role)
+    public function show(Role $role, RoleService $roleService)
     {
-        $role->load('permissions');
+        $role = $roleService->findWithPermissions($role->id);
+
         return view('admin.roles.show', compact('role'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Role $role)
+    public function edit(Role $role, RoleService $roleService)
     {
-        $permissions = Permission::orderBy('name')->get()->groupBy('category');
-        $rolePermissions = $role->permissions->pluck('id')->toArray();
+        $permissions = $roleService->allPermissionsGrouped();
+        $rolePermissions = $roleService->getPermissionIds($role);
+
         return view('admin.roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoleUpdateRequest $request, Role $role)
+    public function update(RoleUpdateRequest $request, Role $role, RoleService $roleService)
     {
         $validated = $request->validated();
+        $permissionIds = $validated['permissions'] ?? null;
 
-        $role->update(['name' => $validated['name']]);
-
-        if (isset($validated['permissions'])) {
-            $permissions = Permission::whereIn('id', $validated['permissions'])->get();
-            $role->syncPermissions($permissions);
-        } else {
-            $role->syncPermissions([]);
-        }
+        $roleService->update($role, ['name' => $validated['name']], $permissionIds);
 
         return redirect()->route('admin.roles.index')
             ->with('success', 'Role updated successfully.');
@@ -98,10 +86,10 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy(Role $role, RoleService $roleService)
     {
         try {
-            $role->delete();
+            $roleService->delete($role);
             return response()->json(['success' => true, 'message' => 'Role deleted successfully']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Failed to delete role: ' . $e->getMessage()], 500);
