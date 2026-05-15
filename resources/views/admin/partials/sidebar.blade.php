@@ -9,11 +9,9 @@
                             d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
                             fill="currentColor" />
                         <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
-                            d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
-                            fill="#161616" />
+                            d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z" fill="#161616" />
                         <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
-                            fill="#161616" />
+                            d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z" fill="#161616" />
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
                             fill="currentColor" />
@@ -23,7 +21,7 @@
             <span class="app-brand-text demo menu-text fw-bold ms-3">Dashboard</span>
         </a>
 
-        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+        <a href="{{ route('admin.home') }}" class="layout-menu-toggle menu-link text-large ms-auto">
             <i class="icon-base ti menu-toggle-icon d-none d-xl-block"></i>
             <i class="icon-base ti tabler-x d-block d-xl-none"></i>
         </a>
@@ -33,75 +31,27 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item active open">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <li class="menu-item active">
+            <a href="{{ route('admin.home') }}" class="menu-link ">
                 <i class="menu-icon menu-icon icon-base ti tabler-smart-home"></i>
                 <div data-i18n="Dashboards">Dashboards</div>
                 <div class="badge text-bg-danger rounded-pill ms-auto">5</div>
             </a>
-            <ul class="menu-sub">
+            {{-- <ul class="menu-sub">
                 <li class="menu-item active">
                     <a href="index.html" class="menu-link">
                         <div data-i18n="Analytics">Analytics</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="dashboards-crm.html" class="menu-link">
-                        <div data-i18n="CRM">CRM</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-ecommerce-dashboard.html" class="menu-link">
-                        <div data-i18n="eCommerce">eCommerce</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-logistics-dashboard.html" class="menu-link">
-                        <div data-i18n="Logistics">Logistics</div>
-                    </a>
-                </li>
+                
                 <li class="menu-item">
                     <a href="app-academy-dashboard.html" class="menu-link">
                         <div data-i18n="Academy">Academy</div>
                     </a>
                 </li>
-            </ul>
+            </ul> --}}
         </li>
 
-        <!-- Front Pages -->
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon menu-icon icon-base ti tabler-files"></i>
-                <div data-i18n="Front Pages">Front Pages</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="../front-pages/landing-page.html" class="menu-link" target="_blank">
-                        <div data-i18n="Landing">Landing</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="../front-pages/pricing-page.html" class="menu-link" target="_blank">
-                        <div data-i18n="Pricing">Pricing</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="../front-pages/payment-page.html" class="menu-link" target="_blank">
-                        <div data-i18n="Payment">Payment</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="../front-pages/checkout-page.html" class="menu-link" target="_blank">
-                        <div data-i18n="Checkout">Checkout</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="../front-pages/help-center-landing.html" class="menu-link" target="_blank">
-                        <div data-i18n="Help Center">Help Center</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
 
         <!-- Apps & Pages -->
         <li class="menu-header small">
@@ -180,26 +130,22 @@
                             </a>
                             <ul class="menu-sub">
                                 <li class="menu-item">
-                                    <a href="app-ecommerce-customer-details-overview.html"
-                                        class="menu-link">
+                                    <a href="app-ecommerce-customer-details-overview.html" class="menu-link">
                                         <div data-i18n="Overview">Overview</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="app-ecommerce-customer-details-security.html"
-                                        class="menu-link">
+                                    <a href="app-ecommerce-customer-details-security.html" class="menu-link">
                                         <div data-i18n="Security">Security</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="app-ecommerce-customer-details-billing.html"
-                                        class="menu-link">
+                                    <a href="app-ecommerce-customer-details-billing.html" class="menu-link">
                                         <div data-i18n="Address & Billing">Address & Billing</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="app-ecommerce-customer-details-notifications.html"
-                                        class="menu-link">
+                                    <a href="app-ecommerce-customer-details-notifications.html" class="menu-link">
                                         <div data-i18n="Notifications">Notifications</div>
                                     </a>
                                 </li>
@@ -264,7 +210,7 @@
         </li>
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon menu-icon icon-base ti tabler-shield"></i>
+                <i class="menu-icon menu-icon icon-base ti ti-shield"></i>
                 <div data-i18n="Roles & Permissions">Roles & Permissions</div>
             </a>
             <ul class="menu-sub">
@@ -284,6 +230,22 @@
             <a href="{{ url('admin/users') }}" class="menu-link">
                 <i class="menu-icon icon-base ti tabler-users"></i>
                 <div data-i18n="Users">Users</div>
+            </a>
+        </li>
+
+        <!-- Profile -->
+        <li class="menu-item">
+            <a href="{{ route('admin.profile') }}" class="menu-link">
+                <i class="menu-icon icon-base ti tabler-user"></i>
+                <div data-i18n="Profile">Profile</div>
+            </a>
+        </li>
+
+        <!-- App Settings -->
+        <li class="menu-item">
+            <a href="{{ route('admin.settings.index') }}" class="menu-link">
+                <i class="menu-icon icon-base ti tabler-settings"></i>
+                <div data-i18n="Settings">Settings</div>
             </a>
         </li>
     </ul>

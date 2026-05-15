@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserManagementController;
@@ -13,16 +14,17 @@ Route::middleware('guest:web')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login']);
 });
 
-Route::middleware('auth:web')->group(function () {
+Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth:web');
 
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function () {
+
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
+    Route::resource('settings', SettingsController::class)->only(['index', 'store']);
 
-
-    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
     // Role Management Routes
-    Route::prefix('admin/roles')->name('admin.roles.')->group(function () {
+    Route::prefix('roles')->name('roles.')->group(function () {
         Route::get('/', [RoleController::class, 'index'])->name('index');
         Route::get('/create', [RoleController::class, 'create'])->name('create');
         Route::post('/', [RoleController::class, 'store'])->name('store');
@@ -33,7 +35,7 @@ Route::middleware('auth:web')->group(function () {
     });
 
     // Permission Management Routes
-    Route::prefix('admin/permissions')->name('admin.permissions.')->group(function () {
+    Route::prefix('permissions')->name('permissions.')->group(function () {
         Route::get('/', [PermissionController::class, 'index'])->name('index');
         Route::get('/create', [PermissionController::class, 'create'])->name('create');
         Route::post('/', [PermissionController::class, 'store'])->name('store');
@@ -44,7 +46,7 @@ Route::middleware('auth:web')->group(function () {
     });
 
     // User Management - Roles & Permissions Assignment Routes
-    Route::prefix('admin/users')->name('admin.users.')->group(function () {
+    Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserManagementController::class, 'index'])->name('index');
         Route::get('/{user}/edit/roles', [UserManagementController::class, 'editRoles'])->name('edit-roles');
         Route::put('/{user}/roles', [UserManagementController::class, 'updateRoles'])->name('update-roles');

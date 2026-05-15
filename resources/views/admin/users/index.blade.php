@@ -13,7 +13,8 @@
                 <div class="col-md-4">
                     <form method="GET" action="{{ route('admin.users.index') }}" class="d-flex gap-2">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Search users..." value="{{ $search }}">
+                            <input type="text" name="search" class="form-control" placeholder="Search users..."
+                                value="{{ $search }}">
                             <button class="btn btn-outline-primary" type="submit">
                                 <i class="icon-base ti tabler-search"></i>
                             </button>
@@ -22,37 +23,49 @@
                 </div>
                 <div class="col-md-8">
                     <div class="d-flex justify-content-end gap-2">
-                        @if($search)
+                        @if ($search)
                             <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">
                                 <i class="icon-base ti tabler-x me-1"></i> Clear
                             </a>
                         @endif
                         <div class="dropdown">
-                            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown">
                                 <i class="icon-base ti tabler-filter me-1"></i> Filter by Role
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item {{ !$roleFilter ? 'active' : '' }}" href="{{ route('admin.users.index', array_merge(request()->except('role'), ['role' => null])) }}">All Roles</a></li>
-                                @foreach($roles as $role)
-                                    <li><a class="dropdown-item {{ $roleFilter === $role->name ? 'active' : '' }}" href="{{ route('admin.users.index', array_merge(request()->except('role'), ['role' => $role->name])) }}">{{ $role->name }}</a></li>
+                                <li><a class="dropdown-item {{ !$roleFilter ? 'active' : '' }}"
+                                        href="{{ route('admin.users.index', array_merge(request()->except('role'), ['role' => null])) }}">All
+                                        Roles</a></li>
+                                @foreach ($roles as $role)
+                                    <li><a class="dropdown-item {{ $roleFilter === $role->name ? 'active' : '' }}"
+                                            href="{{ route('admin.users.index', array_merge(request()->except('role'), ['role' => $role->name])) }}">{{ $role->name }}</a>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
                         <div class="dropdown">
-                            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown">
                                 <i class="icon-base ti tabler-filter me-1"></i> Filter by Status
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item {{ !$statusFilter ? 'active' : '' }}" href="{{ route('admin.users.index', array_merge(request()->except('status'), ['status' => null])) }}">All Statuses</a></li>
-                                <li><a class="dropdown-item {{ $statusFilter === 'active' ? 'active' : '' }}" href="{{ route('admin.users.index', array_merge(request()->except('status'), ['status' => 'active'])) }}">Active</a></li>
-                                <li><a class="dropdown-item {{ $statusFilter === 'inactive' ? 'active' : '' }}" href="{{ route('admin.users.index', array_merge(request()->except('status'), ['status' => 'inactive'])) }}">Inactive</a></li>
+                                <li><a class="dropdown-item {{ !$statusFilter ? 'active' : '' }}"
+                                        href="{{ route('admin.users.index', array_merge(request()->except('status'), ['status' => null])) }}">All
+                                        Statuses</a></li>
+                                <li><a class="dropdown-item {{ $statusFilter === 'active' ? 'active' : '' }}"
+                                        href="{{ route('admin.users.index', array_merge(request()->except('status'), ['status' => 'active'])) }}">Active</a>
+                                </li>
+                                <li><a class="dropdown-item {{ $statusFilter === 'inactive' ? 'active' : '' }}"
+                                        href="{{ route('admin.users.index', array_merge(request()->except('status'), ['status' => 'inactive'])) }}">Inactive</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
 
-            @if($users->count() > 0)
+            @if ($users->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -66,7 +79,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $user)
+                            @foreach ($users as $user)
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -80,7 +93,7 @@
                                     </td>
                                     <td>{{ $user->email }}</td>
                                     <td>
-                                        @if($user->status === 'active')
+                                        @if ($user->status === 'active')
                                             <span class="badge bg-label-success">Active</span>
                                         @elseif($user->status === 'inactive')
                                             <span class="badge bg-label-secondary">Inactive</span>
@@ -89,9 +102,9 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if($user->roles->count() > 0)
+                                        @if ($user->roles->count() > 0)
                                             <div class="d-flex flex-wrap gap-1">
-                                                @foreach($user->roles as $role)
+                                                @foreach ($user->roles as $role)
                                                     <span class="badge bg-label-info">{{ $role->name }}</span>
                                                 @endforeach
                                             </div>
@@ -102,26 +115,33 @@
                                     <td>{{ $user->created_at->format('M d, Y') }}</td>
                                     <td>
                                         <div class="d-flex gap-1">
-                                            <a href="{{ route('admin.users.edit-roles', $user) }}" class="btn btn-sm btn-icon btn-outline-primary" data-bs-toggle="tooltip" title="Manage Roles">
+                                            <a href="{{ route('admin.users.edit-roles', $user) }}"
+                                                class="btn btn-sm btn-icon btn-outline-primary" data-bs-toggle="tooltip"
+                                                title="Manage Roles">
                                                 <i class="icon-base ti tabler-user-cog"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-icon btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#viewModal-{{ $user->id }}" title="View">
+                                            <button type="button" class="btn btn-sm btn-icon btn-outline-secondary"
+                                                data-bs-toggle="modal" data-bs-target="#viewModal-{{ $user->id }}"
+                                                title="View">
                                                 <i class="icon-base ti tabler-eye"></i>
                                             </button>
                                         </div>
 
                                         <!-- View User Modal -->
-                                        <div class="modal fade" id="viewModal-{{ $user->id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal fade" id="viewModal-{{ $user->id }}" tabindex="-1"
+                                            aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title">User Details</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        <button type="button" class="btn-close"
+                                                            data-bs-dismiss="modal"></button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="text-center mb-3">
                                                             <div class="avatar avatar-lg mx-auto mb-2">
-                                                                <span class="avatar-initial bg-label-primary rounded-circle" style="font-size: 2rem;">
+                                                                <span class="avatar-initial bg-label-primary rounded-circle"
+                                                                    style="font-size: 2rem;">
                                                                     {{ strtoupper(substr($user->name, 0, 1)) }}
                                                                 </span>
                                                             </div>
@@ -136,10 +156,11 @@
                                                             <tr>
                                                                 <td><strong>Status</strong></td>
                                                                 <td>
-                                                                    @if($user->status === 'active')
+                                                                    @if ($user->status === 'active')
                                                                         <span class="badge bg-label-success">Active</span>
                                                                     @else
-                                                                        <span class="badge bg-label-secondary">{{ ucfirst($user->status) }}</span>
+                                                                        <span
+                                                                            class="badge bg-label-secondary">{{ ucfirst($user->status) }}</span>
                                                                     @endif
                                                                 </td>
                                                             </tr>
@@ -154,9 +175,10 @@
                                                             <tr>
                                                                 <td><strong>Roles</strong></td>
                                                                 <td>
-                                                                    @if($user->roles->count() > 0)
-                                                                        @foreach($user->roles as $role)
-                                                                            <span class="badge bg-label-info">{{ $role->name }}</span>
+                                                                    @if ($user->roles->count() > 0)
+                                                                        @foreach ($user->roles as $role)
+                                                                            <span
+                                                                                class="badge bg-label-info">{{ $role->name }}</span>
                                                                         @endforeach
                                                                     @else
                                                                         <span class="text-muted">No roles</span>
@@ -166,7 +188,8 @@
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <a href="{{ route('admin.users.edit-roles', $user) }}" class="btn btn-primary">
+                                                        <a href="{{ route('admin.users.edit-roles', $user) }}"
+                                                            class="btn btn-primary">
                                                             <i class="icon-base ti tabler-user-cog me-1"></i> Manage Roles
                                                         </a>
                                                     </div>

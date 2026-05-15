@@ -1,7 +1,7 @@
 <!doctype html>
 
 <html lang="en" class=" layout-wide  customizer-hide" dir="ltr" data-skin="default" data-bs-theme="light"
-    data-assets-path="{{ asset('admin/') }}assets/" data-template="vertical-menu-template">
+    data-assets-path="{{ asset('admin-assets/') }}assets/" data-template="vertical-menu-template">
 
 <head>
     <meta charset="utf-8" />
@@ -11,7 +11,7 @@
     <title>Admin Login</title>
 
     <meta name="description" content="" />
-    <link rel="icon" type="image/x-icon" href="{{ asset('admin/assets/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('admin-assets/img/favicon/favicon.ico') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,9 +20,9 @@
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
         rel="stylesheet" />
 
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/iconify-icons.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/core.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/pages/page-auth.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin-assets/vendor/fonts/iconify-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin-assets/vendor/css/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('admin-assets/vendor/css/pages/page-auth.css') }}" />
 
 </head>
 

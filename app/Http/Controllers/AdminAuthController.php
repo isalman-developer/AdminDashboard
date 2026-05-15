@@ -33,12 +33,24 @@ class AdminAuthController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('home'));
+            return redirect()->intended(route('admin.home'));
         }
 
         return back()->withErrors([
             'email' => ['The provided credentials do not match our records.'],
         ])->onlyInput('email');
+    }
+
+    /**
+     * Show the admin profile page.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function profile()
+    {
+        return view('admin.profile', [
+            'user' => auth()->user(),
+        ]);
     }
 
     /**
