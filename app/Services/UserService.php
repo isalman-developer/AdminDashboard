@@ -52,7 +52,7 @@ class UserService
      * Replace the authenticated user's avatar image.
      * Old file is removed from both DB and disk by MediaService::replace().
      *
-     * @return string The stored file path, e.g. "uploads/avatars/{fileName}"
+     * @return string  Relative path on the public disk, e.g. "avatars/{fileName}"
      */
     public function updateAvatar(mixed $file): string
     {
@@ -72,6 +72,10 @@ class UserService
             ->latest('id')
             ->value('file_path');
 
-        return $path ? asset($path) : asset('admin-assets/img/avatars/1.png');
+        // $path is relative to the public disk root, e.g. "avatars/abc.jpg"
+        // asset('storage/...') resolves to "/storage/avatars/abc.jpg" via the symlink
+        return $path
+            ? asset('storage/' . $path)
+            : asset('admin-assets/img/avatars/1.png');
     }
 }

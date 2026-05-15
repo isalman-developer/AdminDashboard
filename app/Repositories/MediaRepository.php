@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class MediaRepository
@@ -18,23 +19,26 @@ class MediaRepository
     }
 
     /**
-     * Store the uploaded file under public/uploads/{folder}/ and
-     * create the matching media record using the correct
-     * mediable_type / mediable_id columns from the migration.
+     * Store the uploaded file under storage/app/public/{folder}/ and
+     * create the matching media record.
+     *
+     * The stored file_path is relative to the public disk root,
+     * e.g. "avatars/abc123.jpg". Access it via:
+     *   Storage::url($media->file_path)  → /storage/avatars/abc123.jpg
+     *   asset('storage/' . $media->file_path) → same result
      */
     public function create(UploadedFile $file, string $folder, Model $model, string $fileType = 'default'): Media
     {
-        $mimeType = $file->getMimeType();
         $fileName = $this->makeFileName($file);
-        $path = $this->storeInPublic($folder, $fileName, $file);
+        $path     = $this->storeInStorage($folder, $fileName, $file);
 
         return Media::create([
-            'file_name' => $fileName,
-            'file_path' => $path,
-            'mime_type' => $mimeType,
-            'file_type' => $fileType,
+            'file_name'     => $fileName,
+            'file_path'     => $path,
+            'mime_type'     => $file->getMimeType(),
+            'file_type'     => $fileType,
             'mediable_type' => $model->getMorphClass(),
-            'mediable_id' => $model->getKey(),
+            'mediable_id'   => $model->getKey(),
         ]);
     }
 
@@ -45,7 +49,7 @@ class MediaRepository
     public function replace(UploadedFile $file, string $folder, Model $model, string $fileType): Media
     {
         foreach ($this->findByType($model, $fileType) as $old) {
-            $this->maybeUnlink($old);
+            $this->maybeDelete($old);
             $old->delete();
         }
 
@@ -74,11 +78,11 @@ class MediaRepository
     }
 
     /**
-     * Delete a single media record and its physical file.
+     * Delete a single media record and its physical file from storage.
      */
     public function delete(Media $media): bool
     {
-        $this->maybeUnlink($media);
+        $this->maybeDelete($media);
 
         return (bool) $media->delete();
     }
@@ -91,40 +95,37 @@ class MediaRepository
         return $model->media()->get();
     }
 
+    // -------------------------------------------------------------------------
+    // Private helpers
+    // -------------------------------------------------------------------------
+
     /**
-     * Store an uploaded file into public/uploads/{folder}/{fileName}
-     * and return the *full relative-from-public* path e.g. "uploads/avatars/{fileName}".
+     * Store the file in storage/app/public/{folder}/{fileName} via the
+     * 'public' disk and return the relative path from the disk root,
+     * e.g. "avatars/abc123.jpg".
      */
-    private function storeInPublic(string $folder, string $fileName, UploadedFile $file): string
+    private function storeInStorage(string $folder, string $fileName, UploadedFile $file): string
     {
-        $fullPath = public_path("uploads/{$folder}/{$fileName}");
-        $dir = dirname($fullPath);
-
-        if (! is_dir($dir)) {
-            mkdir($dir, 0775, true);
-        }
-
-        $file->move($dir, $fileName);
-
-        return "uploads/{$folder}/{$fileName}";
+        // storeAs on the 'public' disk puts the file in storage/app/public/{folder}/{fileName}
+        // and returns the path relative to the disk root: "{folder}/{fileName}"
+        return $file->storeAs($folder, $fileName, 'public');
     }
 
     /**
-     * Build a unique file name preserving the original extension.
+     * Build a cryptographically random file name preserving the original extension.
      */
     private function makeFileName(UploadedFile $file): string
     {
-        return strtolower(Str::random(40).'.'.$file->getClientOriginalExtension());
+        return strtolower(Str::random(40) . '.' . $file->getClientOriginalExtension());
     }
 
     /**
-     * Remove the physical file only if it still exists on disk.
+     * Delete the physical file from the 'public' storage disk if it exists.
      */
-    private function maybeUnlink(Media $media): void
+    private function maybeDelete(Media $media): void
     {
-        $path = public_path($media->file_path);
-        if (is_file($path)) {
-            @unlink($path);
+        if (Storage::disk('public')->exists($media->file_path)) {
+            Storage::disk('public')->delete($media->file_path);
         }
     }
 }
