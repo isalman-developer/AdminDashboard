@@ -74,76 +74,15 @@
                     @include('admin.partials.footer')
                     <!-- / Footer -->
 
-        <div class="content-backdrop fade"></div>
-        </div>
-        <!-- / Content wrapper -->
-    </div>
-    <!-- / Layout page -->
+                    @include('admin.partials.toasts')
 
-        @include('admin.partials.toasts')
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+            </div>
+            <!-- / Layout page -->
 
-    <script>
-        (function () {
-            'use strict';
 
-            const delay = 5000; // ms
-            let timer;
-
-            function startTimer(toast) {
-                timer = setTimeout(function () {
-                    dismiss(toast);
-                }, delay);
-            }
-
-            function clearTimer() {
-                if (timer) clearTimeout(timer);
-            }
-
-            function dismiss(toast) {
-                timer = null;
-                toast.classList.remove('show');
-                // Remove from DOM after transition completes
-                toast.addEventListener('transitionend', function onEnd(e) {
-                    if (e.propertyName === 'opacity' || e.propertyName === 'transform') {
-                        toast.remove();
-                        toast.removeEventListener('transitionend', onEnd);
-                    }
-                }, { once: true });
-            }
-
-            document.addEventListener('DOMContentLoaded', function () {
-                const toasts = document.querySelectorAll('.toast[data-autodismiss="true"]');
-
-                toasts.forEach(function (toast) {
-                    // Initial slide-in animation
-                    toast.classList.add('show');
-
-                    // Start auto-dismiss timer
-                    startTimer(toast);
-
-                    // User hovered the toast → pause timer
-                    toast.addEventListener('mouseenter', clearTimer);
-
-                    // User left the toast → restart timer
-                    toast.addEventListener('mouseleave', function () {
-                        if (toast.classList.contains('show')) {
-                            startTimer(toast);
-                        }
-                    });
-
-                    // Manual close button
-                    const closeBtn = toast.querySelector('.btn-close');
-                    if (closeBtn) {
-                        closeBtn.addEventListener('click', function () {
-                            clearTimer();
-                            dismiss(toast);
-                        });
-                    }
-                });
-            });
-        })();
-    </script>
-</div>
         </div>
 
         <!-- Overlay -->
@@ -153,6 +92,8 @@
         <div class="drag-target"></div>
     </div>
     <!-- / Layout wrapper -->
+
+
 
     <!-- Core Scripts -->
     <script src="{{ asset('admin-assets/vendor/libs/jquery/jquery.js') }}"></script>
@@ -166,6 +107,9 @@
 
     <!-- Main JS -->
     <script src="{{ asset('admin-assets/js/main.js') }}"></script>
+
+    <!-- Toast JS -->
+    <script src="{{ asset('admin-assets/vendor/js/toast.js') }}"></script>
 
     <!-- Page Scripts -->
     @stack('scripts')

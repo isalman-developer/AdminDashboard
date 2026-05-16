@@ -15,7 +15,7 @@ class RoleController extends Controller
      */
     public function index(Request $request, RoleService $roleService)
     {
-        $search = $request->get('search');
+        $search = $request->get('search') ?? "";
         $roles = $roleService->paginate($search);
 
         return view('admin.roles.index', compact('roles', 'search'));
@@ -93,7 +93,7 @@ class RoleController extends Controller
 
             return response()->json(['success' => true, 'message' => 'Role deleted successfully']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to delete role: '.$e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Failed to delete role: ' . $e->getMessage()], 500);
         }
     }
 }

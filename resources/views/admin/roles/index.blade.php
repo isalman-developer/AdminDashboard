@@ -113,9 +113,9 @@
                     </table>
                 </div>
 
-                <div class="mt-3">
-                    {{ $roles->links() }}
-                </div>
+                <div class="card-footer py-2 px-3 border-top-0">
+            {{ $roles->onEachSide(1)->links('pagination::bootstrap-5') }}
+        </div>
             @else
                 <div class="text-center py-5">
                     <div class="mb-3">

@@ -14,7 +14,7 @@ class PermissionController extends Controller
      */
     public function index(Request $request, PermissionService $permissionService)
     {
-        $search = $request->get('search');
+        $search = $request->get('search') ?? "";
         $permissions = $permissionService->paginate($search);
 
         return view('admin.permissions.index', compact('permissions', 'search'));

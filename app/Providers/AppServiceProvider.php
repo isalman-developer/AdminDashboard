@@ -10,6 +10,7 @@ use App\Repositories\MediaRepository;
 use App\Repositories\SettingRepository;
 use App\Services\MediaService;
 use App\Services\SettingService;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton(MediaRepository::class, fn () => new MediaRepository);
+        $this->app->singleton(MediaRepository::class, fn() => new MediaRepository);
         $this->app->singleton(MediaService::class, function ($app) {
             return new MediaService(
                 $app->make(MediaRepository::class)
@@ -42,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
         Setting::observe(SettingObserver::class);
         Media::observe(MediaObserver::class);
     }
