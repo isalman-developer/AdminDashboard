@@ -13,10 +13,15 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        $records = [];
         foreach (PermissionEnum::cases() as $permission) {
-            Permission::create([
+            $records[] = [
                 'name' => $permission->value,
-            ]);
+                'guard_name' => 'web',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
         }
+        Permission::upsert($records, ['name', 'guard_name'], ['updated_at']);
     }
 }

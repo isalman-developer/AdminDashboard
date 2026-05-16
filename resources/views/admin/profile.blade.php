@@ -11,7 +11,8 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center flex-wrap gap-4">
                         <div class="avatar avatar-xl me-2">
-                            <img src="{{ $avatarUrl }}" alt="{{ $user->name }}" class="rounded-circle" style="width: 96px; height: 96px; object-fit: cover;" />
+                            <img src="{{ $avatarUrl }}" alt="{{ $user->name }}" class="rounded-circle"
+                                style="width: 96px; height: 96px; object-fit: cover;" />
                         </div>
                         <div class="flex-grow-1">
                             <h3 class="mb-1">{{ $user->name }}</h3>
@@ -156,7 +157,8 @@
                                                 @elseif($child->status === 'inactive')
                                                     <span class="badge bg-label-secondary">Inactive</span>
                                                 @else
-                                                    <span class="badge bg-label-warning">{{ ucfirst($child->status) }}</span>
+                                                    <span
+                                                        class="badge bg-label-warning">{{ ucfirst($child->status) }}</span>
                                                 @endif
                                             </td>
                                             <td>{{ $child->created_at->format('M d, Y') }}</td>

@@ -49,6 +49,10 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
     // User Management - Roles & Permissions Assignment Routes
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserManagementController::class, 'index'])->name('index');
+        Route::get('/create', [UserManagementController::class, 'create'])->name('create');
+        Route::post('/', [UserManagementController::class, 'store'])->name('store');
+        Route::get('/{user}/edit', [UserManagementController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UserManagementController::class, 'update'])->name('update');
         Route::get('/{user}/edit/roles', [UserManagementController::class, 'editRoles'])->name('edit-roles');
         Route::put('/{user}/roles', [UserManagementController::class, 'updateRoles'])->name('update-roles');
         Route::delete('/{user}/roles/{role}', [UserManagementController::class, 'removeRole'])->name('remove-role');

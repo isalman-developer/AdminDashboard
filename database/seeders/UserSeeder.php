@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@mlm.com',
             'password' => Hash::make('12345678'),
+            'referral_code' => 'admin',
             'parent_id' => null,
             'wallet_balance' => 0,
             'status' => 'active',

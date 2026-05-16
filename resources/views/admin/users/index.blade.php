@@ -23,6 +23,9 @@
                 </div>
                 <div class="col-md-8">
                     <div class="d-flex justify-content-end gap-2">
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
+                            <i class="icon-base ti tabler-plus me-1"></i> Add User
+                        </a>
                         @if ($search)
                             <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary">
                                 <i class="icon-base ti tabler-x me-1"></i> Clear
@@ -58,6 +61,9 @@
                                 </li>
                                 <li><a class="dropdown-item {{ $statusFilter === 'inactive' ? 'active' : '' }}"
                                         href="{{ route('admin.users.index', array_merge(request()->except('status'), ['status' => 'inactive'])) }}">Inactive</a>
+                                </li>
+                                <li><a class="dropdown-item {{ $statusFilter === 'blocked' ? 'active' : '' }}"
+                                        href="{{ route('admin.users.index', array_merge(request()->except('status'), ['status' => 'blocked'])) }}">Blocked</a>
                                 </li>
                             </ul>
                         </div>
@@ -97,8 +103,8 @@
                                             <span class="badge bg-label-success">Active</span>
                                         @elseif($user->status === 'inactive')
                                             <span class="badge bg-label-secondary">Inactive</span>
-                                        @else
-                                            <span class="badge bg-label-warning">{{ ucfirst($user->status) }}</span>
+                                        @elseif($user->status === 'blocked')
+                                            <span class="badge bg-label-danger">Blocked</span>
                                         @endif
                                     </td>
                                     <td>
@@ -115,8 +121,13 @@
                                     <td>{{ $user->created_at->format('M d, Y') }}</td>
                                     <td>
                                         <div class="d-flex gap-1">
-                                            <a href="{{ route('admin.users.edit-roles', $user) }}"
+                                            <a href="{{ route('admin.users.edit', $user) }}"
                                                 class="btn btn-sm btn-icon btn-outline-primary" data-bs-toggle="tooltip"
+                                                title="Edit User">
+                                                <i class="icon-base ti tabler-edit"></i>
+                                            </a>
+                                            <a href="{{ route('admin.users.edit-roles', $user) }}"
+                                                class="btn btn-sm btn-icon btn-outline-info" data-bs-toggle="tooltip"
                                                 title="Manage Roles">
                                                 <i class="icon-base ti tabler-user-cog"></i>
                                             </a>

@@ -227,10 +227,22 @@
             </ul>
         </li>
         <li class="menu-item">
-            <a href="{{ url('admin/users') }}" class="menu-link">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon icon-base ti tabler-users"></i>
                 <div data-i18n="Users">Users</div>
             </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ url('admin/users') }}" class="menu-link">
+                        <div data-i18n="All Users">All Users</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.users.create') }}" class="menu-link">
+                        <div data-i18n="Add User">Add User</div>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <!-- Profile -->

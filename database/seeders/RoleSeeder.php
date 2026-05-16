@@ -17,15 +17,30 @@ class RoleSeeder extends Seeder
     {
         $roles = RoleEnum::cases();
         foreach ($roles as $role) {
-            $roleModel = Role::create([
-                'name' => $role->value,
-            ]);
+            $roleModel = Role::findOrCreate($role->value);
 
             if ($roleModel->name == RoleEnum::SuperAdmin->value) {
+                // Super Admin — every permission
                 $roleModel->permissions()->sync(Permission::all()->pluck('id'));
+            } elseif ($roleModel->name == RoleEnum::Admin->value) {
+                // Admin — full user CRUD, roles, and settings
+                $roleModel->permissions()->sync(
+                    Permission::whereIn('name', [
+                        PermissionEnum::USERS_VIEW->value,
+                        PermissionEnum::USERS_CREATE->value,
+                        PermissionEnum::USERS_UPDATE->value,
+                        PermissionEnum::USERS_DELETE->value,
+                        PermissionEnum::ROLES_VIEW->value,
+                        PermissionEnum::ROLES_CREATE->value,
+                        PermissionEnum::ROLES_UPDATE->value,
+                        PermissionEnum::ROLES_DELETE->value,
+                    ])->pluck('id')
+                );
             } else {
-                $permissions = Permission::whereIn('name', PermissionEnum::userPermissions())->pluck('id');
-                $roleModel->permissions()->sync($permissions);
+                // User (and any future base roles) — only view
+                $roleModel->permissions()->sync(
+                    Permission::where('name', PermissionEnum::USERS_VIEW->value)->pluck('id')
+                );
             }
         }
     }

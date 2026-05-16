@@ -70,6 +70,29 @@ class UserManagementService
     }
 
     /**
+     * Create a new user with the given validated data.
+     * Generates a unique referral_code and sets safe defaults for
+     * parent_id and wallet_balance.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function createUser(array $data): User
+    {
+        return $this->repository->create($data);
+    }
+
+    /**
+     * Update basic profile fields on a user (name, username, email, status).
+     * Does NOT touch password, referral_code, parent_id, or wallet_balance.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function updateProfile(User $user, array $data): User
+    {
+        return $this->repository->updateProfile($user, $data);
+    }
+
+    /**
      * Remove a role from a user.
      */
     public function removeRole(User $user, string $roleName): void
