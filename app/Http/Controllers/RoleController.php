@@ -2,79 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\Role\RoleStoreRequest;
 use App\Http\Requests\Admin\Role\RoleUpdateRequest;
-use App\Http\Requests\RoleStoreRequest;
 use App\Models\Role;
 use App\Services\RoleService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request, RoleService $roleService)
+    public function index(Request $request, RoleService $roleService): View
     {
-        $search = $request->get('search') ?? "";
-        $roles = $roleService->paginate($search);
+        $search = (string) ($request->get('search') ?? '');
+        $roles  = $roleService->paginate($search);
 
         return view('admin.roles.index', compact('roles', 'search'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(RoleService $roleService)
+    public function create(RoleService $roleService): View
     {
         $permissions = $roleService->allPermissionsGrouped();
 
         return view('admin.roles.create', compact('permissions'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(RoleStoreRequest $request, RoleService $roleService)
+    public function store(RoleStoreRequest $request, RoleService $roleService): RedirectResponse
     {
-        $validated = $request->validated();
+        $validated     = $request->validated();
         $permissionIds = $validated['permissions'] ?? null;
 
-        $roleService->create([
-            'name' => $validated['name'],
-            'guard_name' => 'web',
-        ], $permissionIds);
+        $roleService->create(['name' => $validated['name'], 'guard_name' => 'web'], $permissionIds);
 
         return redirect()->route('admin.roles.index')
             ->with('success', 'Role created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Role $role, RoleService $roleService)
+    public function show(Role $role, RoleService $roleService): View
     {
         $role = $roleService->findWithPermissions($role->id);
 
         return view('admin.roles.show', compact('role'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Role $role, RoleService $roleService)
+    public function edit(Role $role, RoleService $roleService): View
     {
-        $permissions = $roleService->allPermissionsGrouped();
+        $permissions     = $roleService->allPermissionsGrouped();
         $rolePermissions = $roleService->getPermissionIds($role);
 
         return view('admin.roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(RoleUpdateRequest $request, Role $role, RoleService $roleService)
+    public function update(RoleUpdateRequest $request, Role $role, RoleService $roleService): RedirectResponse
     {
-        $validated = $request->validated();
+        $validated     = $request->validated();
         $permissionIds = $validated['permissions'] ?? null;
 
         $roleService->update($role, ['name' => $validated['name']], $permissionIds);
@@ -83,17 +65,14 @@ class RoleController extends Controller
             ->with('success', 'Role updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Role $role, RoleService $roleService)
+    public function destroy(Role $role, RoleService $roleService): JsonResponse
     {
         try {
             $roleService->delete($role);
 
-            return response()->json(['success' => true, 'message' => 'Role deleted successfully']);
+            return response()->json(['success' => true, 'message' => 'Role deleted successfully.']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to delete role: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'Failed to delete role: '.$e->getMessage()], 500);
         }
     }
 }

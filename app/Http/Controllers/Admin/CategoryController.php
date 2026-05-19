@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\CategoryStoreRequest;
-use App\Http\Requests\Admin\CategoryUpdateRequest;
+use App\Http\Requests\Admin\CategoryRequest;
 use App\Models\Category;
 use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
@@ -36,7 +35,7 @@ class CategoryController extends Controller
     /**
      * Handle a new category POST from the creation form.
      */
-    public function store(CategoryStoreRequest $request, CategoryService $categoryService): RedirectResponse
+    public function store(CategoryRequest $request, CategoryService $categoryService): RedirectResponse
     {
         $categoryService->create($request->validated());
 
@@ -67,7 +66,7 @@ class CategoryController extends Controller
      * Handle a category update PUT from the edit form.
      */
     public function update(
-        CategoryUpdateRequest $request,
+        CategoryRequest $request,
         Category $category,
         CategoryService $categoryService
     ): RedirectResponse {

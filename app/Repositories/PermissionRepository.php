@@ -2,16 +2,20 @@
 
 namespace App\Repositories;
 
+use App\Contracts\Repositories\PermissionRepositoryInterface;
 use App\Models\Permission;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
-class PermissionRepository
+class PermissionRepository extends BaseRepository implements PermissionRepositoryInterface
 {
-    /**
-     * List permissions with optional search, ordered by name.
-     *
-     * @return LengthAwarePaginator<int, Permission>
-     */
+    protected function model(): string
+    {
+        return Permission::class;
+    }
+
+    /** @return LengthAwarePaginator<int, Permission> */
     public function paginate(string $search = '', int $perPage = 15): LengthAwarePaginator
     {
         return Permission::when($search, function ($query) use ($search) {
@@ -23,71 +27,33 @@ class PermissionRepository
             ->withQueryString();
     }
 
-    /**
-     * Find a permission by primary key.
-     */
-    public function find(int $id): ?Permission
-    {
-        return Permission::find($id);
-    }
-
-    /**
-     * Create a new permission.
-     *
-     * @param  array<string, mixed>  $data
-     */
     public function create(array $data): Permission
     {
         return Permission::create([
-            'name' => $data['name'],
+            'name'       => $data['name'],
             'guard_name' => $data['guard_name'] ?? 'web',
-            'category' => $data['category'] ?? '',
+            'category'   => $data['category'] ?? '',
         ]);
     }
 
-    /**
-     * Update an existing permission.
-     *
-     * @param  array<string, mixed>  $data
-     */
     public function update(Permission $permission, array $data): Permission
     {
         $permission->update([
-            'name' => $data['name'],
+            'name'     => $data['name'],
             'category' => $data['category'] ?? '',
         ]);
 
         return $permission;
     }
 
-    /**
-     * Delete a permission.
-     */
-    public function delete(Permission $permission): bool
-    {
-        try {
-            return $permission->delete();
-        } catch (\Exception) {
-            return false;
-        }
-    }
-
-    /**
-     * Get all permissions ordered by name.
-     *
-     * @return \Illuminate\Support\Collection<int, Permission>
-     */
-    public function allOrdered()
+    /** @return Collection<int, Permission> */
+    public function allOrdered(): Collection
     {
         return Permission::orderBy('name')->get();
     }
 
-    /**
-     * Get the roles attached to a permission.
-     *
-     * @return \Illuminate\Support\Collection<int, \Spatie\Permission\Models\Role>
-     */
-    public function getRoles(Permission $permission)
+    /** @return EloquentCollection<int, \Spatie\Permission\Models\Role> */
+    public function getRoles(Permission $permission): EloquentCollection
     {
         return $permission->roles;
     }

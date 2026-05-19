@@ -11,7 +11,6 @@
             </a>
         </div>
         <div class="card-body">
-            <!-- Search Form -->
             <div class="row mb-4">
                 <div class="col-md-6">
                     <form method="GET" action="{{ route('admin.roles.index') }}" class="d-flex gap-2">
@@ -46,15 +45,14 @@
                         <tbody>
                             @foreach ($roles as $role)
                                 <tr>
-                                    <td>
-                                        <span class="fw-semibold">{{ $role->name }}</span>
-                                    </td>
+                                    <td><span class="fw-semibold">{{ $role->name }}</span></td>
                                     <td><span class="badge bg-label-secondary">{{ $role->guard_name }}</span></td>
                                     <td>
-                                        <span class="badge bg-label-info">{{ $role->permissions->count() }}
-                                            permissions</span>
+                                        <span class="badge bg-label-info">
+                                            {{ $role->permissions->count() }} permissions
+                                        </span>
                                     </td>
-                                    <td>{{ $role->created_at->format('M d, Y') }}</td>
+                                    <td>{{ $role->created_at->format(config('admin.date_format')) }}</td>
                                     <td>
                                         <div class="d-flex gap-1">
                                             <a href="{{ route('admin.roles.show', $role) }}"
@@ -68,43 +66,11 @@
                                                 <i class="icon-base ti tabler-edit"></i>
                                             </a>
                                             <button type="button" class="btn btn-sm btn-icon btn-outline-danger"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $role->id }}"
+                                                data-delete-name="{{ $role->name }}"
+                                                data-delete-url="{{ route('admin.roles.destroy', $role) }}"
                                                 title="Delete">
                                                 <i class="icon-base ti tabler-trash"></i>
                                             </button>
-                                        </div>
-
-                                        <!-- Delete Modal -->
-                                        <div class="modal fade" id="deleteModal{{ $role->id }}" tabindex="-1"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <form method="POST" action="{{ route('admin.roles.destroy', $role) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Confirm Delete</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Are you sure you want to delete the role
-                                                                "<strong>{{ $role->name }}</strong>"?</p>
-                                                            <p class="text-danger small">
-                                                                <i class="icon-base ti tabler-alert-triangle"></i>
-                                                                This action cannot be undone. Users assigned to this role
-                                                                will lose these permissions.
-                                                            </p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-outline-secondary"
-                                                                data-bs-dismiss="modal">Cancel</button>
-                                                            <button type="submit" class="btn btn-danger">Delete
-                                                                Role</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -114,8 +80,8 @@
                 </div>
 
                 <div class="card-footer py-2 px-3 border-top-0">
-            {{ $roles->onEachSide(1)->links('pagination::bootstrap-5') }}
-        </div>
+                    {{ $roles->onEachSide(1)->links('pagination::bootstrap-5') }}
+                </div>
             @else
                 <div class="text-center py-5">
                     <div class="mb-3">
@@ -130,4 +96,6 @@
             @endif
         </div>
     </div>
+
+    @include('admin.partials.delete-modal')
 @endsection

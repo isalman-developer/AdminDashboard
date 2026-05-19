@@ -10,19 +10,23 @@ trait GeneratesUniqueSlug
     private function ensureUniqueSlug(Model $model): void
     {
         $base = Str::slug($model->name) ?: 'unnamed';
-        $slug = $base;
-        $counter = 1;
 
-        while (
-            $model->newQuery()
-                ->where('slug', $slug)
-                ->when($model->exists, fn ($q) => $q->where('id', '!=', $model->id))
-                ->exists()
-        ) {
-            $slug = "{$base}-{$counter}";
+        $existing = $model->newQuery()
+            ->where('slug', 'like', $base.'%')
+            ->when($model->exists, fn ($q) => $q->where('id', '!=', $model->id))
+            ->pluck('slug');
+
+        if ($existing->isEmpty() || ! $existing->contains($base)) {
+            $model->slug = $base;
+
+            return;
+        }
+
+        $counter = 1;
+        while ($existing->contains("{$base}-{$counter}")) {
             $counter++;
         }
 
-        $model->slug = $slug;
+        $model->slug = "{$base}-{$counter}";
     }
 }

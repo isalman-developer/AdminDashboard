@@ -3,18 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\User\CreateUserRequest;
-use App\Http\Requests\Admin\User\UserRoleUpateRequest;
+use App\Http\Requests\Admin\User\UserRoleUpdateRequest;
 use App\Http\Requests\Admin\User\UserUpdateRequest;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use App\Services\UserManagementService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UserManagementController extends Controller
 {
     /**
      * Display a listing of users with their roles.
      */
-    public function index(Request $request, UserManagementService $userManagementService)
+    public function index(Request $request, UserManagementService $userManagementService): View
     {
         $search = $request->get('search') ?? '';
         $roleFilter = $request->get('role') ?? null;
@@ -29,16 +33,15 @@ class UserManagementController extends Controller
     /**
      * Show the form for creating a new user.
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.users.create');
     }
 
     /**
      * Store a newly created user.
-     * @param  array<string, mixed>  $data
      */
-    public function store(CreateUserRequest $request, UserManagementService $userManagementService)
+    public function store(CreateUserRequest $request, UserManagementService $userManagementService): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -55,7 +58,7 @@ class UserManagementController extends Controller
     /**
      * Show the form for editing a user's basic profile fields.
      */
-    public function edit(User $user)
+    public function edit(User $user): View
     {
         return view('admin.users.edit', compact('user'));
     }
@@ -64,7 +67,7 @@ class UserManagementController extends Controller
      * Update the user's basic profile fields.
      * Only name, username, email, and status are updated here.
      */
-    public function update(UserUpdateRequest $request, User $user, UserManagementService $userManagementService)
+    public function update(UserUpdateRequest $request, User $user, UserManagementService $userManagementService): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -77,7 +80,7 @@ class UserManagementController extends Controller
     /**
      * Show the form for editing user roles and permissions.
      */
-    public function editRoles(User $user, UserManagementService $userManagementService)
+    public function editRoles(User $user, UserManagementService $userManagementService): View
     {
         $user = $userManagementService->loadRelationships($user);
         $roles = $userManagementService->allRolesOrdered();
@@ -89,7 +92,7 @@ class UserManagementController extends Controller
     /**
      * Update user roles and permissions.
      */
-    public function updateRoles(UserRoleUpateRequest $request, User $user, UserManagementService $userManagementService)
+    public function updateRoles(UserRoleUpdateRequest $request, User $user, UserManagementService $userManagementService): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -106,9 +109,9 @@ class UserManagementController extends Controller
     /**
      * Remove specified role from user.
      */
-    public function removeRole(Request $request, User $user, UserManagementService $userManagementService)
+    public function removeRole(User $user, Role $role, UserManagementService $userManagementService): RedirectResponse
     {
-        $userManagementService->removeRole($user, request()->route('role')->name);
+        $userManagementService->removeRole($user, $role->name);
 
         return redirect()->route('admin.users.edit-roles', $user)
             ->with('success', 'Role removed successfully.');
@@ -117,9 +120,9 @@ class UserManagementController extends Controller
     /**
      * Remove specified permission from user.
      */
-    public function removePermission(Request $request, User $user, UserManagementService $userManagementService)
+    public function removePermission(User $user, Permission $permission, UserManagementService $userManagementService): RedirectResponse
     {
-        $userManagementService->removePermission($user, request()->route('permission')->name);
+        $userManagementService->removePermission($user, $permission->name);
 
         return redirect()->route('admin.users.edit-roles', $user)
             ->with('success', 'Permission removed successfully.');

@@ -11,7 +11,6 @@
             </a>
         </div>
         <div class="card-body">
-            <!-- Search Form -->
             <div class="row mb-4">
                 <div class="col-md-6">
                     <form method="GET" action="{{ route('admin.categories.index') }}" class="d-flex gap-2">
@@ -48,22 +47,12 @@
                         <tbody>
                             @foreach ($categories as $category)
                                 <tr>
-                                    <td>
-                                        <span class="fw-semibold">{{ $category->name }}</span>
-                                    </td>
+                                    <td><span class="fw-semibold">{{ $category->name }}</span></td>
                                     <td><code>{{ $category->slug }}</code></td>
                                     <td>{{ Str::limit($category->description, 50) ?: '—' }}</td>
-                                    <td>
-                                        @if ($category->is_active)
-                                            <span class="badge bg-label-success">Active</span>
-                                        @else
-                                            <span class="badge bg-label-secondary">Inactive</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-label-info">{{ $category->products_count }}</span>
-                                    </td>
-                                    <td>{{ $category->created_at->format('M d, Y') }}</td>
+                                    <td><x-admin.status-badge :active="$category->is_active" /></td>
+                                    <td><span class="badge bg-label-info">{{ $category->products_count }}</span></td>
+                                    <td>{{ $category->created_at->format(config('admin.date_format')) }}</td>
                                     <td>
                                         <div class="d-flex gap-1">
                                             <a href="{{ route('admin.categories.show', $category) }}"
@@ -77,44 +66,11 @@
                                                 <i class="icon-base ti tabler-edit"></i>
                                             </a>
                                             <button type="button" class="btn btn-sm btn-icon btn-outline-danger"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $category->id }}"
+                                                data-delete-name="{{ $category->name }}"
+                                                data-delete-url="{{ route('admin.categories.destroy', $category) }}"
                                                 title="Delete">
                                                 <i class="icon-base ti tabler-trash"></i>
                                             </button>
-                                        </div>
-
-                                        <!-- Delete Modal -->
-                                        <div class="modal fade" id="deleteModal{{ $category->id }}" tabindex="-1"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <form method="POST"
-                                                    action="{{ route('admin.categories.destroy', $category) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Confirm Delete</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Are you sure you want to delete the category
-                                                                "<strong>{{ $category->name }}</strong>"?</p>
-                                                            <p class="text-danger small">
-                                                                <i class="icon-base ti tabler-alert-triangle"></i>
-                                                                This action cannot be undone.
-                                                            </p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button"
-                                                                class="btn btn-outline-secondary"
-                                                                data-bs-dismiss="modal">Cancel</button>
-                                                            <button type="submit"
-                                                                class="btn btn-danger">Delete</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -140,4 +96,6 @@
             @endif
         </div>
     </div>
+
+    @include('admin.partials.delete-modal')
 @endsection

@@ -2,15 +2,18 @@
 
 namespace App\Services;
 
-use App\Models\Permission;
-use App\Models\Role;
+use App\Contracts\Repositories\PermissionRepositoryInterface;
+use App\Contracts\Repositories\RoleRepositoryInterface;
+use App\Contracts\Services\UserManagementServiceInterface;
 use App\Models\User;
 use App\Repositories\UserRepository;
 
-class UserManagementService
+class UserManagementService implements UserManagementServiceInterface
 {
     public function __construct(
-        protected UserRepository $repository
+        protected UserRepository $repository,
+        protected RoleRepositoryInterface $roleRepository,
+        protected PermissionRepositoryInterface $permissionRepository,
     ) {}
 
     /**
@@ -34,7 +37,7 @@ class UserManagementService
      */
     public function allRolesOrdered()
     {
-        return Role::orderBy('name')->get();
+        return $this->roleRepository->allOrdered();
     }
 
     /**
@@ -54,7 +57,7 @@ class UserManagementService
      */
     public function allPermissionsGrouped()
     {
-        return Permission::orderBy('name')->get()->groupBy('category');
+        return $this->permissionRepository->allOrdered()->groupBy('category');
     }
 
     /**

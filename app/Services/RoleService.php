@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
+use App\Contracts\Services\RoleServiceInterface;
 use App\Models\Role;
 use App\Repositories\RoleRepository;
 
-class RoleService
+class RoleService implements RoleServiceInterface
 {
     public function __construct(
         protected RoleRepository $repository

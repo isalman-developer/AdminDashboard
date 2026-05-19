@@ -4,34 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Admin\Permission\PermissionStoreRequest;
 use App\Http\Requests\Admin\Permission\PermissionUpdateRequest;
+use App\Models\Permission;
 use App\Services\PermissionService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PermissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request, PermissionService $permissionService)
+    public function index(Request $request, PermissionService $permissionService): View
     {
-        $search = $request->get('search') ?? "";
+        $search      = (string) ($request->get('search') ?? '');
         $permissions = $permissionService->paginate($search);
 
         return view('admin.permissions.index', compact('permissions', 'search'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
         return view('admin.permissions.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(PermissionStoreRequest $request, PermissionService $permissionService)
+    public function store(PermissionStoreRequest $request, PermissionService $permissionService): RedirectResponse
     {
         $permissionService->create($request->validated());
 
@@ -39,50 +34,34 @@ class PermissionController extends Controller
             ->with('success', 'Permission created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(int $permission, PermissionService $permissionService)
+    public function show(Permission $permission, PermissionService $permissionService): View
     {
-        $permission = $permissionService->find($permission);
         $roles = $permissionService->getRoles($permission);
 
         return view('admin.permissions.show', compact('permission', 'roles'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $permission, PermissionService $permissionService)
+    public function edit(Permission $permission): View
     {
-        $permission = $permissionService->find($permission);
-
         return view('admin.permissions.edit', compact('permission'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(PermissionUpdateRequest $request, int $permission, PermissionService $permissionService)
+    public function update(PermissionUpdateRequest $request, Permission $permission, PermissionService $permissionService): RedirectResponse
     {
-        $permissionService->update($permissionService->find($permission), $request->validated());
+        $permissionService->update($permission, $request->validated());
 
         return redirect()->route('admin.permissions.index')
             ->with('success', 'Permission updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(int $permission, PermissionService $permissionService)
+    public function destroy(Permission $permission, PermissionService $permissionService): JsonResponse
     {
-        $model = $permissionService->find($permission);
-        $success = $permissionService->delete($model);
+        $success = $permissionService->delete($permission);
 
         if (! $success) {
             return response()->json(['success' => false, 'message' => 'Failed to delete permission.'], 500);
         }
 
-        return response()->json(['success' => true, 'message' => 'Permission deleted successfully']);
+        return response()->json(['success' => true, 'message' => 'Permission deleted successfully.']);
     }
 }

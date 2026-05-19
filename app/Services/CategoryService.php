@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
+use App\Contracts\Services\CategoryServiceInterface;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
-class CategoryService
+class CategoryService implements CategoryServiceInterface
 {
     public function __construct(
         protected CategoryRepository $repository

@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
+use App\Contracts\Services\SettingServiceInterface;
 use App\Models\Setting;
 use App\Repositories\SettingRepository;
 
-class SettingService
+class SettingService implements SettingServiceInterface
 {
     /**
      * Reserved setting keys that cannot be modified.

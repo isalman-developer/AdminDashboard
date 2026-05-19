@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class UserRepository
+class UserRepository implements UserRepositoryInterface
 {
     /**
      * Return the authenticated user.

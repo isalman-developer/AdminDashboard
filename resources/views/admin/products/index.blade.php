@@ -11,7 +11,6 @@
             </a>
         </div>
         <div class="card-body">
-            <!-- Search & Filter Form -->
             <div class="row mb-4">
                 <div class="col-md-8">
                     <form method="GET" action="{{ route('admin.products.index') }}" class="d-flex gap-2">
@@ -32,8 +31,7 @@
                 <div class="col-md-4">
                     <form method="GET" action="{{ route('admin.products.index') }}">
                         <div class="input-group">
-                            <select name="category_id" class="form-select"
-                                onchange="this.form.submit()">
+                            <select name="category_id" class="form-select" onchange="this.form.submit()">
                                 <option value="">All Categories</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
@@ -76,25 +74,17 @@
                                             </small>
                                         @endif
                                     </td>
-                                    <td>
-                                        {{ $product->category?->name ?: '—' }}
-                                    </td>
+                                    <td>{{ $product->category?->name ?: '—' }}</td>
                                     <td><code>{{ $product->sku ?: '—' }}</code></td>
-                                    <td>${{ number_format($product->price, 2) }}</td>
+                                    <td>{{ config('admin.currency_symbol') }}{{ number_format($product->price, 2) }}</td>
                                     <td>{{ $product->bv }} / {{ $product->pv }}</td>
                                     <td>
                                         {{ $product->stock_quantity }}
-                                        @if ($product->stock_quantity < 10)
+                                        @if ($product->stock_quantity < config('admin.low_stock_threshold'))
                                             <span class="badge bg-label-warning ms-1">Low</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        @if ($product->is_active)
-                                            <span class="badge bg-label-success">Active</span>
-                                        @else
-                                            <span class="badge bg-label-secondary">Inactive</span>
-                                        @endif
-                                    </td>
+                                    <td><x-admin.status-badge :active="$product->is_active" /></td>
                                     <td>
                                         <div class="d-flex gap-1">
                                             <a href="{{ route('admin.products.show', $product) }}"
@@ -111,48 +101,16 @@
                                                 class="btn btn-sm btn-icon {{ $product->is_active ? 'btn-outline-warning' : 'btn-outline-success' }}"
                                                 data-bs-toggle="tooltip"
                                                 title="{{ $product->is_active ? 'Deactivate' : 'Activate' }}"
-                                                onclick="toggleProductStatus({{ $product->id }}, this)">
+                                                data-toggle-url="{{ route('admin.products.toggle-status', $product) }}"
+                                                onclick="toggleProductStatus(this)">
                                                 <i class="icon-base ti {{ $product->is_active ? 'tabler-pause' : 'tabler-play' }}"></i>
                                             </button>
                                             <button type="button" class="btn btn-sm btn-icon btn-outline-danger"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $product->id }}"
+                                                data-delete-name="{{ $product->name }}"
+                                                data-delete-url="{{ route('admin.products.destroy', $product) }}"
                                                 title="Delete">
                                                 <i class="icon-base ti tabler-trash"></i>
                                             </button>
-                                        </div>
-
-                                        <!-- Delete Modal -->
-                                        <div class="modal fade" id="deleteModal{{ $product->id }}" tabindex="-1"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <form method="POST"
-                                                    action="{{ route('admin.products.destroy', $product) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Confirm Delete</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Are you sure you want to delete the product
-                                                                "<strong>{{ $product->name }}</strong>"?</p>
-                                                            <p class="text-danger small">
-                                                                <i class="icon-base ti tabler-alert-triangle"></i>
-                                                                This action cannot be undone.
-                                                            </p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button"
-                                                                class="btn btn-outline-secondary"
-                                                                data-bs-dismiss="modal">Cancel</button>
-                                                            <button type="submit"
-                                                                class="btn btn-danger">Delete Product</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -181,40 +139,6 @@
             @endif
         </div>
     </div>
-@endsection
 
-@push('scripts')
-    <script>
-        async function toggleProductStatus(productId, button) {
-            const isActive = button.classList.contains('btn-outline-warning');
-            try {
-                const response = await fetch(`/admin/products/${productId}/toggle-status`, {
-                    method: 'PATCH',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                });
-                const data = await response.json();
-                if (data.success) {
-                    button.classList.toggle('btn-outline-warning', data.is_active);
-                    button.classList.toggle('btn-outline-success', !data.is_active);
-                    const icon = button.querySelector('i');
-                    icon.className = 'icon-base ti ' + (data.is_active ? 'tabler-pause' : 'tabler-play');
-                    button.setAttribute('title', data.is_active ? 'Deactivate' : 'Activate');
-                    // Update the status badge in the row
-                    const row = button.closest('tr');
-                    const badge = row.querySelector('.bg-label-success, .bg-label-secondary');
-                    if (badge) {
-                        badge.className = data.is_active ? 'badge bg-label-success' : 'badge bg-label-secondary';
-                        badge.textContent = data.is_active ? 'Active' : 'Inactive';
-                    }
-                } else {
-                    alert(data.message || 'Unable to toggle product status.');
-                }
-            } catch (e) {
-                alert('Network error. Please try again.');
-            }
-        }
-    </script>
-@endpush
+    @include('admin.partials.delete-modal')
+@endsection

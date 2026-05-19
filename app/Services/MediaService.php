@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
+use App\Contracts\Services\MediaServiceInterface;
 use App\Models\Media;
 use App\Repositories\MediaRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
-class MediaService
+class MediaService implements MediaServiceInterface
 {
     public function __construct(
         protected MediaRepository $repository
