@@ -204,6 +204,47 @@
         </li>
         <!-- e-commerce-app menu end -->
 
+        <!-- Product & Category Management -->
+        <li class="menu-header small mt-3">
+            <span class="menu-header-text" data-i18n="Catalog">Catalog</span>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon menu-icon icon-base ti tabler-tags"></i>
+                <div data-i18n="Categories">Categories</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ url('admin/categories') }}" class="menu-link">
+                        <div data-i18n="All Categories">All Categories</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.categories.create') }}" class="menu-link">
+                        <div data-i18n="Add Category">Add Category</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon menu-icon icon-base ti tabler-package"></i>
+                <div data-i18n="Products">Products</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ url('admin/products') }}" class="menu-link">
+                        <div data-i18n="All Products">All Products</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.products.create') }}" class="menu-link">
+                        <div data-i18n="Add Product">Add Product</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!-- Access Management -->
         <li class="menu-header small mt-3">
             <span class="menu-header-text" data-i18n="Access Management">Access Management</span>

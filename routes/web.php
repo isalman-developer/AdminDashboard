@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PermissionController;
@@ -24,6 +26,30 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
     Route::put('/profile', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
     Route::resource('settings', SettingsController::class)->only(['index', 'store']);
 
+    // ── Category Management ───────────────────────────────────────────────────
+    Route::prefix('categories')->name('categories.')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('index');
+        Route::get('/create', [CategoryController::class, 'create'])->name('create');
+        Route::post('/', [CategoryController::class, 'store'])->name('store');
+        Route::get('/{category}', [CategoryController::class, 'show'])->name('show');
+        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+    });
+
+    // ── Product Management ────────────────────────────────────────────────────
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/create', [ProductController::class, 'create'])->name('create');
+        Route::post('/', [ProductController::class, 'store'])->name('store');
+        Route::get('/{product}', [ProductController::class, 'show'])->name('show');
+        Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('edit');
+        Route::put('/{product}', [ProductController::class, 'update'])->name('update');
+        Route::patch('/{product}/toggle-status', [ProductController::class, 'toggleStatus'])
+            ->name('toggle-status');
+        Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
+    });
+
     // Role Management Routes
     Route::prefix('roles')->name('roles.')->group(function () {
         Route::get('/', [RoleController::class, 'index'])->name('index');
@@ -46,7 +72,7 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
         Route::delete('/{permission}', [PermissionController::class, 'destroy'])->name('destroy');
     });
 
-    // User Management - Roles & Permissions Assignment Routes
+    // User Management Routes
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserManagementController::class, 'index'])->name('index');
         Route::get('/create', [UserManagementController::class, 'create'])->name('create');

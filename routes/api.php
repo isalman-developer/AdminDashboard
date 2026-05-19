@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Test endpoint to check if API works
 Route::get('/health', function () {
     return response()->json([
-        'status' => 'ok',
-        'message' => 'Rehab API is running! 🚀',
+        'status'    => 'ok',
+        'message'   => 'MLM Referral Platform API is running',
         'timestamp' => now(),
+        'version'   => config('app.version', '1.0'),
     ]);
 });
