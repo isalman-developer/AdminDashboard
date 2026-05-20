@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\UserRepository;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
@@ -46,6 +48,24 @@ class UserService
         }
 
         return $user;
+    }
+
+    /**
+     * Update profile, password, and optional avatar in one atomic transaction.
+     *
+     * @param  array<string, mixed>  $validated
+     */
+    public function updateProfileFromRequest(array $validated, ?UploadedFile $avatar): User
+    {
+        return DB::transaction(function () use ($validated, $avatar): User {
+            $user = $this->updateProfile($validated);
+
+            if ($avatar !== null) {
+                $this->mediaService->replace($avatar, 'avatars', $user, 'avatar');
+            }
+
+            return $user;
+        });
     }
 
     /**

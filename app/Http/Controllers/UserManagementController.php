@@ -43,13 +43,7 @@ class UserManagementController extends Controller
      */
     public function store(CreateUserRequest $request, UserManagementService $userManagementService): RedirectResponse
     {
-        $validated = $request->validated();
-
-        $user = $userManagementService->createUser($validated);
-
-        if (! empty($validated['roles'])) {
-            $userManagementService->syncRolesAndPermissions($user, $validated['roles'], []);
-        }
+        $user = $userManagementService->createUserWithRoles($request->validated());
 
         return redirect()->route('admin.users.edit-roles', $user)
             ->with('success', 'User created and roles assigned successfully.');
@@ -109,8 +103,11 @@ class UserManagementController extends Controller
     /**
      * Remove specified role from user.
      */
-    public function removeRole(User $user, Role $role, UserManagementService $userManagementService): RedirectResponse
-    {
+    public function removeRole(
+        User $user,
+        Role $role,
+        UserManagementService $userManagementService
+    ): RedirectResponse {
         $userManagementService->removeRole($user, $role->name);
 
         return redirect()->route('admin.users.edit-roles', $user)
@@ -120,8 +117,11 @@ class UserManagementController extends Controller
     /**
      * Remove specified permission from user.
      */
-    public function removePermission(User $user, Permission $permission, UserManagementService $userManagementService): RedirectResponse
-    {
+    public function removePermission(
+        User $user,
+        Permission $permission,
+        UserManagementService $userManagementService
+    ): RedirectResponse {
         $userManagementService->removePermission($user, $permission->name);
 
         return redirect()->route('admin.users.edit-roles', $user)

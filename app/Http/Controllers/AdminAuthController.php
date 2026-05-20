@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\Auth\LoginRequest;
 use App\Http\Requests\Admin\Auth\UpdateProfileRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -24,14 +25,9 @@ class AdminAuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
+        if (Auth::attempt($request->validated(), $request->filled('remember'))) {
             $request->session()->regenerate();
 
             return redirect()->intended(route('admin.home'));
@@ -58,18 +54,14 @@ class AdminAuthController extends Controller
     /**
      * Update the admin profile.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function updateProfile(UpdateProfileRequest $request, UserService $userService)
     {
-        $validated = $request->validated();
-
-        $userService->updateProfile($validated);
-
-        if ($request->hasFile('avatar')) {
-            $userService->updateAvatar($request->file('avatar'));
-        }
+        $userService->updateProfileFromRequest(
+            $request->validated(),
+            $request->hasFile('avatar') ? $request->file('avatar') : null,
+        );
 
         return redirect()->route('admin.profile')
             ->with('success', 'Profile updated successfully.');

@@ -30,6 +30,14 @@ class RoleRepository extends BaseRepository
         return Role::where('name', $name)->first();
     }
 
+    /**
+     * Find a role by ID with permissions eagerly loaded.
+     */
+    public function findWithPermissions(int $id): ?Role
+    {
+        return Role::with('permissions')->find($id);
+    }
+
     public function create(array $data): Role
     {
         return Role::create([
@@ -56,13 +64,13 @@ class RoleRepository extends BaseRepository
         return Role::orderBy('name')->get();
     }
 
-    /** @param array<int>|null $permissionIds */
-    public function syncPermissions(Role $role, ?array $permissionIds): void
+    /**
+     * Sync resolved Permission models onto a role.
+     *
+     * @param  iterable<\Spatie\Permission\Models\Permission>  $permissions
+     */
+    public function syncPermissions(Role $role, iterable $permissions): void
     {
-        $permissions = ($permissionIds !== null && count($permissionIds) > 0)
-            ? \Spatie\Permission\Models\Permission::whereIn('id', $permissionIds)->get()
-            : [];
-
         $role->syncPermissions($permissions);
     }
 }

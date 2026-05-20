@@ -115,7 +115,8 @@ class SettingRepository
     }
 
     /**
-     * Create or update a setting.
+     * Create or update a setting.  Called exclusively by SettingService::set()
+     * which already guards reserved keys.  No business logic here.
      */
     public function set(string $key, string $value): Setting
     {

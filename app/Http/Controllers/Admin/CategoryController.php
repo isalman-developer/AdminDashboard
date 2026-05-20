@@ -47,9 +47,9 @@ class CategoryController extends Controller
     /**
      * Show a single category's detail view.
      */
-    public function show(Category $category): View
+    public function show(Category $category, CategoryService $categoryService): View
     {
-        $category->load('products');
+        $category = $categoryService->findWithProducts($category->id);
 
         return view('admin.categories.show', compact('category'));
     }

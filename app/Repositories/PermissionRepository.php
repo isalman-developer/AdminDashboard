@@ -51,6 +51,17 @@ class PermissionRepository extends BaseRepository
         return Permission::orderBy('name')->get();
     }
 
+    /**
+     * Fetch permission models by a list of IDs.
+     *
+     * @param  array<int>  $ids
+     * @return Collection<int, Permission>
+     */
+    public function findByIds(array $ids): Collection
+    {
+        return Permission::whereIn('id', $ids)->get();
+    }
+
     /** @return EloquentCollection<int, \Spatie\Permission\Models\Role> */
     public function getRoles(Permission $permission): EloquentCollection
     {

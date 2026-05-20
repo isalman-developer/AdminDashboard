@@ -69,10 +69,14 @@ class CategoryService
     }
 
     /**
-     * Delete a category.
+     * Delete a category. Returns false when the category still has products.
      */
     public function delete(Category $category): bool
     {
+        if ($this->repository->hasProducts($category)) {
+            return false;
+        }
+
         return $this->repository->delete($category);
     }
 

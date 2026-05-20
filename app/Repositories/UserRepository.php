@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Str;
 
 class UserRepository extends BaseRepository
 {
@@ -52,23 +51,22 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Create a new user with safe defaults for system-managed fields.
+     * Persist a fully-prepared user data array. Callers are responsible
+     * for supplying all required fields including referral_code and defaults.
      *
      * @param  array<string, mixed>  $data
      */
     public function create(array $data): User
     {
-        return User::create([
-            'name'              => $data['name'],
-            'username'          => $data['username'] ?? null,
-            'email'             => $data['email'],
-            'password'          => $data['password'],
-            'referral_code'     => $this->generateUniqueReferralCode(),
-            'parent_id'         => null,
-            'wallet_balance'    => 0,
-            'email_verified_at' => null,
-            'status'            => $data['status'],
-        ]);
+        return User::create($data);
+    }
+
+    /**
+     * Check whether a referral code is already taken.
+     */
+    public function referralCodeExists(string $code): bool
+    {
+        return User::where('referral_code', $code)->exists();
     }
 
     /**
@@ -105,12 +103,4 @@ class UserRepository extends BaseRepository
         return $user;
     }
 
-    private function generateUniqueReferralCode(): string
-    {
-        do {
-            $code = strtoupper(Str::random(8));
-        } while (User::where('referral_code', $code)->exists());
-
-        return $code;
-    }
 }

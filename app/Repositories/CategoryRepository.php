@@ -35,6 +35,11 @@ class CategoryRepository extends BaseRepository
         return Category::with('products')->find($id);
     }
 
+    public function hasProducts(Category $category): bool
+    {
+        return $category->products()->exists();
+    }
+
     /** @return Collection<int, Category> */
     public function allOrdered(): Collection
     {

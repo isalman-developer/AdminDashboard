@@ -136,8 +136,6 @@ class ProductService
      */
     public function toggleActive(Product $product): Product
     {
-        $product->update(['is_active' => ! $product->is_active]);
-
-        return $product;
+        return $this->repository->update($product, ['is_active' => ! $product->is_active]);
     }
 }

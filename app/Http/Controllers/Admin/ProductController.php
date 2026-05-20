@@ -7,13 +7,11 @@ use App\Http\Requests\Admin\Product\ProductStoreRequest;
 use App\Http\Requests\Admin\Product\ProductUpdateRequest;
 use App\Models\Product;
 use App\Services\CategoryService;
-use App\Services\MediaService;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Throwable;
 
 class ProductController extends Controller
 {
@@ -50,14 +48,7 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request, ProductService $productService): RedirectResponse
     {
-        try {
-            $productService->create($request->validated());
-        } catch (Throwable $e) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Failed to create product: ' . $e->getMessage());
-        }
+        $productService->create($request->validated());
 
         return redirect()
             ->route('admin.products.index')
@@ -92,14 +83,7 @@ class ProductController extends Controller
         Product $product,
         ProductService $productService
     ): RedirectResponse {
-        try {
-            $productService->update($product, $request->validated());
-        } catch (Throwable $e) {
-            return redirect()
-                ->route('admin.products.edit', $product)
-                ->withInput()
-                ->with('error', 'Failed to update product: ' . $e->getMessage());
-        }
+        $productService->update($product, $request->validated());
 
         return redirect()
             ->route('admin.products.index')

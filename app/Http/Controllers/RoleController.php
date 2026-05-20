@@ -30,10 +30,7 @@ class RoleController extends Controller
 
     public function store(RoleStoreRequest $request, RoleService $roleService): RedirectResponse
     {
-        $validated     = $request->validated();
-        $permissionIds = $validated['permissions'] ?? null;
-
-        $roleService->create(['name' => $validated['name'], 'guard_name' => 'web'], $permissionIds);
+        $roleService->createFromValidated($request->validated());
 
         return redirect()->route('admin.roles.index')
             ->with('success', 'Role created successfully.');
@@ -56,10 +53,7 @@ class RoleController extends Controller
 
     public function update(RoleUpdateRequest $request, Role $role, RoleService $roleService): RedirectResponse
     {
-        $validated     = $request->validated();
-        $permissionIds = $validated['permissions'] ?? null;
-
-        $roleService->update($role, ['name' => $validated['name']], $permissionIds);
+        $roleService->updateFromValidated($role, $request->validated());
 
         return redirect()->route('admin.roles.index')
             ->with('success', 'Role updated successfully.');
@@ -67,12 +61,8 @@ class RoleController extends Controller
 
     public function destroy(Role $role, RoleService $roleService): JsonResponse
     {
-        try {
-            $roleService->delete($role);
+        $roleService->delete($role);
 
-            return response()->json(['success' => true, 'message' => 'Role deleted successfully.']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Failed to delete role: '.$e->getMessage()], 500);
-        }
+        return response()->json(['success' => true, 'message' => 'Role deleted successfully.']);
     }
 }

@@ -24,6 +24,37 @@ class SettingService
     ) {}
 
     /**
+     * Return the four admin-form settings with their defaults.
+     *
+     * @return array<string, mixed>
+     */
+    public function getAdminFormSettings(): array
+    {
+        return [
+            'site_name'        => $this->get('site_name', config('app.name')),
+            'site_email'       => $this->get('site_email'),
+            'site_description' => $this->get('site_description'),
+            'items_per_page'   => $this->get('items_per_page', config('admin.pagination_per_page')),
+        ];
+    }
+
+    /**
+     * Persist admin-form settings from validated request data.
+     *
+     * @param  array<string, mixed>  $validated
+     * @return array<string, Setting>
+     */
+    public function saveAdminFormSettings(array $validated): array
+    {
+        return $this->setMultiple([
+            'site_name'        => $validated['site_name'],
+            'site_email'       => $validated['site_email'] ?? '',
+            'site_description' => $validated['site_description'] ?? '',
+            'items_per_page'   => (int) $validated['items_per_page'],
+        ]);
+    }
+
+    /**
      * Get a setting value by key.
      */
     public function get(string $key, mixed $default = null): mixed

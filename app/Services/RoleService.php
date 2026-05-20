@@ -3,13 +3,16 @@
 namespace App\Services;
 
 use App\Models\Role;
+use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class RoleService
 {
     public function __construct(
-        protected RoleRepository $repository
+        protected RoleRepository $repository,
+        protected PermissionRepository $permissionRepository,
     ) {}
 
     /**
@@ -23,16 +26,11 @@ class RoleService
     }
 
     /**
-     * Get a role by ID with permissions loaded.
+     * Get a role by ID with permissions loaded (delegated to repository).
      */
     public function findWithPermissions(int $id): ?Role
     {
-        $role = $this->repository->find($id);
-        if ($role) {
-            $role->load('permissions');
-        }
-
-        return $role;
+        return $this->repository->findWithPermissions($id);
     }
 
     /**
@@ -45,7 +43,7 @@ class RoleService
     {
         return DB::transaction(function () use ($data, $permissionIds): Role {
             $role = $this->repository->create($data);
-            $this->repository->syncPermissions($role, $permissionIds);
+            $this->repository->syncPermissions($role, $this->resolvePermissions($permissionIds));
 
             return $role;
         });
@@ -61,10 +59,53 @@ class RoleService
     {
         return DB::transaction(function () use ($role, $data, $permissionIds): Role {
             $this->repository->update($role, $data);
-            $this->repository->syncPermissions($role, $permissionIds);
+            $this->repository->syncPermissions($role, $this->resolvePermissions($permissionIds));
 
             return $role;
         });
+    }
+
+    /**
+     * Resolve an array of permission IDs to Permission models.
+     * Returns an empty collection when no IDs are provided.
+     *
+     * @param  array<int>|null  $permissionIds
+     * @return Collection<int, \Spatie\Permission\Models\Permission>
+     */
+    private function resolvePermissions(?array $permissionIds): Collection
+    {
+        if (empty($permissionIds)) {
+            return collect();
+        }
+
+        return $this->permissionRepository->findByIds($permissionIds);
+    }
+
+    /**
+     * Create a role from the validated form payload, applying the default guard.
+     *
+     * @param  array<string, mixed>  $validated
+     */
+    public function createFromValidated(array $validated): Role
+    {
+        return $this->create(
+            ['name' => $validated['name'], 'guard_name' => 'web'],
+            $validated['permissions'] ?? null,
+        );
+    }
+
+    /**
+     * Update a role from the validated form payload.
+     *
+     * @param  array<string, mixed>  $validated
+     */
+    public function updateFromValidated(Role $role, array $validated): Role
+    {
+        return $this->update(
+            $role,
+            ['name' => $validated['name']],
+            $validated['permissions'] ?? null,
+        );
     }
 
     /**
