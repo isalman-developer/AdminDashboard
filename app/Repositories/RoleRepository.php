@@ -2,12 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\RoleRepositoryInterface;
 use App\Models\Role;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class RoleRepository extends BaseRepository implements RoleRepositoryInterface
+class RoleRepository extends BaseRepository
 {
     protected function model(): string
     {

@@ -2,12 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\CategoryRepositoryInterface;
 use App\Models\Category;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
+class CategoryRepository extends BaseRepository
 {
     protected function model(): string
     {

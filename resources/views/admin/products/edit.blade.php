@@ -10,9 +10,9 @@
                     <h4 class="card-title mb-0">Product Information</h4>
                 </div>
                 <div class="card-body text-center">
-                    @if ($product->image_path)
+                    @if ($product->image)
                         <div class="avatar avatar-lg mx-auto mb-3 border rounded-circle p-2">
-                            <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}"
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                                 class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
                         </div>
                     @else
@@ -65,7 +65,7 @@
                 @csrf
                 @method('PUT')
 
-                @include('admin.products._form', ['product' => $product])
+                @include('admin.products.form', ['product' => $product])
 
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary">

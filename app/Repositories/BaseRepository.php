@@ -2,10 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Contracts\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-abstract class BaseRepository
+abstract class BaseRepository implements RepositoryInterface
 {
     abstract protected function model(): string;
 
@@ -39,12 +40,6 @@ abstract class BaseRepository
 
     public function delete(Model $model): bool
     {
-        try {
-            return (bool) $model->delete();
-        } catch (\Exception $e) {
-            report($e);
-
-            return false;
-        }
+        return (bool) $model->delete();
     }
 }

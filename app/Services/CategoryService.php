@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Contracts\Services\CategoryServiceInterface;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
-class CategoryService implements CategoryServiceInterface
+class CategoryService
 {
     public function __construct(
         protected CategoryRepository $repository
@@ -19,7 +19,7 @@ class CategoryService implements CategoryServiceInterface
      *
      * @return \Illuminate\Pagination\LengthAwarePaginator<int, Category>
      */
-    public function paginate(string $search = '', int $perPage = 10)
+    public function paginate(string $search = '', int $perPage = 10): LengthAwarePaginator
     {
         return $this->repository->paginate($search, $perPage);
     }

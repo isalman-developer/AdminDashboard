@@ -2,11 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\ProductRepositoryInterface;
 use App\Models\Product;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class ProductRepository extends BaseRepository implements ProductRepositoryInterface
+class ProductRepository extends BaseRepository
 {
     protected function model(): string
     {

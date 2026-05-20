@@ -2,11 +2,10 @@
 
 namespace App\Services;
 
-use App\Contracts\Services\PermissionServiceInterface;
 use App\Models\Permission;
 use App\Repositories\PermissionRepository;
 
-class PermissionService implements PermissionServiceInterface
+class PermissionService
 {
     public function __construct(
         protected PermissionRepository $repository

@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Contracts\Services\SettingServiceInterface;
 use App\Models\Setting;
 use App\Repositories\SettingRepository;
+use Illuminate\Support\Facades\DB;
 
-class SettingService implements SettingServiceInterface
+class SettingService
 {
     /**
      * Reserved setting keys that cannot be modified.
@@ -56,12 +56,14 @@ class SettingService implements SettingServiceInterface
      */
     public function setMultiple(array $settings): array
     {
-        $results = [];
-        foreach ($settings as $key => $value) {
-            $results[$key] = $this->set($key, $value);
-        }
+        return DB::transaction(function () use ($settings): array {
+            $results = [];
+            foreach ($settings as $key => $value) {
+                $results[$key] = $this->set($key, $value);
+            }
 
-        return $results;
+            return $results;
+        });
     }
 
     /**

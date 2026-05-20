@@ -2,18 +2,20 @@
 
 namespace App\Services;
 
-use App\Contracts\Repositories\PermissionRepositoryInterface;
-use App\Contracts\Repositories\RoleRepositoryInterface;
-use App\Contracts\Services\UserManagementServiceInterface;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
+use App\Repositories\PermissionRepository;
+use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\DB;
 
-class UserManagementService implements UserManagementServiceInterface
+class UserManagementService
 {
     public function __construct(
         protected UserRepository $repository,
-        protected RoleRepositoryInterface $roleRepository,
-        protected PermissionRepositoryInterface $permissionRepository,
+        protected RoleRepository $roleRepository,
+        protected PermissionRepository $permissionRepository,
     ) {}
 
     /**
@@ -68,8 +70,10 @@ class UserManagementService implements UserManagementServiceInterface
      */
     public function syncRolesAndPermissions(User $user, ?array $roleIds, ?array $permissionIds): void
     {
-        $user->syncRoles($roleIds ?? []);
-        $user->syncPermissions($permissionIds ?? []);
+        DB::transaction(function () use ($user, $roleIds, $permissionIds): void {
+            $user->syncRoles($roleIds ?? []);
+            $user->syncPermissions($permissionIds ?? []);
+        });
     }
 
     /**

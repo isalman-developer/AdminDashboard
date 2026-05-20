@@ -11,9 +11,9 @@
                     <h4 class="card-title mb-0">Product Details</h4>
                 </div>
                 <div class="card-body text-center">
-                    @if ($product->image_path)
+                    @if ($product->image)
                         <div class="avatar avatar-lg mx-auto mb-3 border rounded-circle p-2">
-                            <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}"
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                                 class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
                         </div>
                     @else
@@ -91,7 +91,7 @@
                 </div>
             </div>
 
-            @if ($product->image_path)
+            @if ($product->image)
                 <div class="card mb-4">
                     <div class="card-header">
                         <h4 class="card-title mb-0">
@@ -99,7 +99,7 @@
                         </h4>
                     </div>
                     <div class="card-body text-center">
-                        <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}"
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                             class="rounded" style="max-width: 300px; max-height: 300px;">
                     </div>
                 </div>

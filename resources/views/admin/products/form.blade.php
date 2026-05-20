@@ -102,21 +102,21 @@
             </div>
 
             <div class="col-md-12">
-                <label for="image_path" class="form-label">Product Image</label>
-                @if ($product?->image_path)
+                <label for="image" class="form-label">Product Image</label>
+                @if ($product?->image)
                     <div class="mb-2">
-                        <img src="{{ asset('storage/' . $product->image_path) }}"
+                        <img src="{{ asset('storage/' . $product->image) }}"
                             alt="{{ $product->name }}" class="rounded" style="max-height: 100px;">
                     </div>
                 @endif
-                <input type="file" class="form-control @error('image_path') is-invalid @enderror"
-                    id="image_path" name="image_path" accept="image/*">
+                <input type="file" class="form-control @error('image') is-invalid @enderror"
+                    id="image" name="image" accept="image/*">
                 <div class="form-text">
                     {{ $product
                         ? 'Leave blank to keep current image. Supported: JPEG, PNG, WebP. Max 2MB.'
                         : 'Supported formats: JPEG, PNG, WebP. Max 2MB.' }}
                 </div>
-                @error('image_path')
+                @error('image')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

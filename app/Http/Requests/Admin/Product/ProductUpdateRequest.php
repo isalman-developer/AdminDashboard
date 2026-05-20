@@ -39,7 +39,7 @@ class ProductUpdateRequest extends FormRequest
             'pv'             => ['required', 'integer', 'min:0'],
             'stock_quantity' => ['required', 'integer', 'min:0'],
             'is_active'      => ['boolean'],
-            'image_path'     => ['nullable', 'string', 'max:255'],
+            'image'     => ['nullable', 'file', 'image', 'max:2048'],
         ];
     }
 

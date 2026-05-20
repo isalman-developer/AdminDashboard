@@ -19,7 +19,7 @@ class Product extends Model
         'pv',
         'stock_quantity',
         'is_active',
-        'image_path',
+        'image',
     ];
 
     protected $casts = [
@@ -38,5 +38,10 @@ class Product extends Model
     public function inventory(): HasMany
     {
         return $this->hasMany(ProductInventory::class);
+    }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'mediable');
     }
 }

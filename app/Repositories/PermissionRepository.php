@@ -2,13 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\PermissionRepositoryInterface;
 use App\Models\Permission;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class PermissionRepository extends BaseRepository implements PermissionRepositoryInterface
+class PermissionRepository extends BaseRepository
 {
     protected function model(): string
     {

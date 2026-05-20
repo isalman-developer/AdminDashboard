@@ -56,12 +56,14 @@ class PermissionController extends Controller
 
     public function destroy(Permission $permission, PermissionService $permissionService): JsonResponse
     {
-        $success = $permissionService->delete($permission);
+        try {
+            $permissionService->delete($permission);
 
-        if (! $success) {
+            return response()->json(['success' => true, 'message' => 'Permission deleted successfully.']);
+        } catch (\Throwable $e) {
+            report($e);
+
             return response()->json(['success' => false, 'message' => 'Failed to delete permission.'], 500);
         }
-
-        return response()->json(['success' => true, 'message' => 'Permission deleted successfully.']);
     }
 }

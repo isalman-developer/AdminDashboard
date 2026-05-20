@@ -28,7 +28,7 @@
             <form method="POST" action="{{ route('admin.categories.store') }}">
                 @csrf
 
-                @include('admin.categories._form', ['category' => null])
+                @include('admin.categories.form', ['category' => null])
 
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-secondary">

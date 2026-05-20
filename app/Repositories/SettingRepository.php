@@ -2,11 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\SettingRepositoryInterface;
 use App\Models\Setting;
 use Illuminate\Contracts\Cache\Repository as Cache;
 
-class SettingRepository implements SettingRepositoryInterface
+class SettingRepository
 {
     protected const CACHE_PREFIX = 'setting.';
 

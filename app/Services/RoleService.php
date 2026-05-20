@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Contracts\Services\RoleServiceInterface;
 use App\Models\Role;
 use App\Repositories\RoleRepository;
+use Illuminate\Support\Facades\DB;
 
-class RoleService implements RoleServiceInterface
+class RoleService
 {
     public function __construct(
         protected RoleRepository $repository
@@ -43,10 +43,12 @@ class RoleService implements RoleServiceInterface
      */
     public function create(array $data, ?array $permissionIds = null): Role
     {
-        $role = $this->repository->create($data);
-        $this->repository->syncPermissions($role, $permissionIds);
+        return DB::transaction(function () use ($data, $permissionIds): Role {
+            $role = $this->repository->create($data);
+            $this->repository->syncPermissions($role, $permissionIds);
 
-        return $role;
+            return $role;
+        });
     }
 
     /**
@@ -57,10 +59,12 @@ class RoleService implements RoleServiceInterface
      */
     public function update(Role $role, array $data, ?array $permissionIds = null): Role
     {
-        $this->repository->update($role, $data);
-        $this->repository->syncPermissions($role, $permissionIds);
+        return DB::transaction(function () use ($role, $data, $permissionIds): Role {
+            $this->repository->update($role, $data);
+            $this->repository->syncPermissions($role, $permissionIds);
 
-        return $role;
+            return $role;
+        });
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\MediaRepositoryInterface;
 use App\Models\Media;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class MediaRepository implements MediaRepositoryInterface
+class MediaRepository
 {
     /**
      * Find a media record by ID.

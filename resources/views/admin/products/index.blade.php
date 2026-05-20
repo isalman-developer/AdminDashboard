@@ -68,7 +68,7 @@
                                 <tr>
                                     <td>
                                         <span class="fw-semibold">{{ $product->name }}</span>
-                                        @if ($product->image_path)
+                                        @if ($product->image)
                                             <br><small class="text-muted">
                                                 <i class="icon-base ti tabler-image"></i> Has image
                                             </small>

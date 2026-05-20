@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->unsignedInteger('pv')->default(0);
             $table->unsignedInteger('stock_quantity')->default(0);
             $table->boolean('is_active')->default(true);
-            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }
