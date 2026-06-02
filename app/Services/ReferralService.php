@@ -68,12 +68,15 @@ class ReferralService
     public function getReferralTree(User $user): array
     {
         $ancestors = $this->repository->getAncestry($user);
-        $children = $this->repository->getDirectReferrals($user);
+        $children  = $this->repository->getDirectReferrals($user);
+
+        // Eager-load grandchildren in one query to avoid N+1 when rendering level 2
+        $children->load('children');
 
         return [
-            'user' => $user,
+            'user'      => $user,
             'ancestors' => $ancestors,
-            'children' => $children,
+            'children'  => $children,
         ];
     }
 }
