@@ -46,7 +46,12 @@ class PermissionService
      */
     public function update(Permission $permission, array $data): Permission
     {
-        return $this->repository->update($permission, $data);
+        $this->repository->update($permission, [
+            'name'     => $data['name'],
+            'category' => $data['category'] ?? '',
+        ]);
+
+        return $permission;
     }
 
     /**

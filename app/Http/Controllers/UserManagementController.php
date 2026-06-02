@@ -43,7 +43,11 @@ class UserManagementController extends Controller
      */
     public function store(CreateUserRequest $request, UserManagementService $userManagementService): RedirectResponse
     {
-        $user = $userManagementService->createUserWithRoles($request->validated());
+        try {
+            $user = $userManagementService->createUserWithRoles($request->validated());
+        } catch (\InvalidArgumentException $e) {
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
 
         return redirect()->route('admin.users.edit-roles', $user)
             ->with('success', 'User created and roles assigned successfully.');
@@ -67,7 +71,7 @@ class UserManagementController extends Controller
 
         $userManagementService->updateProfile($user, $validated);
 
-        return redirect()->route('admin.users.edit', $user)
+        return redirect()->route('admin.users.index')
             ->with('success', 'User profile updated successfully.');
     }
 
@@ -126,5 +130,17 @@ class UserManagementController extends Controller
 
         return redirect()->route('admin.users.edit-roles', $user)
             ->with('success', 'Permission removed successfully.');
+    }
+
+    public function referrals(User $user, UserManagementService $userManagementService): RedirectResponse|View
+    {
+        try {
+            $tree = $userManagementService->getReferralTree($user);
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.users.index')
+                ->with('error', 'Unable to load referral tree for this user.');
+        }
+
+        return view('admin.users.referrals', compact('user', 'tree'));
     }
 }

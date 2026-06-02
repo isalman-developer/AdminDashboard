@@ -83,5 +83,6 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
         Route::put('/{user}/roles', [UserManagementController::class, 'updateRoles'])->name('update-roles');
         Route::delete('/{user}/roles/{role}', [UserManagementController::class, 'removeRole'])->name('remove-role');
         Route::delete('/{user}/permissions/{permission}', [UserManagementController::class, 'removePermission'])->name('remove-permission');
+        Route::get('/{user}/referrals', [UserManagementController::class, 'referrals'])->name('referrals');
     });
 });

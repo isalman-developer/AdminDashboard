@@ -35,16 +35,6 @@ class PermissionRepository extends BaseRepository
         ]);
     }
 
-    public function update(Permission $permission, array $data): Permission
-    {
-        $permission->update([
-            'name'     => $data['name'],
-            'category' => $data['category'] ?? '',
-        ]);
-
-        return $permission;
-    }
-
     /** @return Collection<int, Permission> */
     public function allOrdered(): Collection
     {

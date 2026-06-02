@@ -42,11 +42,8 @@ class ReferralService
 
     public function validateForRegistration(User $sponsor, User $user): void
     {
-        if ($user->exists) {
-            $this->ensureNotSelfReferral($sponsor, $user);
-            $this->ensureNoCircularChain($sponsor, $user);
-        }
-
+        $this->ensureNotSelfReferral($sponsor, $user);
+        $this->ensureNoCircularChain($sponsor, $user);
         $this->validateSponsorForNewUser($sponsor);
     }
 
@@ -63,7 +60,9 @@ class ReferralService
 
     public function buildReferralLink(string $referralCode): string
     {
-        return url('/register?ref=' . $referralCode);
+        $path = config('app.referral_register_path', '/register');
+
+        return url($path . '?ref=' . $referralCode);
     }
 
     public function getReferralTree(User $user): array

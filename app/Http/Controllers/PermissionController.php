@@ -46,8 +46,11 @@ class PermissionController extends Controller
         return view('admin.permissions.edit', compact('permission'));
     }
 
-    public function update(PermissionUpdateRequest $request, Permission $permission, PermissionService $permissionService): RedirectResponse
-    {
+    public function update(
+        PermissionUpdateRequest $request,
+        Permission $permission,
+        PermissionService $permissionService
+    ): RedirectResponse {
         $permissionService->update($permission, $request->validated());
 
         return redirect()->route('admin.permissions.index')

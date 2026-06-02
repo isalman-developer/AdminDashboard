@@ -13,11 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory()->count(10)->create();
-        $users->each(function ($user) {
-            $user->assignRole('User');
-        });
-
         $admin = User::factory()->create([
             'name' => 'Admin User',
             'username' => 'admin',
@@ -29,7 +24,14 @@ class UserSeeder extends Seeder
             'status' => 'active',
         ]);
 
-        // assign role to admin
         $admin->assignRole('Super Admin');
+
+        $users = User::factory()->count(10)->create([
+            'parent_id' => $admin->id,
+        ]);
+
+        $users->each(function ($user) {
+            $user->assignRole('User');
+        });
     }
 }

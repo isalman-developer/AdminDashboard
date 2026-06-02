@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Media;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -100,11 +99,6 @@ class MediaRepository
     // Private helpers
     // -------------------------------------------------------------------------
 
-    /**
-     * Store the file in storage/app/public/{folder}/{fileName} via the
-     * 'public' disk and return the relative path from the disk root,
-     * e.g. "avatars/abc123.jpg".
-     */
     private function storeInStorage(string $folder, string $fileName, UploadedFile $file): string
     {
         // storeAs on the 'public' disk puts the file in storage/app/public/{folder}/{fileName}

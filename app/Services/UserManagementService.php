@@ -8,8 +8,8 @@ use App\Models\User;
 use App\Repositories\PermissionRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\UserRepository;
+use App\Services\ReferralService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class UserManagementService
 {
@@ -17,6 +17,7 @@ class UserManagementService
         protected UserRepository $repository,
         protected RoleRepository $roleRepository,
         protected PermissionRepository $permissionRepository,
+        protected ReferralService $referralService,
     ) {}
 
     /**
@@ -96,37 +97,33 @@ class UserManagementService
         });
     }
 
-    /**
-     * Create a new user. Generates a unique referral_code and enforces
-     * safe defaults for system-managed fields (parent_id, wallet_balance, etc.).
-     *
-     * @param  array<string, mixed>  $data
-     */
     public function createUser(array $data): User
     {
+        $referralCode = $data['referral_code'] ?? null;
+        $parentId = null;
+
+        if (! empty($referralCode)) {
+            $sponsor = $this->referralService->findSponsorByCode($referralCode);
+
+            if ($sponsor === null) {
+                throw new \InvalidArgumentException('The provided referral code does not belong to any user.');
+            }
+
+            $this->referralService->validateSponsorForNewUser($sponsor);
+            $parentId = $sponsor->id;
+        }
+
         return $this->repository->create([
             'name'              => $data['name'],
             'username'          => $data['username'] ?? null,
             'email'             => $data['email'],
             'password'          => $data['password'],
-            'referral_code'     => $this->generateUniqueReferralCode(),
-            'parent_id'         => null,
+            'referral_code'     => $this->referralService->generateUniqueReferralCode(),
+            'parent_id'         => $parentId,
             'wallet_balance'    => 0,
             'email_verified_at' => null,
             'status'            => $data['status'],
         ]);
-    }
-
-    /**
-     * Generate a referral code that is guaranteed unique in the users table.
-     */
-    private function generateUniqueReferralCode(): string
-    {
-        do {
-            $code = strtoupper(Str::random(8));
-        } while ($this->repository->referralCodeExists($code));
-
-        return $code;
     }
 
     /**
@@ -167,5 +164,10 @@ class UserManagementService
     public function removePermission(User $user, string $permissionName): void
     {
         $user->removePermission($permissionName);
+    }
+
+    public function getReferralTree(User $user): array
+    {
+        return app(ReferralService::class)->getReferralTree($user);
     }
 }

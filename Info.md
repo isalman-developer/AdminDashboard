@@ -7,26 +7,26 @@ Document Type: Client-Facing Requirements & Technical Specification
 Last Updated: April 2026
 
 1. Executive Summary
-    1.1 Project Overview
-    The MLM & Referral Marketing Platform is a custom web-based application developed for a single client to manage referral and multi-level marketing (MLM) operations.
-    The system will provide a centralized platform to manage:
-    • Users and distributors
-    • Referral links and registrations
-    • MLM genealogy trees
-    • Products and packages
-    • Commission calculations
-    • Wallets and withdrawals
-    • Analytics and reporting
-    • Multi-language content and interface translations
-    The platform is designed as a financial-grade transactional system with strong auditability, scalability, security, and maintainability.
+   1.1 Project Overview
+   The MLM & Referral Marketing Platform is a custom web-based application developed for a single client to manage referral and multi-level marketing (MLM) operations.
+   The system will provide a centralized platform to manage:
+   • Users and distributors
+   • Referral links and registrations
+   • MLM genealogy trees
+   • Products and packages
+   • Commission calculations
+   • Wallets and withdrawals
+   • Analytics and reporting
+   • Multi-language content and interface translations
+   The platform is designed as a financial-grade transactional system with strong auditability, scalability, security, and maintainability.
 
 1.2 Business Objectives
 The platform aims to:
-    • Automate referral and MLM commission distribution.
-    • Support product sales and package upgrades.
-    • Deliver detailed analytics and reporting.
-    • Ensure regulatory compliance (GDPR, audit logging).
-    • Provide a multilingual web-based experience for administrators and members.
+• Automate referral and MLM commission distribution.
+• Support product sales and package upgrades.
+• Deliver detailed analytics and reporting.
+• Ensure regulatory compliance (GDPR, audit logging).
+• Provide a multilingual web-based experience for administrators and members.
 
 1.3 Target Users
 Super Admin
@@ -41,60 +41,60 @@ Support Team
 Handles customer inquiries and tickets.
 
 2. Scope of Work
-    Included in Scope
-    • Public website and registration flow
-    • Admin panel
-    • Member dashboard
-    • MLM engine
-    • Referral system
-    • Wallet and payout system
-    • Product and package management
-    • Analytics
-    • Multi-language support
-    • Audit logging
-    • GDPR features
-    Out of Scope (Phase 1)
-    • Native mobile applications
-    • Automated banking integrations
-    • Cryptocurrency payments
-    • Mobile applications
+   Included in Scope
+   • Public website and registration flow
+   • Admin panel
+   • Member dashboard
+   • MLM engine
+   • Referral system
+   • Wallet and payout system
+   • Product and package management
+   • Analytics
+   • Multi-language support
+   • Audit logging
+   • GDPR features
+   Out of Scope (Phase 1)
+   • Native mobile applications
+   • Automated banking integrations
+   • Cryptocurrency payments
+   • Mobile applications
 
 3. Technology Stack
-    Backend
-    • Laravel 12
-    • PHP 8.4
-    • PostgreSQL 16+
-    • Redis
-    • Laravel Horizon
-    • Laravel Queue Workers
-    Frontend
-    • Blade
-    • Tailwind CSS
-    • Livewire
-    • Alpine.js
-    Infrastructure
-    • Ubuntu Server
-    • Nginx
-    • Supervisor
-    • SSL via Let's Encrypt
-    Integrations
-    • Email (SMTP / SES)
+   Backend
+   • Laravel 12
+   • PHP 8.4
+   • PostgreSQL 16+
+   • Redis
+   • Laravel Horizon
+   • Laravel Queue Workers
+   Frontend
+   • Blade
+   • Tailwind CSS
+   • Livewire
+   • Alpine.js
+   Infrastructure
+   • Ubuntu Server
+   • Nginx
+   • Supervisor
+   • SSL via Let's Encrypt
+   Integrations
+   • Email (SMTP / SES)
 
 4. Functional Requirements
-    4.1 Authentication & Authorization
-    Features
-    • User registration
-    • Login/logout
-    • Password reset
-    • Email verification
-    • Two-factor authentication (optional)
-    • Role-based access control
-    Roles
-    • Super Admin
-    • Admin
-    • Finance Manager
-    • Support Agent
-    • Member
+   4.1 Authentication & Authorization
+   Features
+   • User registration
+   • Login/logout
+   • Password reset
+   • Email verification
+   • Two-factor authentication (optional)
+   • Role-based access control
+   Roles
+   • Super Admin
+   • Admin
+   • Finance Manager
+   • Support Agent
+   • Member
 
 4.2 User Management
 Admin Capabilities
@@ -236,78 +236,78 @@ Events:
 • Contact Page
 
 5. Non-Functional Requirements
-    Performance
-    • < 2 second average response time
-    • Queue-based background processing
-    • Optimized recursive queries
-    Scalability
-    • Support millions of commission records
-    • Horizontal queue scaling
-    Security
-    • OWASP best practices
-    • CSRF/XSS protection
-    • Rate limiting
-    • Encrypted sensitive data
-    Reliability
-    • Database transactions
-    • Idempotent jobs
-    • Daily backups
-    Usability
-    • Responsive web design
-    • Accessible UI
-    Compliance
-    • GDPR
-    • Audit logging
+   Performance
+   • < 2 second average response time
+   • Queue-based background processing
+   • Optimized recursive queries
+   Scalability
+   • Support millions of commission records
+   • Horizontal queue scaling
+   Security
+   • OWASP best practices
+   • CSRF/XSS protection
+   • Rate limiting
+   • Encrypted sensitive data
+   Reliability
+   • Database transactions
+   • Idempotent jobs
+   • Daily backups
+   Usability
+   • Responsive web design
+   • Accessible UI
+   Compliance
+   • GDPR
+   • Audit logging
 
 6. GDPR Compliance Requirements
-    • Consent capture
-    • Privacy policy acceptance
-    • Data export
-    • Right to erasure
-    • Data retention controls
+   • Consent capture
+   • Privacy policy acceptance
+   • Data export
+   • Right to erasure
+   • Data retention controls
 
 7. System Architecture
-    Architectural Pattern
-    • MVC + Service Layer
-    • Repository Pattern
-    • DTOs
-    • Domain Services
-    • Event-Driven Processing
-    Key Layers
-    • Controllers
-    • Form Requests
-    • Services
-    • Repositories
-    • Jobs
-    • Events & Listeners
-    • Policies
+   Architectural Pattern
+   • MVC + Service Layer
+   • Repository Pattern
+   • DTOs
+   • Domain Services
+   • Event-Driven Processing
+   Key Layers
+   • Controllers
+   • Form Requests
+   • Services
+   • Repositories
+   • Jobs
+   • Events & Listeners
+   • Policies
 
 8. Database Overview
-    Core Tables
-    • users
-    • roles
-    • permissions
-    • referral_codes
-    • tree_nodes
-    • packages
-    • products
-    • orders
-    • commissions
-    • wallets
-    • wallet_transactions
-    • withdrawals
-    • support_tickets
-    • notifications
-    • audit_logs
+   Core Tables
+   • users
+   • roles
+   • permissions
+   • referral_codes
+   • tree_nodes
+   • packages
+   • products
+   • orders
+   • commissions
+   • wallets
+   • wallet_transactions
+   • withdrawals
+   • support_tickets
+   • notifications
+   • audit_logs
 
 9. MLM Data Model
-    User Hierarchy
-    • sponsor_id
-    • placement_parent_id
-    • position (left/right)
-    Tree Storage
-    • Adjacency list for simplicity
-    • Optional closure table for performance
+   User Hierarchy
+   • sponsor_id
+   • placement_parent_id
+   • position (left/right)
+   Tree Storage
+   • Adjacency list for simplicity
+   • Optional closure table for performance
 
 10. Commission Calculation Rules
     Commission rules are configurable through the admin panel.
@@ -318,15 +318,7 @@ Events:
     • Maximum levels
     • Qualification requirements
 
-11. API Requirements (Optional)
-    REST APIs for:
-    • Authentication
-    • Dashboard data
-    • Wallet transactions
-    • Tree visualization
-    • Withdrawals
-
-12. User Interface Requirements
+11. User Interface Requirements
     Public Website
     • Home
     • About
@@ -345,7 +337,7 @@ Events:
     • User management
     • Commission settings
 
-13. Audit Logging
+12. Audit Logging
     Track:
     • Admin actions
     • Commission creation
@@ -353,7 +345,7 @@ Events:
     • Withdrawal approvals
     • Login attempts
 
-14. Development Phases
+13. Development Phases
     Phase 1 – Foundation
     • Authentication
     • Roles and permissions
@@ -377,17 +369,16 @@ Events:
     • Audit logs
     • Performance tuning
 
-15. Deliverables
+14. Deliverables
     • Source code
     • Database migrations
     • Seeders
-    • API documentation
     • Technical documentation
     • Deployment guide
     • Test suite
     • Admin/user manuals
 
-16. Testing Strategy
+15. Testing Strategy
     Automated Tests
     • Unit tests
     • Feature tests
@@ -396,13 +387,13 @@ Events:
     • User acceptance testing
     • Regression testing
 
-17. Deployment Requirements
+16. Deployment Requirements
     • CI/CD pipeline
     • Staging environment
     • Production environment
     • Monitoring and alerts
 
-18. Acceptance Criteria
+17. Acceptance Criteria
     The project will be accepted when:
     • All specified modules are implemented.
     • Commission calculations are accurate.
@@ -410,7 +401,7 @@ Events:
     • Multi-language support is fully functional.
     • Security and performance benchmarks are met.
 
-19. Risks & Mitigation
+18. Risks & Mitigation
     Risk
     Mitigation
     Complex commission logic
@@ -424,7 +415,7 @@ Events:
     Performance issues
     Queue workers and indexing
 
-20. Estimated Timeline
+19. Estimated Timeline
     Phase
     Duration
     Discovery & Planning
@@ -439,5 +430,5 @@ Events:
     1 week
     Total Estimated Duration: 12–18 weeks
 
-21. Conclusion
+20. Conclusion
     This MLM & Referral Marketing Platform is designed as a robust, scalable web application for a single client. It supports complex commission structures, referral hierarchies, multilingual content, and financial workflows. The architecture emphasizes maintainability, security, and extensibility, making it suitable for long-term business operations.

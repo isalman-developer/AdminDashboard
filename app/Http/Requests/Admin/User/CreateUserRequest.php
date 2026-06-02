@@ -34,6 +34,7 @@ class CreateUserRequest extends FormRequest
             ],
             'password' => ['required', 'confirmed', Password::min(8)],
             'status' => ['required', 'string', Rule::in(['active', 'inactive', 'blocked'])],
+            'referral_code' => ['nullable', 'string', 'max:255', 'exists:users,referral_code'],
             'roles' => ['nullable', 'array'],
             'roles.*' => ['exists:roles,name'],
         ];
@@ -42,10 +43,11 @@ class CreateUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'username.unique' => 'This username is already taken.',
-            'email.unique' => 'This email address is already in use.',
-            'password.confirmed' => 'The password confirmation does not match.',
-            'status.in' => 'Invalid status selected.',
+            'username.unique'        => 'This username is already taken.',
+            'email.unique'           => 'This email address is already in use.',
+            'password.confirmed'     => 'The password confirmation does not match.',
+            'status.in'              => 'Invalid status selected.',
+            'referral_code.exists'   => 'The referral code you entered does not exist.',
         ];
     }
 

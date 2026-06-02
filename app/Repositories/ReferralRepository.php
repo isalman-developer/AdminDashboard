@@ -12,6 +12,9 @@ class ReferralRepository extends BaseRepository
         return User::class;
     }
 
+    /** Columns fetched in referral queries — avoids pulling sensitive/heavy columns in tree traversals. */
+    private const TREE_COLUMNS = ['id', 'name', 'email', 'referral_code', 'parent_id', 'status', 'created_at'];
+
     public function findByReferralCode(string $code): ?User
     {
         return User::where('referral_code', $code)->first();
@@ -24,19 +27,26 @@ class ReferralRepository extends BaseRepository
 
     public function getDirectReferrals(User $user): Collection
     {
-        return User::where('parent_id', $user->id)
+        return User::select(self::TREE_COLUMNS)
+            ->where('parent_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->get();
     }
 
     public function getAncestry(User $user): Collection
     {
-        $ancestors = collect();
-        $current = $user->parent;
+        $ancestors = new Collection();
+        $currentId = $user->parent_id;
 
-        while ($current !== null) {
+        while ($currentId !== null) {
+            $current = User::select(self::TREE_COLUMNS)->find($currentId);
+
+            if ($current === null) {
+                break;
+            }
+
             $ancestors->push($current);
-            $current = $current->parent;
+            $currentId = $current->parent_id;
         }
 
         return $ancestors;
@@ -44,16 +54,18 @@ class ReferralRepository extends BaseRepository
 
     public function getDescendants(User $user): Collection
     {
-        $descendants = collect();
-        $queue = collect([$user]);
+        $descendants = new Collection();
+        $queue = [$user->id];
 
-        while ($queue->isNotEmpty()) {
-            $current = $queue->shift();
-            $children = $current->children;
+        while (! empty($queue)) {
+            $parentId = array_shift($queue);
+            $children = User::select(self::TREE_COLUMNS)
+                ->where('parent_id', $parentId)
+                ->get();
 
             foreach ($children as $child) {
                 $descendants->push($child);
-                $queue->push($child);
+                $queue[] = $child->id;
             }
         }
 

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Services\ReferralService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ReferralController extends Controller
 {
@@ -21,7 +20,7 @@ class ReferralController extends Controller
 
         return response()->json([
             'referral_code' => $user->referral_code,
-            'link' => $link,
+            'link'          => $link,
         ]);
     }
 
@@ -30,10 +29,12 @@ class ReferralController extends Controller
         $user = $request->user();
         $tree = $this->referralService->getReferralTree($user);
 
+        $safeFields = ['id', 'name', 'email', 'referral_code', 'status', 'created_at'];
+
         return response()->json([
-            'user' => $tree['user'],
-            'ancestors' => $tree['ancestors'],
-            'children' => $tree['children'],
+            'user'      => $tree['user']->only($safeFields),
+            'ancestors' => $tree['ancestors']->map->only($safeFields)->values(),
+            'children'  => $tree['children']->map->only($safeFields)->values(),
         ]);
     }
 }
