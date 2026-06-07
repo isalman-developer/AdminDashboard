@@ -138,7 +138,7 @@
                                 <h5>Category</h5>
                             </div>
                             <ul class="list-group">
-                                @foreach (config('brands') as $brand)
+                                @foreach ($brands as $brand)
                                     <li class="list-group-item">
                                                                         <a href="javascript:void(0);">{{ $brand['title'] ?? '' }}
                                                                             ({{ \App\Models\Product::whereStatus(true)->where('brand_id', $brand['id'])->count() }})
@@ -158,8 +158,8 @@
                                     @php
                                         $top_rated_products = App\Models\Product::where(['status' => true, 'marked_as_id' => '5'])
                                         ->select('id','title','price','series','brand_id')
-                                        ->with(['brand:id,title','files' => function($file){
-                                            $file->select('id','fileable_id','path');
+                                        ->with(['brand:id,title','media' => function($media){
+                                            $media->select('id','mediable_id','file_path');
                                         }])
                                         ->inRandomOrder()->take(3)->get();
                                     @endphp
@@ -170,7 +170,7 @@
                                                 <div class="col-md-4 col-sm-4 col-3">
                                                     <div class="mg-toprated-thumb-img">
                                                                 <a href="{{ route('products.show', $trproduct) }}">
-                                                                    <img src="{{ showImage($trproduct->files->first()->path ?? '') }}" alt="{{ $trproduct->id.'top-rated' }}">
+                                                                     <img src="{{ showImage($trproduct->media->first()->file_path ?? '') }}" alt="{{ $trproduct->id.'top-rated' }}">
                                                         </a>
                                                     </div>
                                                 </div>
@@ -199,8 +199,8 @@
                                 <div>
                                     @php
                                         $tdProduct = App\Models\Product::whereStatus(true)
-                                        ->with(['brand:id,title', 'files' => function($file){
-                                            $file->select('id','path');
+                                        ->with(['brand:id,title', 'media' => function($media){
+                                            $media->select('id','file_path');
                                         }])
                                         ->select('id','title','series','brand_id')->first();
                                     @endphp

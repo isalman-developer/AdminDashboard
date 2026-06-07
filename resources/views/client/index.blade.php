@@ -51,8 +51,8 @@
     <!--full width Slider section start here-->
     <div class="mg-slider-section">
 
-        @foreach (config('sliders') as $item)
-            <div class="mg-slide d-flex align-items-center" style="background-image: url({{ asset($item['path']) }});">
+        @foreach ($sliders as $item)
+            <div class="mg-slide d-flex align-items-center" style="background-image: url({{ asset($item->image) }});">
                 <div class='container mg-slider-text-box'>
                     <div class="mg-slide-text">
                         {{-- <span>I PHONE PRO</span>
@@ -282,22 +282,15 @@
     <div class="mg-container-fit-slider">
         <div class="container">
             <div class="mg-slider-section mg-padding-lr">
-                @foreach ($data['primary_products'] as $product)
-                    <div class="mg-slide d-flex align-items-center" style="background-image: url('{{ asset($product->files[0]->path) }}');">
+                @foreach ($sliders as $item)
+                    <div class="mg-slide d-flex align-items-center" style="background-image: url('{{ asset($item->image) }}');">
                         <div class='container mg-slider-text-box'>
                             <div class="mg-slide-text">
-                                <span>SUPER DEAL</span>
-                                <h2>{{ $product->title }}</h2>
-                                <div class="mg-rating">
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                    <span class="mg-review">(168 Reviews)</span>
-                                </div>
-                                <div class="mg-price mb-4 mb-sm-2"><span>{{ $product->price }}</span> </div>
-                                <a class="mg-shop-btn btn btn-default" href="shop.html">SHOP NOW <i class="fa-solid fa-angle-right"></i></a>
+                                {{-- <span>I PHONE PRO</span>
+                                <h2>And then the pro comes</h2>
+                                <p>Lorem Ipsum is simply dummy text of the<br>printing and typesetting industry.</p>
+                                <div class="mg-price mb-3">Starting from <span>$1,089</span></div>
+                                <a class="mg-shop-btn btn btn-default" href="shop.html">SHOP NOW <i class="fa-solid fa-angle-right"></i></a> --}}
                             </div>
                         </div>
                         <div></div>
@@ -311,7 +304,7 @@
     <!--Text with background image and carousel section start here-->
     <div id="myCarousel" class="carousel slide container" data-bs-ride="carousel">
         <div class="carousel-inner w-100">
-            @foreach (config('brands') as $key => $item)
+            @foreach ($brands as $key => $item)
                 <div class="carousel-item {{ $loop->index == 0 ? 'active' : '' }}">
                     <div class="col-md-3">
                         <div class="card card-body border-0">
@@ -336,8 +329,6 @@
     <?php
     if (count($data['top_deal_products']) > 0) {
         $top_deal = $data['top_deal_products'][0];
-    } elseif (count($data['random_products']) > 0) {
-        $top_deal = $data['random_products'][0];
     }
     ?>
     @isset($top_deal)
@@ -378,24 +369,8 @@
         </div>
     @endisset
     <!--Grid with small thumb and Text with background image section end here-->
-
-    <!--small banner section start here-->
-    @foreach ($data['grand_sale_product'] as $item)
-        <div class="mg-small-banner-section mg-padding-lr">
-            <div class="mg-small-banner-text-outer">
-                <div class="container">
-                    <div class="mg-small-banner-text-inner">
-                        <span>GRAND SALE</span>
-                        <h6>APPLE iPhone 13. Get 30% Off!</h6>
-                        <p>Lorem Ipsum is simply dummy text</p>
-                        <a class="btn btn-lg" href="shop.html">SHOP NOW <i class="fa-solid fa-angle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
-    <!--small banner section end here-->
 @endsection
+
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.19/jquery.touchSwipe.min.js"></script>
 

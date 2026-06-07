@@ -96,7 +96,7 @@
                             </a>
 
                             <ul class="dropdown-menu mg-dropdown-list" aria-labelledby="dropdownMenuLink">
-                                @foreach (config('brands') as $key => $brand)
+                                @foreach ($brands as $key => $brand)
                                     <li>
                                         <a class="dropdown-item mg-font-style" href="#">
                                             <i class="fa-solid fa-laptop"></i>

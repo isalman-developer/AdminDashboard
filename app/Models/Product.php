@@ -43,9 +43,9 @@ class Product extends Model
         return ucwords(str_replace('_', ' ', $value));
     }
 
-    public function files(): MorphMany
+    public function media(): MorphMany
     {
-        return $this->morphMany(Files::class, 'fileable');
+        return $this->morphMany(Media::class, 'mediable');
     }
 
     public function brand(): BelongsTo
@@ -70,6 +70,11 @@ class Product extends Model
 
     public function markedAs(): BelongsTo
     {
-        return $this->belongsTo(MarkedAs::class)->withDefault()->withTrashed();
+        return $this->belongsTo(MarkedAs::class)->withDefault();
+    }
+
+    public function getMarkedAsNameAttribute()
+    {
+        return $this->markedAs->name ?? 'Normal';
     }
 }

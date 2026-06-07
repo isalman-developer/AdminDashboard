@@ -104,8 +104,29 @@ class BrandService
         });
     }
 
+    /** @return array<int, array<string, mixed>> */
+    public function getClientBrands(): array
+    {
+        return Cache::remember('brands.client', 600, function () {
+            return Brand::query()
+                ->with('media')
+                ->where('is_active', true)
+                ->orderBy('name')
+                ->get()
+                ->map(fn ($brand) => [
+                    'id'    => $brand->id,
+                    'name'  => $brand->name,
+                    'slug'  => $brand->slug,
+                    'title' => $brand->name,
+                    'path'  => optional($brand->media->firstWhere('file_type', 'logo'))->file_path ?? '',
+                ])
+                ->all();
+        });
+    }
+
     public function flushCache(): void
     {
         Cache::forget('brands.ordered');
+        Cache::forget('brands.client');
     }
 }

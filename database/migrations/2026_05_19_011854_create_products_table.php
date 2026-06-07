@@ -19,6 +19,9 @@ return new class extends Migration {
             $table->unsignedInteger('pv')->default(0);
             $table->unsignedInteger('stock_quantity')->default(0);
             $table->boolean('is_active')->default(true);
+            $table->unsignedInteger('marked_as_id')->nullable()->default(1);
+            $table->boolean('status')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         // MediaRepository is stateless but registered as a singleton for consistency
         // with SettingRepository so both infrastructure repos share the same lifecycle.
-        $this->app->singleton(MediaRepository::class, fn () => new MediaRepository);
+        $this->app->singleton(MediaRepository::class, fn() => new MediaRepository);
         $this->app->singleton(MediaService::class, function ($app) {
             return new MediaService($app->make(MediaRepository::class));
         });

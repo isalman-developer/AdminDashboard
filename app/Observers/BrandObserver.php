@@ -32,5 +32,6 @@ class BrandObserver
     private function flushCache(): void
     {
         Cache::forget('brands.ordered');
+        Cache::forget('brands.client');
     }
 }

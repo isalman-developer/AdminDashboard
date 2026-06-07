@@ -16,6 +16,15 @@ class Brand extends Model
         'is_active',
     ];
 
+    protected static function booted()
+    {
+        static::saving(function (self $model) {
+            if (empty($model->slug) && ! empty($model->name)) {
+                $model->slug = str((string) $model->name)->slug();
+            }
+        });
+    }
+
     protected $casts = [
         'is_active' => 'boolean',
     ];

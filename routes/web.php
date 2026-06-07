@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\MarkedAsController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Client\HomeController;
@@ -11,18 +12,19 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('index');
+// Front-end / client routes (loaded first so /, /about-us, /contact-us, /products work without auth)
+require base_path('routes/client.php');
 
 // Admin Authentication Routes
-Route::middleware('guest:web')->group(function () {
+Route::middleware('guest:web')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AdminAuthController::class, 'login']);
 });
 
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout')->middleware('auth:web');
 
+// Authenticated admin routes
 Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function () {
-
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/profile', [AdminAuthController::class, 'profile'])->name('profile');
     Route::get('/profile/edit', [AdminAuthController::class, 'editProfile'])->name('profile.edit');
@@ -62,6 +64,13 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
         Route::patch('/{product}/toggle-status', [ProductController::class, 'toggleStatus'])
             ->name('toggle-status');
         Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
+    });
+
+    // ── Marker Management ─────────────────────────────────────────────────────
+    Route::prefix('markers')->name('markers.')->group(function () {
+        Route::get('/', [MarkedAsController::class, 'index'])->name('index');
+        Route::get('/{markedAs}/edit', [MarkedAsController::class, 'edit'])->name('edit');
+        Route::put('/{markedAs}', [MarkedAsController::class, 'update'])->name('update');
     });
 
     // Role Management Routes
