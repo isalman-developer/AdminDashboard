@@ -2,50 +2,74 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
+    use HasFactory, SoftDeletes;
+
     protected $fillable = [
         'category_id',
         'brand_id',
-        'name',
-        'slug',
-        'sku',
-        'description',
+        'title',
+        'series',
+        'ram',
+        'ram_type',
+        'storage',
+        'graphical_memory',
+        'backlight',
+        'screen_size',
+        'color',
         'price',
-        'stock_quantity',
-        'warranty_months',
-        'is_active',
-        'image',
+        'marked_as_id',
+        'generation_id',
+        'processor_id',
+        'processor_type',
+        'description',
     ];
 
-    protected $casts = [
-        'price' => 'decimal:2',
-        'stock_quantity' => 'integer',
-        'warranty_months' => 'integer',
-        'is_active' => 'boolean',
-    ];
-
-    public function category(): BelongsTo
+    public function getBackLightAttribute($value)
     {
-        return $this->belongsTo(Category::class);
+        return $value == 1 ? 'Yes' : 'No';
+    }
+
+    public function getMarkedAsAttribute($value)
+    {
+        return ucwords(str_replace('_', ' ', $value));
+    }
+
+    public function files(): MorphMany
+    {
+        return $this->morphMany(Files::class, 'fileable');
     }
 
     public function brand(): BelongsTo
     {
-        return $this->belongsTo(Brand::class);
+        return $this->belongsTo(Brand::class)->withDefault()->withTrashed();
     }
 
-    public function inventory(): HasMany
+    public function generation(): BelongsTo
     {
-        return $this->hasMany(ProductInventory::class);
+        return $this->belongsTo(Generation::class)->withDefault()->withTrashed();
     }
 
-    public function media()
+    public function processor(): BelongsTo
     {
-        return $this->morphMany(Media::class, 'mediable');
+        return $this->belongsTo(Processor::class)->withDefault()->withTrashed();
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class)->withDefault()->withTrashed();
+    }
+
+    public function markedAs(): BelongsTo
+    {
+        return $this->belongsTo(MarkedAs::class)->withDefault()->withTrashed();
     }
 }
