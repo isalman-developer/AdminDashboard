@@ -40,10 +40,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>Wallet</strong></td>
-                                <td>${{ number_format($user->wallet_balance, 2) }}</td>
-                            </tr>
-                            <tr>
                                 <td><strong>Joined</strong></td>
                                 <td>{{ $user->created_at->format('M d, Y') }}</td>
                             </tr>
@@ -137,36 +133,6 @@
                                 @enderror
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Non-Editable Fields -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">
-                            <i class="icon-base ti tabler-lock me-2"></i>System Fields (Read-Only)
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-muted small mb-3">The following fields are managed by the system and cannot be edited here</p>
-                        <table class="table table-sm table-borderless">
-                            <tr>
-                                <td style="width: 160px;"><strong>Referral Code</strong></td>
-                                <td class="text-muted">{{ $user->referral_code ?: 'N/A' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Wallet Balance</strong></td>
-                                <td class="text-muted">${{ number_format($user->wallet_balance, 2) }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Parent / Upline</strong></td>
-                                <td class="text-muted">{{ $user->parent?->name ?: 'None' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Password</strong></td>
-                                <td class="text-muted">Managed separately</td>
-                            </tr>
-                        </table>
                     </div>
                 </div>
 

@@ -6,19 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ProductStoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return $this->user()?->can('products.create') ?? false;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
@@ -27,9 +19,9 @@ class ProductStoreRequest extends FormRequest
             'sku'            => ['nullable', 'string', 'max:100', 'unique:products,sku'],
             'description'    => ['nullable', 'string'],
             'price'          => ['required', 'numeric', 'min:0'],
-            'bv'             => ['required', 'integer', 'min:0'],
-            'pv'             => ['required', 'integer', 'min:0'],
             'stock_quantity' => ['required', 'integer', 'min:0'],
+            'warranty_months' => ['nullable', 'integer', 'min:0'],
+            'discount_percent' => ['nullable', 'integer', 'min:0', 'max:100'],
             'is_active'      => ['boolean'],
             'image'          => ['nullable', 'file', 'image', 'max:2048'],
         ];

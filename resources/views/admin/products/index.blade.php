@@ -57,7 +57,8 @@
                                 <th>Category</th>
                                 <th>SKU</th>
                                 <th>Price</th>
-                                <th>BV / PV</th>
+                                <th>Warranty</th>
+                                <th>Discount</th>
                                 <th>Stock</th>
                                 <th>Status</th>
                                 <th style="width: 160px;">Actions</th>
@@ -76,8 +77,12 @@
                                     </td>
                                     <td>{{ $product->category?->name ?: '—' }}</td>
                                     <td><code>{{ $product->sku ?: '—' }}</code></td>
-                                    <td>{{ config('admin.currency_symbol') }}{{ number_format($product->price, 2) }}</td>
-                                    <td>{{ $product->bv }} / {{ $product->pv }}</td>
+                                    <td>{{ config('admin.currency_symbol') }}{{ number_format($product->price, 2) }}
+                                        @if ($product->discount_percent > 0)
+                                            <br><small class="text-success">-{{ $product->discount_percent }}%</small>
+                                        @endif
+                                    </td>
+                                    <td>{{ $product->warranty_months }} mo.</td>
                                     <td>
                                         {{ $product->stock_quantity }}
                                         @if ($product->stock_quantity < config('admin.low_stock_threshold'))

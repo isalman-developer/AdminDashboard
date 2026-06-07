@@ -38,10 +38,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><strong>Wallet</strong></td>
-                                <td>${{ number_format($user->wallet_balance, 2) }}</td>
-                            </tr>
-                            <tr>
                                 <td><strong>Joined</strong></td>
                                 <td>{{ $user->created_at->format('M d, Y') }}</td>
                             </tr>

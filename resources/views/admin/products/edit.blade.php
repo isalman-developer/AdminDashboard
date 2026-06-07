@@ -39,8 +39,12 @@
                                 <td>{{ config('admin.currency_symbol') }}{{ number_format($product->price, 2) }}</td>
                             </tr>
                             <tr>
-                                <td><strong>BV / PV</strong></td>
-                                <td>{{ $product->bv }} / {{ $product->pv }}</td>
+                                <td><strong>Warranty</strong></td>
+                                <td>{{ $product->warranty_months }} months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Discount</strong></td>
+                                <td>{{ $product->discount_percent }}%</td>
                             </tr>
                             <tr>
                                 <td><strong>Stock</strong></td>

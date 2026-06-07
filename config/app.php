@@ -54,8 +54,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'referral_register_path' => env('REFERRAL_REGISTER_PATH', '/register'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

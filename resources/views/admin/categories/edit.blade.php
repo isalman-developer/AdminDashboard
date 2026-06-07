@@ -47,7 +47,7 @@
                 @csrf
                 @method('PUT')
 
-                @include('admin.categoriesform', ['category' => $category])
+                @include('admin.categories.form', ['category' => $category])
 
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('admin.categories.index') }}" class="btn btn-outline-secondary">

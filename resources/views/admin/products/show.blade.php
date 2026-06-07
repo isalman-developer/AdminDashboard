@@ -41,11 +41,19 @@
                             </tr>
                             <tr>
                                 <td><strong>Price</strong></td>
-                                <td>${{ number_format($product->price, 2) }}</td>
+                                <td>${{ number_format($product->price, 2) }}
+                                    @if ($product->discount_percent > 0)
+                                        <br><small class="text-success">-{{ $product->discount_percent }}% off</small>
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
-                                <td><strong>BV / PV</strong></td>
-                                <td>{{ $product->bv }} / {{ $product->pv }}</td>
+                                <td><strong>Warranty</strong></td>
+                                <td>{{ $product->warranty_months }} months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Discount</strong></td>
+                                <td>{{ $product->discount_percent }}%</td>
                             </tr>
                             <tr>
                                 <td><strong>Stock</strong></td>

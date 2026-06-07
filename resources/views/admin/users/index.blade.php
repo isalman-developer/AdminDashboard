@@ -131,11 +131,6 @@
                                                 title="Manage Roles">
                                                 <i class="icon-base ti tabler-user-cog"></i>
                                             </a>
-                                            <a href="{{ route('admin.users.referrals', $user) }}"
-                                                class="btn btn-sm btn-icon btn-outline-success" data-bs-toggle="tooltip"
-                                                title="Referral Tree">
-                                                <i class="icon-base ti tabler-sitemap"></i>
-                                            </a>
                                             <button type="button" class="btn btn-sm btn-icon btn-outline-secondary"
                                                 data-bs-toggle="modal" data-bs-target="#viewModal-{{ $user->id }}"
                                                 title="View">
@@ -181,12 +176,8 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><strong>Wallet Balance</strong></td>
-                                                                <td>${{ number_format($user->wallet_balance, 2) }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><strong>Referral Code</strong></td>
-                                                                <td>{{ $user->referral_code ?: 'N/A' }}</td>
+                                                                <td><strong>Joined</strong></td>
+                                                                <td>{{ $user->created_at->format('M d, Y') }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td><strong>Roles</strong></td>
@@ -204,10 +195,6 @@
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <a href="{{ route('admin.users.referrals', $user) }}"
-                                                            class="btn btn-outline-success">
-                                                            <i class="icon-base ti tabler-sitemap me-1"></i> Referral Tree
-                                                        </a>
                                                         <a href="{{ route('admin.users.edit-roles', $user) }}"
                                                             class="btn btn-primary">
                                                             <i class="icon-base ti tabler-user-cog me-1"></i> Manage Roles

@@ -159,11 +159,6 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="app-ecommerce-referral.html" class="menu-link">
-                        <div data-i18n="Referrals">Referrals</div>
-                    </a>
-                </li>
-                <li class="menu-item">
                     <a href="javascript:void(0);" class="menu-link menu-toggle">
                         <div data-i18n="Settings">Settings</div>
                     </a>

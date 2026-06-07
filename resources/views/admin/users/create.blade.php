@@ -4,47 +4,8 @@
 
 @section('content')
     <div class="row">
-        <!-- Sidebar -->
-        <div class="col-lg-4 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title mb-0">New User</h4>
-                </div>
-                <div class="card-body text-center">
-                    <div class="avatar avatar-lg mx-auto mb-3">
-                        <span class="avatar-initial bg-label-success rounded-circle" style="font-size: 2.5rem;">
-                            <i class="icon-base ti tabler-user-plus"></i>
-                        </span>
-                    </div>
-                    <h5>Fill in the details</h5>
-                    <p class="text-muted mb-3">Complete the form to create a new user account.</p>
-
-                    <div class="text-start">
-                        <table class="table table-sm table-borderless">
-                            <tr>
-                                <td style="width: 140px;"><strong>Referral Code</strong></td>
-                                <td><span id="generatedReferral" class="badge bg-label-secondary">Auto-generated</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Wallet Balance</strong></td>
-                                <td class="text-muted">$0.00</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Parent / Upline</strong></td>
-                                <td class="text-muted">None (set later)</td>
-                            </tr>
-                        </table>
-                    </div>
-
-                    <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary btn-sm mt-2">
-                        <i class="icon-base ti tabler-arrow-left me-1"></i> Back to Users
-                    </a>
-                </div>
-            </div>
-        </div>
-
         <!-- Create Form Column -->
-        <div class="col-lg-8">
+        <div class="col-lg-12">
             <form method="POST" action="{{ route('admin.users.store') }}">
                 @csrf
 
@@ -176,33 +137,6 @@
                             <p class="text-muted">No roles available. <a href="{{ route('admin.roles.create') }}">Create
                                     a role first</a>.</p>
                         @endif
-                    </div>
-                </div>
-
-                <!-- System Fields Note -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">
-                            <i class="icon-base ti tabler-lock me-2"></i>Auto-Managed Fields
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-muted small mb-3">These fields are set automatically and cannot be changed through
-                            this form</p>
-                        <table class="table table-sm table-borderless">
-                            <tr>
-                                <td style="width: 160px;"><strong>Referral Code</strong></td>
-                                <td class="text-muted">Generated automatically on creation</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Wallet Balance</strong></td>
-                                <td class="text-muted">Starts at $0.00 for new users</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Parent / Upline</strong></td>
-                                <td class="text-muted">None — can be assigned later</td>
-                            </tr>
-                        </table>
                     </div>
                 </div>
 

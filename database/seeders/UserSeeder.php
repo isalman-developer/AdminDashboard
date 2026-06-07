@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $admin = User::factory()->create([
@@ -18,16 +15,13 @@ class UserSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('12345678'),
-            'referral_code' => 'admin',
-            'parent_id' => null,
-            'wallet_balance' => 0,
             'status' => 'active',
         ]);
 
         $admin->assignRole('Super Admin');
 
         $users = User::factory()->count(10)->create([
-            'parent_id' => $admin->id,
+            'status' => 'active',
         ]);
 
         $users->each(function ($user) {

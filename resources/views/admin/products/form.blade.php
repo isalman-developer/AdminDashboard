@@ -73,19 +73,21 @@
             </div>
 
             <div class="col-md-4">
-                <label for="bv" class="form-label">BV</label>
-                <input type="number" min="0" class="form-control @error('bv') is-invalid @enderror"
-                    id="bv" name="bv" value="{{ old('bv', $product?->bv ?? 0) }}">
-                @error('bv')
+                <label for="warranty_months" class="form-label">Warranty (Months)</label>
+                <input type="number" min="0" class="form-control @error('warranty_months') is-invalid @enderror"
+                    id="warranty_months" name="warranty_months"
+                    value="{{ old('warranty_months', $product?->warranty_months ?? 12) }}">
+                @error('warranty_months')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
 
             <div class="col-md-4">
-                <label for="pv" class="form-label">PV</label>
-                <input type="number" min="0" class="form-control @error('pv') is-invalid @enderror"
-                    id="pv" name="pv" value="{{ old('pv', $product?->pv ?? 0) }}">
-                @error('pv')
+                <label for="discount_percent" class="form-label">Discount (%)</label>
+                <input type="number" min="0" max="100" class="form-control @error('discount_percent') is-invalid @enderror"
+                    id="discount_percent" name="discount_percent"
+                    value="{{ old('discount_percent', $product?->discount_percent ?? 0) }}">
+                @error('discount_percent')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

@@ -11,29 +11,29 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name'        => 'Health & Wellness',
-                'slug'        => 'health-wellness',
-                'description' => 'Nutritional supplements, vitamins, and health products.',
+                'name'        => 'Gaming Laptops',
+                'slug'        => 'gaming-laptops',
+                'description' => 'High-performance gaming laptops with dedicated graphics.',
             ],
             [
-                'name'        => 'Beauty & Personal Care',
-                'slug'        => 'beauty-personal-care',
-                'description' => 'Skincare, haircare, and personal grooming products.',
+                'name'        => 'Business Laptops',
+                'slug'        => 'business-laptops',
+                'description' => 'Reliable business laptops built for productivity and security.',
             ],
             [
-                'name'        => 'Home & Lifestyle',
-                'slug'        => 'home-lifestyle',
-                'description' => 'Home essentials, cleaning supplies, and lifestyle products.',
+                'name'        => 'Ultrabooks',
+                'slug'        => 'ultrabooks',
+                'description' => 'Thin-and-light laptops combining portability with performance.',
             ],
             [
-                'name'        => 'Technology & Gadgets',
-                'slug'        => 'technology-gadgets',
-                'description' => 'Consumer electronics, accessories, and smart devices.',
+                'name'        => 'Workstation Laptops',
+                'slug'        => 'workstation-laptops',
+                'description' => 'Professional-grade workstations for engineering and creative workloads.',
             ],
             [
-                'name'        => 'Finance & Business',
-                'slug'        => 'finance-business',
-                'description' => 'Business tools, financial products, and training materials.',
+                'name'        => '2-in-1 Laptops',
+                'slug'        => '2-in-1-laptops',
+                'description' => 'Versatile convertible and detachable laptop-tablet hybrids.',
             ],
         ];
 

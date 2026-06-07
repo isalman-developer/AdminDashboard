@@ -12,20 +12,11 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
-    /**
-     * Return the authenticated user.
-     */
     public function authUser(): User
     {
         return auth()->user();
     }
 
-    /**
-     * List users with optional search, role filter, and status filter.
-     * Roles are eagerly loaded.
-     *
-     * @return LengthAwarePaginator<int, User>
-     */
     public function paginateWithFilters(
         string $search = '',
         ?string $roleFilter = null,
@@ -50,30 +41,11 @@ class UserRepository extends BaseRepository
             ->withQueryString();
     }
 
-    /**
-     * Persist a fully-prepared user data array. Callers are responsible
-     * for supplying all required fields including referral_code and defaults.
-     *
-     * @param  array<string, mixed>  $data
-     */
     public function create(array $data): User
     {
         return User::create($data);
     }
 
-    /**
-     * Check whether a referral code is already taken.
-     */
-    public function referralCodeExists(string $code): bool
-    {
-        return User::where('referral_code', $code)->exists();
-    }
-
-    /**
-     * Update basic profile fields (name, username, email, status).
-     *
-     * @param  array<string, mixed>  $data
-     */
     public function updateProfile(User $user, array $data): User
     {
         $user->name  = $data['name'];
@@ -92,9 +64,6 @@ class UserRepository extends BaseRepository
         return $user;
     }
 
-    /**
-     * Update the user's password.
-     */
     public function updatePassword(User $user, string $hashedPassword): User
     {
         $user->password = $hashedPassword;
@@ -102,5 +71,4 @@ class UserRepository extends BaseRepository
 
         return $user;
     }
-
 }

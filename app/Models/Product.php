@@ -15,19 +15,19 @@ class Product extends Model
         'sku',
         'description',
         'price',
-        'bv',
-        'pv',
         'stock_quantity',
+        'warranty_months',
+        'discount_percent',
         'is_active',
         'image',
     ];
 
     protected $casts = [
-        'price'         => 'decimal:2',
-        'bv'            => 'integer',
-        'pv'            => 'integer',
-        'stock_quantity'=> 'integer',
-        'is_active'     => 'boolean',
+        'price'            => 'decimal:2',
+        'stock_quantity'   => 'integer',
+        'warranty_months'  => 'integer',
+        'discount_percent' => 'integer',
+        'is_active'        => 'boolean',
     ];
 
     public function category(): BelongsTo
