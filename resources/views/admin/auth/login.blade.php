@@ -61,7 +61,7 @@
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1">Welcome to {{ config('app.name') }}! 👋</h4>
+                        <h4 class="mb-1">Welcome to Dashboard! 👋</h4>
                         <p class="mb-6">Please sign-in to your account and start the adventure</p>
 
                         <form id="formAuthentication" class="mb-4" action="{{ route('login') }}" method="POST">

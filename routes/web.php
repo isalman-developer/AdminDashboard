@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminAuthController;
@@ -25,6 +26,17 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
     Route::get('/profile/edit', [AdminAuthController::class, 'editProfile'])->name('profile.edit');
     Route::put('/profile', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
     Route::resource('settings', SettingsController::class)->only(['index', 'store']);
+
+    // ── Brand Management ──────────────────────────────────────────────────────
+    Route::prefix('brands')->name('brands.')->group(function () {
+        Route::get('/', [BrandController::class, 'index'])->name('index');
+        Route::get('/create', [BrandController::class, 'create'])->name('create');
+        Route::post('/', [BrandController::class, 'store'])->name('store');
+        Route::get('/{brand}', [BrandController::class, 'show'])->name('show');
+        Route::get('/{brand}/edit', [BrandController::class, 'edit'])->name('edit');
+        Route::put('/{brand}', [BrandController::class, 'update'])->name('update');
+        Route::delete('/{brand}', [BrandController::class, 'destroy'])->name('destroy');
+    });
 
     // ── Category Management ───────────────────────────────────────────────────
     Route::prefix('categories')->name('categories.')->group(function () {

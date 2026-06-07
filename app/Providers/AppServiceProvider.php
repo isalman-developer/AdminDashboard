@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Media;
 use App\Models\Product;
 use App\Models\Setting;
+use App\Observers\BrandObserver;
 use App\Observers\CategoryObserver;
 use App\Observers\MediaObserver;
 use App\Observers\ProductObserver;
@@ -46,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         Setting::observe(SettingObserver::class);
         Media::observe(MediaObserver::class);
+        Brand::observe(BrandObserver::class);
         Category::observe(CategoryObserver::class);
         Product::observe(ProductObserver::class);
     }

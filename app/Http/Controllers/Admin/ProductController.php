@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Product\ProductStoreRequest;
 use App\Http\Requests\Admin\Product\ProductUpdateRequest;
 use App\Models\Product;
+use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
@@ -15,37 +16,33 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a paginated, searchable listing of products.
-     */
-    public function index(Request $request, ProductService $productService, CategoryService $categoryService): View
+    public function index(Request $request, ProductService $productService, CategoryService $categoryService, BrandService $brandService): View
     {
-        $search     = (string) ($request->get('search') ?? '');
+        $search = (string) ($request->get('search') ?? '');
         $categoryId = $request->get('category_id') ? (int) $request->get('category_id') : null;
-        $products   = $productService->paginate($search, $categoryId);
+        $brandId = $request->get('brand_id') ? (int) $request->get('brand_id') : null;
+        $products = $productService->paginate($search, $categoryId, $brandId);
         $categories = $categoryService->allOrdered();
+        $brands = $brandService->allOrdered();
 
         return view('admin.products.index', compact(
             'products',
             'search',
             'categoryId',
-            'categories'
+            'brandId',
+            'categories',
+            'brands'
         ));
     }
 
-    /**
-     * Show the product creation form.
-     */
-    public function create(CategoryService $categoryService): View
+    public function create(CategoryService $categoryService, BrandService $brandService): View
     {
         $categories = $categoryService->allOrdered();
+        $brands = $brandService->allOrdered();
 
-        return view('admin.products.create', compact('categories'));
+        return view('admin.products.create', compact('categories', 'brands'));
     }
 
-    /**
-     * Handle a new product POST from the creation form.
-     */
     public function store(ProductStoreRequest $request, ProductService $productService): RedirectResponse
     {
         $productService->create($request->validated());
@@ -55,9 +52,6 @@ class ProductController extends Controller
             ->with('success', 'Product created successfully.');
     }
 
-    /**
-     * Show a single product's detail view.
-     */
     public function show(Product $product, ProductService $productService): View
     {
         $product = $productService->find($product->id);
@@ -65,19 +59,14 @@ class ProductController extends Controller
         return view('admin.products.show', compact('product'));
     }
 
-    /**
-     * Show the product edit form.
-     */
-    public function edit(Product $product, CategoryService $categoryService): View
+    public function edit(Product $product, CategoryService $categoryService, BrandService $brandService): View
     {
         $categories = $categoryService->allOrdered();
+        $brands = $brandService->allOrdered();
 
-        return view('admin.products.edit', compact('product', 'categories'));
+        return view('admin.products.edit', compact('product', 'categories', 'brands'));
     }
 
-    /**
-     * Handle a product update PUT from the edit form.
-     */
     public function update(
         ProductUpdateRequest $request,
         Product $product,
@@ -90,9 +79,6 @@ class ProductController extends Controller
             ->with('success', 'Product updated successfully.');
     }
 
-    /**
-     * Toggle a product's active / inactive status via AJAX.
-     */
     public function toggleStatus(
         Product $product,
         ProductService $productService
@@ -100,31 +86,22 @@ class ProductController extends Controller
         $product = $productService->toggleActive($product);
 
         return response()->json([
-            'success'  => true,
+            'success' => true,
             'is_active' => (bool) $product->is_active,
-            'message'  => $product->is_active
+            'message' => $product->is_active
                 ? 'Product activated.'
                 : 'Product deactivated.',
         ]);
     }
 
-    /**
-     * Soft / hard delete a product via AJAX.
-     */
-    public function destroy(Product $product, ProductService $productService): JsonResponse
+    public function destroy(Product $product, ProductService $productService): RedirectResponse
     {
         $isDeleted = $productService->delete($product);
 
         if ($isDeleted) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Product deleted successfully.',
-            ], 200);
+            return redirect()->back()->with('success', 'Product deleted successfully.');
         }
 
-        return response()->json([
-            'success' => false,
-            'message' => 'Unable to delete product. It may have existing transactions or orders.',
-        ], 422);
+        return redirect()->back()->with('error', 'Unable to delete product. It may have existing transactions or orders.');
     }
 }

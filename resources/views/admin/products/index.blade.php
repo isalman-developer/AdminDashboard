@@ -12,7 +12,7 @@
         </div>
         <div class="card-body">
             <div class="row mb-4">
-                <div class="col-md-8">
+                <div class="col-md-5">
                     <form method="GET" action="{{ route('admin.products.index') }}" class="d-flex gap-2">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Search products..."
@@ -21,7 +21,7 @@
                                 <i class="icon-base ti tabler-search"></i>
                             </button>
                         </div>
-                        @if ($search || $categoryId)
+                        @if ($search || $categoryId || $brandId)
                             <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary">
                                 <i class="icon-base ti tabler-x"></i>
                             </a>
@@ -43,6 +43,29 @@
                             @if ($search)
                                 <input type="hidden" name="search" value="{{ $search }}">
                             @endif
+                            @if ($brandId)
+                                <input type="hidden" name="brand_id" value="{{ $brandId }}">
+                            @endif
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3">
+                    <form method="GET" action="{{ route('admin.products.index') }}">
+                        <div class="input-group">
+                            <select name="brand_id" class="form-select" onchange="this.form.submit()">
+                                <option value="">All Brands</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}" {{ $brandId == $brand->id ? 'selected' : '' }}>
+                                        {{ $brand->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @if ($search)
+                                <input type="hidden" name="search" value="{{ $search }}">
+                            @endif
+                            @if ($categoryId)
+                                <input type="hidden" name="category_id" value="{{ $categoryId }}">
+                            @endif
                         </div>
                     </form>
                 </div>
@@ -55,10 +78,10 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Category</th>
+                                <th>Brand</th>
                                 <th>SKU</th>
                                 <th>Price</th>
                                 <th>Warranty</th>
-                                <th>Discount</th>
                                 <th>Stock</th>
                                 <th>Status</th>
                                 <th style="width: 160px;">Actions</th>
@@ -76,12 +99,9 @@
                                         @endif
                                     </td>
                                     <td>{{ $product->category?->name ?: '—' }}</td>
+                                    <td>{{ $product->brand?->name ?: '—' }}</td>
                                     <td><code>{{ $product->sku ?: '—' }}</code></td>
-                                    <td>{{ config('admin.currency_symbol') }}{{ number_format($product->price, 2) }}
-                                        @if ($product->discount_percent > 0)
-                                            <br><small class="text-success">-{{ $product->discount_percent }}%</small>
-                                        @endif
-                                    </td>
+                                    <td>{{ config('admin.currency_symbol') }}{{ number_format($product->price, 2) }}</td>
                                     <td>{{ $product->warranty_months }} mo.</td>
                                     <td>
                                         {{ $product->stock_quantity }}
@@ -108,7 +128,8 @@
                                                 title="{{ $product->is_active ? 'Deactivate' : 'Activate' }}"
                                                 data-toggle-url="{{ route('admin.products.toggle-status', $product) }}"
                                                 onclick="toggleProductStatus(this)">
-                                                <i class="icon-base ti {{ $product->is_active ? 'tabler-pause' : 'tabler-play' }}"></i>
+                                                <i
+                                                    class="icon-base ti {{ $product->is_active ? 'tabler-pause' : 'tabler-play' }}"></i>
                                             </button>
                                             <button type="button" class="btn btn-sm btn-icon btn-outline-danger"
                                                 data-delete-name="{{ $product->name }}"

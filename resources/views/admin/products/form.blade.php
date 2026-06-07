@@ -13,9 +13,9 @@
 
         <div class="row g-3">
             <div class="col-md-12">
-                <label for="category_id" class="form-label">Category</label>
+                <label for="category_id" class="form-label">Category <span class="text-danger">*</span></label>
                 <select class="form-select @error('category_id') is-invalid @enderror"
-                    id="category_id" name="category_id">
+                    id="category_id" name="category_id" required>
                     <option value="">Select a category</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}"
@@ -25,6 +25,23 @@
                     @endforeach
                 </select>
                 @error('category_id')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col-md-12">
+                <label for="brand_id" class="form-label">Brand <span class="text-danger">*</span></label>
+                <select class="form-select @error('brand_id') is-invalid @enderror"
+                    id="brand_id" name="brand_id" required>
+                    <option value="">Select a brand</option>
+                    @foreach ($brands as $brand)
+                        <option value="{{ $brand->id }}"
+                            {{ old('brand_id', $product?->brand_id) == $brand->id ? 'selected' : '' }}>
+                            {{ $brand->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('brand_id')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
@@ -78,16 +95,6 @@
                     id="warranty_months" name="warranty_months"
                     value="{{ old('warranty_months', $product?->warranty_months ?? 12) }}">
                 @error('warranty_months')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="col-md-4">
-                <label for="discount_percent" class="form-label">Discount (%)</label>
-                <input type="number" min="0" max="100" class="form-control @error('discount_percent') is-invalid @enderror"
-                    id="discount_percent" name="discount_percent"
-                    value="{{ old('discount_percent', $product?->discount_percent ?? 0) }}">
-                @error('discount_percent')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>

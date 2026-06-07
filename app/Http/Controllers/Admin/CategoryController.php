@@ -50,7 +50,6 @@ class CategoryController extends Controller
     public function show(Category $category, CategoryService $categoryService): View
     {
         $category = $categoryService->findWithProducts($category->id);
-
         return view('admin.categories.show', compact('category'));
     }
 
@@ -80,20 +79,14 @@ class CategoryController extends Controller
     /**
      * Soft / hard delete a category via AJAX (JSON).
      */
-    public function destroy(Category $category, CategoryService $categoryService): JsonResponse
+    public function destroy(Category $category, CategoryService $categoryService): RedirectResponse
     {
         $isCategoryDeleted = $categoryService->delete($category);
 
         if ($isCategoryDeleted) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Category deleted successfully.',
-            ], 200);
+            return redirect()->back()->with('success', 'Category deleted successfully.');
         }
 
-        return response()->json([
-            'success' => false,
-            'message' => 'Unable to delete category. It may have associated products.',
-        ], 422);
+        return redirect()->back()->with('error', 'Unable to delete category. It may have associated products.');
     }
 }

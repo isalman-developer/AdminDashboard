@@ -12,10 +12,10 @@ class ProductRepository extends BaseRepository
         return Product::class;
     }
 
-    /** @return LengthAwarePaginator<int, Product> */
     public function paginate(
         string $search = '',
         ?int $categoryId = null,
+        ?int $brandId = null,
         int $perPage = 10
     ): LengthAwarePaginator {
         return Product::when($search, function ($query) use ($search) {
@@ -24,7 +24,8 @@ class ProductRepository extends BaseRepository
                 ->orWhere('description', 'like', "%{$search}%");
         })
             ->when($categoryId, fn ($q) => $q->where('category_id', $categoryId))
-            ->with('category')
+            ->when($brandId, fn ($q) => $q->where('brand_id', $brandId))
+            ->with(['category', 'brand'])
             ->orderBy('name', 'asc')
             ->paginate($perPage)
             ->withQueryString();

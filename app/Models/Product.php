@@ -10,6 +10,7 @@ class Product extends Model
 {
     protected $fillable = [
         'category_id',
+        'brand_id',
         'name',
         'slug',
         'sku',
@@ -17,22 +18,25 @@ class Product extends Model
         'price',
         'stock_quantity',
         'warranty_months',
-        'discount_percent',
         'is_active',
         'image',
     ];
 
     protected $casts = [
-        'price'            => 'decimal:2',
-        'stock_quantity'   => 'integer',
-        'warranty_months'  => 'integer',
-        'discount_percent' => 'integer',
-        'is_active'        => 'boolean',
+        'price' => 'decimal:2',
+        'stock_quantity' => 'integer',
+        'warranty_months' => 'integer',
+        'is_active' => 'boolean',
     ];
 
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
     }
 
     public function inventory(): HasMany

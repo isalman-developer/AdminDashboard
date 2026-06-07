@@ -43,10 +43,6 @@
                                 <td>{{ $product->warranty_months }} months</td>
                             </tr>
                             <tr>
-                                <td><strong>Discount</strong></td>
-                                <td>{{ $product->discount_percent }}%</td>
-                            </tr>
-                            <tr>
                                 <td><strong>Stock</strong></td>
                                 <td>{{ $product->stock_quantity }}</td>
                             </tr>
