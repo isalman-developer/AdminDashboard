@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         $admin = User::factory()->create([
             'name' => 'Admin User',
             'username' => 'admin',
-            'email' => 'admin@mlm.com',
+            'email' => 'admin@admin.com',
             'password' => Hash::make('12345678'),
             'referral_code' => 'admin',
             'parent_id' => null,

@@ -11,7 +11,7 @@ Route::middleware('auth:sanctum')->prefix('referral')->group(function () {
 Route::get('/health', function () {
     return response()->json([
         'status'    => 'ok',
-        'message'   => 'MLM Referral Platform API is running',
+        'message'   => 'Referral Platform API is running',
         'timestamp' => now(),
         'version'   => config('app.version', '1.0'),
     ]);

@@ -16,7 +16,7 @@ class SettingsSeeder extends Seeder
             // General Settings
             [
                 'key' => 'site_name',
-                'value' => 'MLM Admin Dashboard',
+                'value' => 'Admin Dashboard',
             ],
             [
                 'key' => 'support_email',
