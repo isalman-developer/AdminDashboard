@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -51,16 +50,6 @@ class Product extends Model
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class)->withDefault();
-    }
-
-    public function generation(): BelongsTo
-    {
-        return $this->belongsTo(Generation::class)->withDefault();
-    }
-
-    public function processor(): BelongsTo
-    {
-        return $this->belongsTo(Processor::class)->withDefault();
     }
 
     public function category(): BelongsTo

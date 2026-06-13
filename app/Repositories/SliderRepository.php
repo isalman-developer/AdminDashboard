@@ -17,7 +17,8 @@ class SliderRepository
 
     public function paginate(string $search = '', int $perPage = 10)
     {
-        return Slider::when($search, function ($query) use ($search) {
+        return Slider::with('media')
+            ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('title', 'like', "%{$search}%")
                       ->orWhere('subtitle', 'like', "%{$search}%");
@@ -30,7 +31,7 @@ class SliderRepository
 
     public function find(int $id): ?Slider
     {
-        return Slider::find($id);
+        return Slider::with('media')->find($id);
     }
 
     public function create(array $data): Slider

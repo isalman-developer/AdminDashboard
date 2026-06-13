@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MarkedAsController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\PermissionController;
@@ -64,6 +65,16 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
         Route::patch('/{product}/toggle-status', [ProductController::class, 'toggleStatus'])
             ->name('toggle-status');
         Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
+    });
+
+    // ── Slider Management ────────────────────────────────────────────────────
+    Route::prefix('sliders')->name('sliders.')->group(function () {
+        Route::get('/', [SliderController::class, 'index'])->name('index');
+        Route::get('/create', [SliderController::class, 'create'])->name('create');
+        Route::post('/', [SliderController::class, 'store'])->name('store');
+        Route::get('/{slider}/edit', [SliderController::class, 'edit'])->name('edit');
+        Route::put('/{slider}', [SliderController::class, 'update'])->name('update');
+        Route::delete('/{slider}', [SliderController::class, 'destroy'])->name('destroy');
     });
 
     // ── Marker Management ─────────────────────────────────────────────────────

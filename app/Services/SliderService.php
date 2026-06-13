@@ -19,6 +19,11 @@ class SliderService
         return $this->repository->paginate($search, $perPage);
     }
 
+    public function find(int $id): ?Slider
+    {
+        return $this->repository->find($id);
+    }
+
     public function create(array $data): Slider
     {
         $image = $data['image'] ?? null;
@@ -28,8 +33,7 @@ class SliderService
             $slider = $this->repository->create($data);
 
             if ($image instanceof UploadedFile) {
-                $media = $this->mediaService->upload($image, 'sliders', $slider, 'image');
-                $this->repository->update($slider, ['image' => $media->file_path]);
+                $this->mediaService->upload($image, 'sliders', $slider, 'image');
             }
 
             return $slider->fresh();
@@ -47,8 +51,7 @@ class SliderService
             ->all();
 
         if ($image instanceof UploadedFile) {
-            $replaced = $this->mediaService->replace($image, 'sliders', $slider, 'image');
-            $data['image'] = $replaced->file_path;
+            $this->mediaService->replace($image, 'sliders', $slider, 'image');
         }
 
         try {

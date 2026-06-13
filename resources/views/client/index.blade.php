@@ -55,11 +55,11 @@
             <div class="mg-slide d-flex align-items-center" style="background-image: url({{ asset($item->image_path) }});">
                 <div class='container mg-slider-text-box'>
                     <div class="mg-slide-text">
-                        {{-- <span>I PHONE PRO</span>
-                        <h2>And then the pro comes</h2>
-                        <p>Lorem Ipsum is simply dummy text of the<br>printing and typesetting industry.</p>
-                        <div class="mg-price mb-3">Starting from <span>$1,089</span></div>
-                        <a class="mg-shop-btn btn btn-default" href="shop.html">SHOP NOW <i class="fa-solid fa-angle-right"></i></a> --}}
+                        <span>{{ $item->title }}</span>
+                        <h2>{{ $item->subtitle }}</h2>
+                        <div class="mg-price mb-3">Starting from <span>$1,000</span></div>
+                        <a class="mg-shop-btn btn btn-default" href="{{ route('products.index') }}">SHOP NOW <i
+                                class="fa-solid fa-angle-right"></i></a>
                     </div>
                 </div>
                 <div></div>
@@ -93,7 +93,8 @@
                                         {{ $item->brand->title }}
                                     </strong>
                                     <br>
-                                    <a class="btn btn-lg mt-4" href="shop.html">Shop Now <i class="fa-solid fa-angle-right"></i></a>
+                                    <a class="btn btn-lg mt-4" href="shop.html">Shop Now <i
+                                            class="fa-solid fa-angle-right"></i></a>
                                 </div>
                                 <div></div>
                             </div>
@@ -111,22 +112,25 @@
             <div class="mg-section-heading text-center">
                 <h5>Top Deals Of The Day</h5>
                 <span>
-                    Experience incredible savings with our "Top Deals of the Day." Discover handpicked discounts on fashion, electronics, home decor, and more. Don't miss out on limited-time offers,
-                    ensuring you get the best products at unbeatable prices. Shop now and indulge in a rewarding shopping experience on our ecommerce website.
+                    Experience incredible savings with our "Top Deals of the Day." Discover handpicked discounts on fashion,
+                    electronics, home decor, and more. Don't miss out on limited-time offers,
+                    ensuring you get the best products at unbeatable prices. Shop now and indulge in a rewarding shopping
+                    experience on our ecommerce website.
                 </span>
             </div>
             <div class="mg-tabs-box mt-3">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="Featured-tab" data-bs-toggle="tab" data-bs-target="#Featured" type="button" role="tab" aria-controls="Featured"
-                            aria-selected="true">FEATURED</button>
+                        <button class="nav-link active" id="Featured-tab" data-bs-toggle="tab" data-bs-target="#Featured"
+                            type="button" role="tab" aria-controls="Featured" aria-selected="true">FEATURED</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="Toprated-tab" data-bs-toggle="tab" data-bs-target="#Top-rated" type="button" role="tab" aria-controls="Top-rated"
-                            aria-selected="false">TOP RATED</button>
+                        <button class="nav-link" id="Toprated-tab" data-bs-toggle="tab" data-bs-target="#Top-rated"
+                            type="button" role="tab" aria-controls="Top-rated" aria-selected="false">TOP RATED</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="Bestseller-tab" data-bs-toggle="tab" data-bs-target="#Bestseller" type="button" role="tab" aria-controls="Bestseller"
+                        <button class="nav-link" id="Bestseller-tab" data-bs-toggle="tab" data-bs-target="#Bestseller"
+                            type="button" role="tab" aria-controls="Bestseller"
                             aria-selected="false">BESTSELLER</button>
                     </li>
                 </ul>
@@ -153,7 +157,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="mg-tab-text mt-3">
-                                                    <div class="mg-tab-text-top d-flex justify-content-between align-items-center">
+                                                    <div
+                                                        class="mg-tab-text-top d-flex justify-content-between align-items-center">
                                                         <div class="mg-small-heading">
                                                             <a class="text-decoration-none" href="shop.html">
                                                                 <span>
@@ -200,7 +205,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="mg-tab-text mt-3">
-                                                    <div class="mg-tab-text-top d-flex justify-content-between align-items-center">
+                                                    <div
+                                                        class="mg-tab-text-top d-flex justify-content-between align-items-center">
                                                         <div class="mg-small-heading">
                                                             <a class="text-decoration-none" href="shop.html">
                                                                 <span>
@@ -247,7 +253,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="mg-tab-text mt-3">
-                                                    <div class="mg-tab-text-top d-flex justify-content-between align-items-center">
+                                                    <div
+                                                        class="mg-tab-text-top d-flex justify-content-between align-items-center">
                                                         <div class="mg-small-heading">
                                                             <a class="text-decoration-none" href="shop.html">
                                                                 <span>
@@ -283,12 +290,13 @@
         <div class="container">
             <div class="mg-slider-section mg-padding-lr">
                 @foreach ($sliders as $item)
-                    <div class="mg-slide d-flex align-items-center" style="background-image: url('{{ asset($item->image) }}');">
+                    <div class="mg-slide d-flex align-items-center"
+                        style="background-image: url('{{ asset($item->image_path) }}');">
                         <div class='container mg-slider-text-box'>
                             <div class="mg-slide-text">
                                 {{-- <span>I PHONE PRO</span>
                                 <h2>And then the pro comes</h2>
-                                <p>Lorem Ipsum is simply dummy text of the<br>printing and typesetting industry.</p>
+                        <p>Power through work, creation, and play with premium laptops<br>engineered for speed, display quality, and all-day battery life.</p>
                                 <div class="mg-price mb-3">Starting from <span>$1,089</span></div>
                                 <a class="mg-shop-btn btn btn-default" href="shop.html">SHOP NOW <i class="fa-solid fa-angle-right"></i></a> --}}
                             </div>
@@ -345,7 +353,8 @@
                     </div>
 
                     <div class="col-md-4 mg-margin-tb">
-                        <div class="mg-text-bg-style2" style="background-image: url({{ showImage($top_deal->files[0]->path) }})">
+                        <div class="mg-text-bg-style2"
+                            style="background-image: url({{ showImage($top_deal->files[0]->path) }})">
                             <div class="mg-img-bg-text">
                                 <div>
                                     <span>TOP DEALS</span>

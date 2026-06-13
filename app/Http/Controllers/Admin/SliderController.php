@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\SliderStoreRequest;
+use App\Http\Requests\Admin\SliderUpdateRequest;
 use App\Services\SliderService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -24,48 +25,38 @@ class SliderController extends Controller
         return view('admin.sliders.create');
     }
 
-    public function store(Request $request, SliderService $sliderService): RedirectResponse
+    public function store(SliderStoreRequest $request, SliderService $sliderService): RedirectResponse
     {
-        $validated = $request->validate([
-            'title' => ['nullable', 'string', 'max:255'],
-            'subtitle' => ['nullable', 'string', 'max:255'],
-            'link' => ['nullable', 'url', 'max:2048'],
-            'image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'],
-            'status' => ['boolean'],
-        ]);
-
-        $validated['status'] = $request->has('status');
+        $validated = $request->validated();
+        $validated['status'] = $request->boolean('status');
 
         $sliderService->create($validated);
 
         return redirect()->route('admin.sliders.index')->with('success', 'Slider created successfully.');
     }
 
-    public function show(string $id)
-    {
-        //
-    }
 
-    public function edit(int $id, SliderService $sliderService): View
+    public function edit(int $id, SliderService $sliderService): View|RedirectResponse
     {
         $slider = $sliderService->find($id);
+
+        if (! $slider) {
+            return redirect()->route('admin.sliders.index')->with('error', 'Slider not found.');
+        }
 
         return view('admin.sliders.edit', compact('slider'));
     }
 
-    public function update(Request $request, int $id, SliderService $sliderService): RedirectResponse
+    public function update(SliderUpdateRequest $request, int $id, SliderService $sliderService): RedirectResponse
     {
         $slider = $sliderService->find($id);
 
-        $validated = $request->validate([
-            'title' => ['nullable', 'string', 'max:255'],
-            'subtitle' => ['nullable', 'string', 'max:255'],
-            'link' => ['nullable', 'url', 'max:2048'],
-            'image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,avif', 'max:4096'],
-            'status' => ['boolean'],
-        ]);
+        if (! $slider) {
+            return redirect()->route('admin.sliders.index')->with('error', 'Slider not found.');
+        }
 
-        $validated['status'] = $request->has('status');
+        $validated = $request->validated();
+        $validated['status'] = $request->boolean('status');
 
         $sliderService->update($slider, $validated);
 
@@ -76,8 +67,16 @@ class SliderController extends Controller
     {
         $slider = $sliderService->find($id);
 
-        $sliderService->delete($slider);
+        if (! $slider) {
+            return redirect()->route('admin.sliders.index')->with('error', 'Slider not found.');
+        }
 
-        return redirect()->route('admin.sliders.index')->with('success', 'Slider deleted successfully.');
+        $isDeleted = $sliderService->delete($slider);
+
+        if ($isDeleted) {
+            return redirect()->route('admin.sliders.index')->with('success', 'Slider deleted successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Unable to delete slider. Please try again.');
     }
 }

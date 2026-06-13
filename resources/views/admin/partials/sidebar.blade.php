@@ -257,6 +257,24 @@
                 </li>
             </ul>
         </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon menu-icon icon-base ti tabler-slideshow"></i>
+                <div data-i18n="Sliders">Sliders</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ url('admin/sliders') }}" class="menu-link">
+                        <div data-i18n="All Sliders">All Sliders</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ route('admin.sliders.create') }}" class="menu-link">
+                        <div data-i18n="Add Slider">Add Slider</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
         <!-- Access Management -->
         <li class="menu-header small mt-3">
