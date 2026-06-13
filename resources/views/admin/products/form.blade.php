@@ -111,23 +111,50 @@
             </div>
 
             <div class="col-md-12">
-                <label for="image" class="form-label">Product Image</label>
-                @if ($product?->image)
-                    <div class="mb-2">
-                        <img src="{{ asset('storage/' . $product->image) }}"
-                            alt="{{ $product->name }}" class="rounded" style="max-height: 100px;">
+                <label class="form-label">Product Images</label>
+
+                {{-- Existing images (edit mode only) --}}
+                @if ($product && $product->media->isNotEmpty())
+                    <div class="mb-3">
+                        <p class="text-muted small mb-2">Current images — click <strong>×</strong> to mark for removal:</p>
+                        <div class="d-flex flex-wrap gap-2" id="existing-images-container">
+                            @foreach ($product->media as $media)
+                                <div class="position-relative" id="existing-{{ $media->id }}">
+                                    <img src="{{ Storage::url($media->file_path) }}"
+                                        id="thumb-{{ $media->id }}"
+                                        style="width:80px;height:80px;object-fit:cover;"
+                                        class="rounded border">
+                                    <button type="button"
+                                        onclick="removeExistingImage({{ $media->id }})"
+                                        class="btn btn-danger position-absolute top-0 end-0 rounded-circle p-0 lh-1"
+                                        style="width:20px;height:20px;font-size:13px;">×</button>
+                                    <input type="checkbox" name="remove_image_ids[]"
+                                        value="{{ $media->id }}"
+                                        id="remove-{{ $media->id }}"
+                                        class="d-none">
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 @endif
-                <input type="file" class="form-control @error('image') is-invalid @enderror"
-                    id="image" name="image" accept="image/*">
-                <div class="form-text">
-                    {{ $product
-                        ? 'Leave blank to keep current image. Supported: JPEG, PNG, WebP. Max 2MB.'
-                        : 'Supported formats: JPEG, PNG, WebP. Max 2MB.' }}
+
+                {{-- New image upload --}}
+                <div class="mb-2">
+                    <button type="button" class="btn btn-outline-secondary btn-sm"
+                        onclick="document.getElementById('images-input').click()">
+                        <i class="icon-base ti tabler-photo-plus me-1"></i>
+                        {{ $product ? 'Add More Images' : 'Select Images' }}
+                    </button>
+                    <input type="file" id="images-input" name="images[]"
+                        multiple accept="image/*" class="d-none">
+                    <div class="form-text mt-1">Supported: JPEG, PNG, WebP. Max 2MB per image.</div>
+                    @error('images.*')
+                        <div class="text-danger small mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
-                @error('image')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+
+                {{-- New image previews --}}
+                <div id="new-image-previews" class="d-flex flex-wrap gap-2 mt-1"></div>
             </div>
         </div>
     </div>
@@ -181,3 +208,66 @@
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+    const input   = document.getElementById('images-input');
+    const preview = document.getElementById('new-image-previews');
+    let selectedFiles = [];
+
+    if (!input) return;
+
+    input.addEventListener('change', function () {
+        Array.from(this.files).forEach(function (file) {
+            selectedFiles.push(file);
+            const idx    = selectedFiles.length - 1;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const wrap = document.createElement('div');
+                wrap.className = 'position-relative';
+                wrap.id = 'preview-' + idx;
+                wrap.innerHTML =
+                    '<img src="' + e.target.result + '" style="width:80px;height:80px;object-fit:cover;" class="rounded border">' +
+                    '<button type="button" onclick="removeNewPreview(' + idx + ')" ' +
+                    'class="btn btn-danger position-absolute top-0 end-0 rounded-circle p-0 lh-1" ' +
+                    'style="width:20px;height:20px;font-size:13px;">×</button>';
+                preview.appendChild(wrap);
+            };
+            reader.readAsDataURL(file);
+        });
+        rebuildInput();
+    });
+
+    window.removeNewPreview = function (idx) {
+        selectedFiles[idx] = null;
+        const el = document.getElementById('preview-' + idx);
+        if (el) el.remove();
+        rebuildInput();
+    };
+
+    function rebuildInput() {
+        const dt = new DataTransfer();
+        selectedFiles.forEach(function (f) { if (f) dt.items.add(f); });
+        input.files = dt.files;
+    }
+
+    window.removeExistingImage = function (id) {
+        const cb    = document.getElementById('remove-' + id);
+        const thumb = document.getElementById('thumb-' + id);
+        const wrap  = document.getElementById('existing-' + id);
+        if (!cb || !wrap) return;
+
+        if (cb.checked) {
+            cb.checked = false;
+            thumb.style.opacity = '1';
+            thumb.style.outline = '';
+            wrap.querySelector('button').textContent = '×';
+        } else {
+            cb.checked = true;
+            thumb.style.opacity = '0.35';
+            thumb.style.outline = '2px solid #dc3545';
+            wrap.querySelector('button').textContent = '↺';
+        }
+    };
+})();
+</script>

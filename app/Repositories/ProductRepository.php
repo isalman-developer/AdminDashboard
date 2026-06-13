@@ -25,7 +25,7 @@ class ProductRepository extends BaseRepository
         })
             ->when($categoryId, fn ($q) => $q->where('category_id', $categoryId))
             ->when($brandId, fn ($q) => $q->where('brand_id', $brandId))
-            ->with(['category', 'brand'])
+            ->with(['category', 'brand', 'media' => fn ($q) => $q->where('file_type', 'image')])
             ->orderBy('name', 'asc')
             ->paginate($perPage)
             ->withQueryString();

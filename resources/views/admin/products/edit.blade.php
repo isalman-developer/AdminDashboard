@@ -10,9 +10,9 @@
                     <h4 class="card-title mb-0">Product Information</h4>
                 </div>
                 <div class="card-body text-center">
-                    @if ($product->image)
+                    @if ($product->image_path)
                         <div class="avatar avatar-lg mx-auto mb-3 border rounded-circle p-2">
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                            <img src="{{ Storage::url($product->image_path) }}" alt="{{ $product->name }}"
                                 class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
                         </div>
                     @else

@@ -91,12 +91,20 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td>
-                                        <span class="fw-semibold">{{ $product->name }}</span>
-                                        @if ($product->image)
-                                            <br><small class="text-muted">
-                                                <i class="icon-base ti tabler-image"></i> Has image
-                                            </small>
-                                        @endif
+                                        <div class="d-flex align-items-center gap-2">
+                                            @if ($product->media->isNotEmpty())
+                                                <img src="{{ Storage::url($product->media->first()->file_path) }}"
+                                                    alt="{{ $product->name }}"
+                                                    class="rounded"
+                                                    style="width: 40px; height: 40px; object-fit: cover; flex-shrink: 0;">
+                                            @else
+                                                <div class="rounded bg-label-secondary d-flex align-items-center justify-content-center"
+                                                    style="width: 40px; height: 40px; flex-shrink: 0;">
+                                                    <i class="icon-base ti tabler-photo text-muted" style="font-size: 1.1rem;"></i>
+                                                </div>
+                                            @endif
+                                            <span class="fw-semibold">{{ $product->name }}</span>
+                                        </div>
                                     </td>
                                     <td>{{ $product->category?->name ?: '—' }}</td>
                                     <td>{{ $product->brand?->name ?: '—' }}</td>

@@ -26,7 +26,7 @@ class ProductService
 
     public function find(int $id): ?Product
     {
-        return $this->repository->find($id)?->load('category', 'brand');
+        return $this->repository->find($id)?->load('category', 'brand', 'media');
     }
 
     public function findBySlug(string $slug): ?Product
@@ -41,13 +41,13 @@ class ProductService
 
     public function create(array $data): Product
     {
-        $image = $data['image'] ?? null;
-        unset($data['image']);
+        $images = array_filter($data['images'] ?? [], fn ($f) => $f instanceof UploadedFile);
+        unset($data['images']);
 
-        return DB::transaction(function () use ($data, $image): Product {
+        return DB::transaction(function () use ($data, $images): Product {
             $product = $this->repository->create($data);
 
-            if ($image instanceof UploadedFile) {
+            foreach ($images as $image) {
                 $this->mediaService->upload($image, 'products', $product, 'image');
             }
 
@@ -57,24 +57,27 @@ class ProductService
 
     public function update(Product $product, array $data): Product
     {
-        $image = $data['image'] ?? null;
-        unset($data['image']);
+        $images    = array_filter($data['images'] ?? [], fn ($f) => $f instanceof UploadedFile);
+        $removeIds = array_map('intval', $data['remove_image_ids'] ?? []);
+        unset($data['images'], $data['remove_image_ids']);
 
-        $preExistingIds = $this->mediaService->findByType($product, 'image')->pluck('id')->all();
-
-        if ($image instanceof UploadedFile) {
-            $replaced = $this->mediaService->replace($image, 'products', $product, 'image');
-            $data['image'] = $replaced->file_path;
+        // Delete only media that actually belong to this product
+        if (!empty($removeIds)) {
+            $product->media()
+                ->whereIn('id', $removeIds)
+                ->get()
+                ->each(fn ($m) => $this->mediaService->delete($m));
         }
 
         try {
-            return DB::transaction(fn () => $this->repository->update($product, $data));
-        } catch (Throwable $e) {
-            $this->mediaService
-                ->findByType($product, 'image')
-                ->whereNotIn('id', $preExistingIds)
-                ->each(fn ($orphan) => $this->mediaService->delete($orphan));
+            return DB::transaction(function () use ($product, $data, $images): Product {
+                foreach ($images as $image) {
+                    $this->mediaService->upload($image, 'products', $product, 'image');
+                }
 
+                return $this->repository->update($product, $data);
+            });
+        } catch (Throwable $e) {
             throw $e;
         }
     }

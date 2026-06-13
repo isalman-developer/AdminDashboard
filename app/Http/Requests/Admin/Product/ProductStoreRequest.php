@@ -23,7 +23,8 @@ class ProductStoreRequest extends FormRequest
             'stock_quantity' => ['required', 'integer', 'min:0'],
             'warranty_months' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['boolean'],
-            'image' => ['nullable', 'file', 'image', 'max:2048'],
+            'images'   => ['nullable', 'array'],
+            'images.*' => ['file', 'image', 'max:2048'],
         ];
     }
 }

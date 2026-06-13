@@ -47,6 +47,11 @@ class Product extends Model
         return $this->morphMany(Media::class, 'mediable');
     }
 
+    public function getImagePathAttribute(): string
+    {
+        return optional($this->media->firstWhere('file_type', 'image'))->file_path ?? '';
+    }
+
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class)->withDefault();

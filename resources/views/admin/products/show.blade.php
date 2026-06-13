@@ -11,13 +11,13 @@
                     <h4 class="card-title mb-0">Product Details</h4>
                 </div>
                 <div class="card-body text-center">
-                    @if ($product->image)
-                        <div class="avatar avatar-lg mx-auto mb-3 border rounded-circle p-2">
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                                class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                    @if ($product->image_path)
+                        <div class="avatar avatar-xl mx-auto mb-3 border rounded-circle">
+                            <img src="{{ Storage::url($product->image_path) }}" alt="{{ $product->name }}"
+                                class="rounded-circle">
                         </div>
                     @else
-                        <div class="avatar avatar-lg mx-auto mb-3">
+                        <div class="avatar avatar-xl mx-auto mb-3">
                             <span class="avatar-initial bg-label-primary rounded-circle" style="font-size: 2.5rem;">
                                 <i class="icon-base ti tabler-package"></i>
                             </span>
@@ -25,12 +25,15 @@
                     @endif
                     <h5>{{ $product->name }}</h5>
                     <p class="text-muted mb-2">{{ $product->category?->name ?: 'Uncategorized' }}</p>
-                    <div class="mb-3">
+                    <div class="mb-2">
                         @if ($product->is_active)
                             <span class="badge bg-label-success">Active</span>
                         @else
                             <span class="badge bg-label-secondary">Inactive</span>
                         @endif
+                        <span class="badge bg-label-info ms-1">
+                            <i class="icon-base ti tabler-photo me-1"></i>{{ $product->media->count() }} image(s)
+                        </span>
                     </div>
 
                     <div class="text-start">
@@ -74,7 +77,7 @@
             </div>
         </div>
 
-        <!-- Description Column -->
+        <!-- Description & Gallery Column -->
         <div class="col-lg-8">
             <div class="card mb-4">
                 <div class="card-header">
@@ -91,19 +94,38 @@
                 </div>
             </div>
 
-            @if ($product->image)
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">
-                            <i class="icon-base ti tabler-image me-2"></i>Product Image
-                        </h4>
-                    </div>
-                    <div class="card-body text-center">
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                            class="rounded" style="max-width: 300px; max-height: 300px;">
-                    </div>
+            <div class="card mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h4 class="card-title mb-0">
+                        <i class="icon-base ti tabler-photos me-2"></i>Product Images
+                    </h4>
+                    <span class="badge bg-label-secondary">{{ $product->media->count() }} image(s)</span>
                 </div>
-            @endif
+                <div class="card-body">
+                    @if ($product->media->isNotEmpty())
+                        <div class="row g-3">
+                            @foreach ($product->media as $media)
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <a href="{{ Storage::url($media->file_path) }}" target="_blank">
+                                        <img src="{{ Storage::url($media->file_path) }}"
+                                            alt="{{ $product->name }}"
+                                            class="img-thumbnail w-100"
+                                            style="height: 110px; object-fit: cover;">
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-center py-4">
+                            <i class="icon-base ti tabler-photo text-muted" style="font-size: 2.5rem;"></i>
+                            <p class="text-muted mt-2 mb-0">No images uploaded yet.</p>
+                            <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-outline-primary btn-sm mt-2">
+                                <i class="icon-base ti tabler-photo-plus me-1"></i> Add Images
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 @endsection

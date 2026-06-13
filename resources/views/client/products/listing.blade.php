@@ -11,7 +11,7 @@
                     <div class="mg-breadcrumb">
                         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a class="text-decoration-none" href="index-2.html">Home</a></li>
+                                <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('home') }}">Home</a></li>
                                 <li class="breadcrumb-item active">Shop</li>
                             </ol>
                         </nav>
@@ -61,10 +61,10 @@
                             <span class="mg-max-price">$30k</span>
                         </div>
                         <div class="mg-grid-icons">
-                            <a href="shop-list.html">
+                            <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('client/images/icons/list-view.jpg') }}" alt="grid-view">
                             </a>
-                            <a href="shop.html">
+                            <a href="{{ route('products.index') }}">
                                 <img src="{{ asset('client/images/icons/grid-view.jpg') }}" alt="list-view">
                             </a>
                         </div>
@@ -78,42 +78,44 @@
     <div class="mg-grid-section">
         <div class="container">
             <div class="row">
-                {{-- products listig --}}
                 @forelse ($products as $product)
                     <div class="col-md-4 col-sm-6 col-6">
                         <div class="mg-tab-grid-box">
                             <div class="mg-tab-img-box">
                                 <div class="mg-tabs-img">
-                                                            <a href="{{ route('products.show', $product) }}">
-                                                                                                <img src="{{ showImage($product->files[0]->path) }}" alt="{{ $product->id . '-pic' }}">
+                                    <a href="{{ route('products.show', $product) }}">
+                                        @if ($product->media->isNotEmpty())
+                                            <img src="{{ Storage::url($product->media->first()->file_path) }}"
+                                                alt="{{ $product->name }}">
+                                        @else
+                                            <img src="{{ asset('default-image.jpg') }}" alt="{{ $product->name }}">
+                                        @endif
                                     </a>
                                 </div>
                                 <div class="mg-atc-overlay">
-                                    <a href="cart.html">
-                                        <div class="mg-cart-box">
-                                            ADD TO CART
-                                        </div>
+                                    <a href="javascript:void(0);">
+                                        <div class="mg-cart-box">ADD TO CART</div>
                                     </a>
                                 </div>
                             </div>
                             <div class="mg-tab-text mt-3">
                                 <div class="mg-tab-text-top d-flex justify-content-between align-items-center">
                                     <div class="mg-small-heading">
-                                        <a class="text-decoration-none" href="shop.html">
-                                            <span>{{ $product->brand->title ?? '' }} - {{ $product->series ?? '' }}</span>
+                                        <a class="text-decoration-none" href="{{ route('products.index') }}">
+                                            <span>{{ $product->brand?->name ?? '' }}</span>
                                         </a>
                                     </div>
                                 </div>
-                                                                <a class="text-decoration-none" href="{{ route('products.show', $product) }}">
-                                                                    <h5>{{ Str::limit($product->title ?? '', 20, '..') }}</h5>
+                                <a class="text-decoration-none" href="{{ route('products.show', $product) }}">
+                                    <h5>{{ Str::limit($product->name, 30, '..') }}</h5>
                                 </a>
-                                <div class="mg-pricing">{{ $product->price }}</div>
+                                <div class="mg-pricing">${{ number_format($product->price, 2) }}</div>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div class="text-center">
-                        No Products Found..
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted">No products found.</p>
                     </div>
                 @endforelse
             </div>
@@ -127,7 +129,7 @@
         </div>
     </div>
     <!--pagination section end here-->
-    <!--Category top rated products and text overlay section start here-->
+    <!--Category sidebar and top rated products section start here-->
     <div>
         <div class="container">
             <div class="mg-custom-section2">
@@ -135,13 +137,14 @@
                     <div class="col-lg-3 col-md-3 col-sm-5 col-12">
                         <div class="mg-category">
                             <div class="mg-category-heading">
-                                <h5>Category</h5>
+                                <h5>Brands</h5>
                             </div>
                             <ul class="list-group">
                                 @foreach ($brands as $brand)
                                     <li class="list-group-item">
-                                                                        <a href="javascript:void(0);">{{ $brand['title'] ?? '' }}
-                                                                            ({{ \App\Models\Product::whereStatus(true)->where('brand_id', $brand['id'])->count() }})
+                                        <a href="javascript:void(0);">
+                                            {{ $brand->name }}
+                                            ({{ \App\Models\Product::where('is_active', true)->where('brand_id', $brand->id)->count() }})
                                         </a>
                                     </li>
                                 @endforeach
@@ -156,38 +159,43 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     @php
-                                        $top_rated_products = App\Models\Product::where(['status' => true, 'marked_as_id' => '5'])
-                                        ->select('id','title','price','series','brand_id')
-                                        ->with(['brand:id,title','media' => function($media){
-                                            $media->select('id','mediable_id','file_path');
-                                        }])
-                                        ->inRandomOrder()->take(3)->get();
+                                        $top_rated_products = \App\Models\Product::where('is_active', true)
+                                            ->select('id', 'name', 'price', 'brand_id', 'slug')
+                                            ->with([
+                                                'brand:id,name',
+                                                'media' => fn ($q) => $q->where('file_type', 'image'),
+                                            ])
+                                            ->inRandomOrder()->take(3)->get();
                                     @endphp
                                     @foreach ($top_rated_products as $trproduct)
-                                    <div class="col-md-12 col-sm-12 col-12">
-                                        <div class="mg-toprated-grid">
-                                            <div class="row">
-                                                <div class="col-md-4 col-sm-4 col-3">
-                                                    <div class="mg-toprated-thumb-img">
-                                                                <a href="{{ route('products.show', $trproduct) }}">
-                                                                     <img src="{{ showImage($trproduct->media->first()->file_path ?? '') }}" alt="{{ $trproduct->id.'top-rated' }}">
-                                                        </a>
+                                        <div class="col-md-12 col-sm-12 col-12">
+                                            <div class="mg-toprated-grid">
+                                                <div class="row">
+                                                    <div class="col-md-4 col-sm-4 col-3">
+                                                        <div class="mg-toprated-thumb-img">
+                                                            <a href="{{ route('products.show', $trproduct) }}">
+                                                                @if ($trproduct->media->isNotEmpty())
+                                                                    <img src="{{ Storage::url($trproduct->media->first()->file_path) }}"
+                                                                        alt="{{ $trproduct->name }}">
+                                                                @else
+                                                                    <img src="{{ asset('default-image.jpg') }}"
+                                                                        alt="{{ $trproduct->name }}">
+                                                                @endif
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-8 col-sm-8 col-9 ps-0 mt-2 mt-md-0 mt-sm-1">
-                                                    <div class="mg-toprated-text">
-                                                        <a href="shop.html"><span>
-                                                            {{ $trproduct->brand->title .'-'.$trproduct->series }}
-                                                        </span></a>
-                                                                <a class="text-decoration-none" href="{{ route('products.show', $trproduct) }}">
-                                                                    <h6>{{ $trproduct->title }} (9th Gen)</h6>
-                                                        </a>
-                                                        <div class="mg-pricing">{{ $trproduct->price }}</div>
+                                                    <div class="col-md-8 col-sm-8 col-9 ps-0 mt-2 mt-md-0 mt-sm-1">
+                                                        <div class="mg-toprated-text">
+                                                            <a href="{{ route('products.show', $trproduct) }}"
+                                                                class="text-decoration-none">
+                                                                <h6>{{ $trproduct->name }}</h6>
+                                                            </a>
+                                                            <div class="mg-pricing">${{ number_format($trproduct->price, 2) }}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     @endforeach
                                 </div>
                             </div>
@@ -198,20 +206,15 @@
                             <div class="mg-img-bg-text">
                                 <div>
                                     @php
-                                        $tdProduct = App\Models\Product::whereStatus(true)
-                                        ->with(['brand:id,title', 'media' => function($media){
-                                            $media->select('id','file_path');
-                                        }])
-                                        ->select('id','title','series','brand_id')->first();
+                                        $tdProduct = \App\Models\Product::where('is_active', true)
+                                            ->with(['brand:id,name'])
+                                            ->select('id', 'name', 'brand_id', 'slug')->first();
                                     @endphp
-                                    @isset($tdProduct )
-                                    <span>TOP DEALS</span>
-                                        <h6>{{ $tdProduct->brand->title ?? ''  }} - {{ $tdProduct->series }} <br>
-                                            {{$tdProduct->title }}
-                                        </h6>
-                                        <a class="btn btn-lg" href="shop.html">
-                                            SHOP NOW
-                                            <i class="fa-solid fa-angle-right"></i>
+                                    @isset($tdProduct)
+                                        <span>TOP DEALS</span>
+                                        <h6>{{ $tdProduct->brand?->name ?? '' }} <br> {{ $tdProduct->name }}</h6>
+                                        <a class="btn btn-lg" href="{{ route('products.index') }}">
+                                            SHOP NOW <i class="fa-solid fa-angle-right"></i>
                                         </a>
                                     @endisset
                                 </div>
@@ -222,11 +225,9 @@
             </div>
         </div>
     </div>
-    <!--Category top rated products and text overlay section end here-->
-    <!--Feature section 2 start here-->
-    @include('client.partials.features')
+    <!--Category sidebar and top rated products section end here-->
 
-    <!--Feature section 2 end here-->
+    @include('client.partials.features')
 @endsection
 
 @push('scripts')
