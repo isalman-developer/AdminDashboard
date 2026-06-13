@@ -35,7 +35,7 @@
                                 <h5>Address</h5>
                                 <div>
                                     <span>
-                                        {{ config('siteSetting')[0]['address'] ?? 'N/A' }}
+                                        {{ site_settings()[0]['address'] ?? 'N/A' }}
                                     </span>
                                 </div>
                             </div>
@@ -43,12 +43,12 @@
                                 <h5>Phone Number</h5>
                                 <div>
                                     <span>
-                                        Mobile: {{ config('siteSetting')[0]['phone_number_1'] ?? '123456789' }}
+                                        Mobile: {{ site_settings()[0]['phone_number_1'] ?? '123456789' }}
                                     </span>
                                 </div>
                                 <div>
                                     <span>
-                                        Mobile: {{ config('siteSetting')[0]['phone_number_2'] ?? '987654321' }}
+                                        Mobile: {{ site_settings()[0]['phone_number_2'] ?? '987654321' }}
                                     </span>
                                 </div>
                             </div>
@@ -57,14 +57,14 @@
                                 <div>
                                     <a href="#">
                                         <span>
-                                            {{ config('siteSetting')[0]['email_1'] ?? 'N/A' }}
+                                            {{ site_settings()[0]['email_1'] ?? 'N/A' }}
                                         </span>
                                     </a>
                                 </div>
                                 <div>
                                     <a href="#">
                                         <span>
-                                            {{ config('siteSetting')[0]['email_2'] ?? 'N/A' }}
+                                            {{ site_settings()[0]['email_2'] ?? 'N/A' }}
                                         </span>
                                     </a>
                                 </div>
@@ -76,30 +76,30 @@
                                     </div>
                                     <div class="mg-social-link">
                                         <ul>
-                                            @if (config('siteSetting')[0]['faceboook'])
+                                            @if (site_settings()[0]['faceboook'])
                                                 <li>
-                                                    <a href="{{ config('siteSetting')[0]['faceboook'] }}" target="_blank">
+                                                    <a href="{{ site_settings()[0]['faceboook'] }}" target="_blank">
                                                         <img src="{{ asset('client/images/icons/fb.jpg') }}" alt="">
                                                     </a>
                                                 </li>
                                             @endif
-                                            @if (config('siteSetting')[0]['instagram'])
+                                            @if (site_settings()[0]['instagram'])
                                                 <li>
-                                                    <a href="{{ config('siteSetting')[0]['instagram'] }}" target="_blank">
+                                                    <a href="{{ site_settings()[0]['instagram'] }}" target="_blank">
                                                         <img src="{{ asset('client/images/icons/insta.jpg') }}" alt="">
                                                     </a>
                                                 </li>
                                             @endif
-                                            @if (config('siteSetting')[0]['linkedin'])
+                                            @if (site_settings()[0]['linkedin'])
                                                 <li>
-                                                    <a href="{{ config('siteSetting')[0]['linkedin'] }}" target="_blank">
+                                                    <a href="{{ site_settings()[0]['linkedin'] }}" target="_blank">
                                                         <img src="{{ asset('client/images/icons/linkedin.jpg') }}" alt="">
                                                     </a>
                                                 </li>
                                             @endif
-                                            @if (config('siteSetting')[0]['twitter'])
+                                            @if (site_settings()[0]['twitter'])
                                                 <li>
-                                                    <a href="{{ config('siteSetting')[0]['twitter'] }}" target="_blank">
+                                                    <a href="{{ site_settings()[0]['twitter'] }}" target="_blank">
                                                         <img src="{{ asset('client/images/icons/linkedin.jpg') }}" alt="">
                                                     </a>
                                                 </li>

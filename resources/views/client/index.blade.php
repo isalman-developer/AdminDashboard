@@ -52,7 +52,7 @@
     <div class="mg-slider-section">
 
         @foreach ($sliders as $item)
-            <div class="mg-slide d-flex align-items-center" style="background-image: url({{ asset($item->image) }});">
+            <div class="mg-slide d-flex align-items-center" style="background-image: url({{ asset($item->image_path) }});">
                 <div class='container mg-slider-text-box'>
                     <div class="mg-slide-text">
                         {{-- <span>I PHONE PRO</span>
@@ -304,7 +304,7 @@
     <!--Text with background image and carousel section start here-->
     <div id="myCarousel" class="carousel slide container" data-bs-ride="carousel">
         <div class="carousel-inner w-100">
-            @foreach ($brands as $key => $item)
+            @foreach (site_brands() as $key => $item)
                 <div class="carousel-item {{ $loop->index == 0 ? 'active' : '' }}">
                     <div class="col-md-3">
                         <div class="card card-body border-0">

@@ -64,7 +64,7 @@
                         <h4 class="mb-1">Welcome to Dashboard! 👋</h4>
                         <p class="mb-6">Please sign-in to your account and start the adventure</p>
 
-                        <form id="formAuthentication" class="mb-4" action="{{ route('login') }}" method="POST">
+                        <form id="formAuthentication" class="mb-4" action="{{ route('admin.login') }}" method="POST">
                             @csrf
                             <div class="mb-6 form-control-validation">
                                 <label for="email" class="form-label">Email or Username</label>
@@ -94,7 +94,7 @@
                             <div class="my-8">
                                 <div class="d-flex justify-content-between">
                                     <div class="form-check mb-0 ms-2">
-                                        <input class="form-check-input" type="checkbox" id="remember-me" />
+                                        <input class="form-check-input" type="checkbox" id="remember-me" name="remember" />
                                         <label class="form-check-label" for="remember-me"> Remember Me </label>
                                     </div>
 

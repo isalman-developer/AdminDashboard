@@ -7,7 +7,7 @@
                     <div class="col-md-5">
                         <div class="mg-footer-bio">
                             <a class="mg-footer-logo" href="{{ route('home') }}">
-                                {{ config('siteSetting')[0]['name'] ?? 'E-commerce'}}
+                                {{ site_settings()[0]['name'] ?? 'E-commerce'}}
                             </a>
                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
                         </div>

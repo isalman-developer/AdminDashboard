@@ -6,7 +6,7 @@
                 <div class="col-md-3 col-lg-3 col-5">
                     <div class="header-logo">
                         <a class="mg-logo text-decoration-none" href="{{ route('home') }}">
-                            {{ config('siteSetting')[0]['name'] ?? 'E-commerce'}}
+                            {{ site_settings()[0]['name'] ?? 'E-commerce'}}
                         </a>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                                     <div class="mg-sub-menu-outer">
                                         <div class="menu-subs">
                                             <ul>
-                                                @foreach (config('markedAs') as $item)
+                                                @foreach (site_marked_as() as $item)
                                                     @if (!in_array($item['slug'], ['normal', 'primary', 'grand_sale', 'best_seller']))
                                                         <li>
                                                             <a href="{{ route('products.index') }}">
@@ -96,7 +96,7 @@
                             </a>
 
                             <ul class="dropdown-menu mg-dropdown-list" aria-labelledby="dropdownMenuLink">
-                                @foreach ($brands as $key => $brand)
+                                @foreach (site_brands() as $brand)
                                     <li>
                                         <a class="dropdown-item mg-font-style" href="#">
                                             <i class="fa-solid fa-laptop"></i>
@@ -114,7 +114,7 @@
                             <form class="d-flex">
                                 <div class="mg-search-bar-dropdwon">
                                     <select class="form-select mg-font-style">
-                                        @foreach (config('categories') as $item)
+                                        @foreach (site_categories() as $item)
                                             <option value="{{ $item['id'] }}">
                                                 {{ $item['title'] }}
                                             </option>
@@ -137,7 +137,7 @@
                         </div>
                         <div class="mg-contact-info">
                             <div class="mg-contact-info-sub-heading">Call us 24/7</div>
-                            <a href="tel:+911234567890">{{ config('siteSetting')[0]['phone_number_1'] ?? '123456789'}}</a>
+                            <a href="tel:+911234567890">{{ site_settings()[0]['phone_number_1'] ?? '123456789'}}</a>
                         </div>
                     </div>
                 </div>

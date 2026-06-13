@@ -50,22 +50,22 @@ class Product extends Model
 
     public function brand(): BelongsTo
     {
-        return $this->belongsTo(Brand::class)->withDefault()->withTrashed();
+        return $this->belongsTo(Brand::class)->withDefault();
     }
 
     public function generation(): BelongsTo
     {
-        return $this->belongsTo(Generation::class)->withDefault()->withTrashed();
+        return $this->belongsTo(Generation::class)->withDefault();
     }
 
     public function processor(): BelongsTo
     {
-        return $this->belongsTo(Processor::class)->withDefault()->withTrashed();
+        return $this->belongsTo(Processor::class)->withDefault();
     }
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class)->withDefault()->withTrashed();
+        return $this->belongsTo(Category::class)->withDefault();
     }
 
     public function markedAs(): BelongsTo

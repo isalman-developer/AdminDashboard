@@ -28,10 +28,11 @@ class SliderService
             $slider = $this->repository->create($data);
 
             if ($image instanceof UploadedFile) {
-                $this->mediaService->upload($image, 'sliders', $slider, 'image');
+                $media = $this->mediaService->upload($image, 'sliders', $slider, 'image');
+                $this->repository->update($slider, ['image' => $media->file_path]);
             }
 
-            return $slider;
+            return $slider->fresh();
         });
     }
 

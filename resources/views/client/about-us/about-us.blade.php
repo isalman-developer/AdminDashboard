@@ -6,7 +6,7 @@
             <div class="container">
                 <div class="mg-page-header-text">
                     <div class="mg-page-header-heading">
-                        <h3>About {{ config('siteSetting')[0]['name'] ?? 'E-commerce'}}</h3>
+                        <h3>About {{ site_settings()[0]['name'] ?? 'E-commerce'}}</h3>
                     </div>
                     <div class="mg-breadcrumb">
                         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">

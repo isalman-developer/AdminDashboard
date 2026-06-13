@@ -3,7 +3,8 @@
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\MarkedAs;
-use App\Models\SiteSetting;
+use App\Models\Setting;
+use App\Models\Slider;
 use Illuminate\Support\Facades\Cache;
 
 if (! function_exists('site_brands')) {
@@ -65,21 +66,38 @@ if (! function_exists('site_settings')) {
     function site_settings(): array
     {
         return Cache::remember('site_settings.client', 600, function () {
-            return SiteSetting::all()
-                ->map(fn ($item) => $item->only([
-                    'id',
-                    'name',
-                    'address',
-                    'phone_number_1',
-                    'phone_number_2',
-                    'email_1',
-                    'email_2',
-                    'faceboook',
-                    'instagram',
-                    'linkedin',
-                    'twitter',
-                ]))
-                ->all();
+            $s = Setting::pluck('value', 'key');
+
+            return [[
+                'name'           => $s->get('site_name', ''),
+                'address'        => $s->get('site_address', ''),
+                'phone_number_1' => $s->get('site_phone_1', ''),
+                'phone_number_2' => $s->get('site_phone_2', ''),
+                'email_1'        => $s->get('site_email_1', ''),
+                'email_2'        => $s->get('site_email_2', ''),
+                'faceboook'      => $s->get('site_facebook', ''),
+                'instagram'      => $s->get('site_instagram', ''),
+                'linkedin'       => $s->get('site_linkedin', ''),
+                'twitter'        => $s->get('site_twitter', ''),
+            ]];
+        });
+    }
+}
+
+if (! function_exists('setting')) {
+    function setting(string $key, mixed $default = null): mixed
+    {
+        return Cache::remember('site_settings.raw', 600, function () {
+            return Setting::pluck('value', 'key');
+        })->get($key, $default);
+    }
+}
+
+if (! function_exists('site_sliders')) {
+    function site_sliders(): \Illuminate\Support\Collection
+    {
+        return Cache::remember('sliders.client', 600, function () {
+            return Slider::where('status', true)->with('media')->orderByDesc('id')->get();
         });
     }
 }

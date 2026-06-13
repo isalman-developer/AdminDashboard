@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MarkedAsController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;

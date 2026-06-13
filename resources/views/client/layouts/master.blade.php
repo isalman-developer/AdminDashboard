@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>{{ config('siteSetting')[0]['name'] ?? 'E-commerce'}}</title>
+        <title>{{ site_settings()[0]['name'] ?? 'E-commerce'}}</title>
     @include('client.partials.head')
 </head>
 
