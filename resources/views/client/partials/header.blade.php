@@ -66,8 +66,12 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="cart.html">
-                                            <img src="{{ asset('client/images/icons/Icon-feather-shopping-bag.svg') }}" alt=""><span class="mg-header-icon-counter">2</span>
+                                        <a href="{{ route('cart') }}">
+                                            <img src="{{ asset('client/images/icons/Icon-feather-shopping-bag.svg') }}" alt="">
+                                            @php $cartCount = count(session('cart', [])); @endphp
+                                            @if($cartCount > 0)
+                                                <span class="mg-header-icon-counter">{{ $cartCount }}</span>
+                                            @endif
                                         </a>
                                     </li>
                                     <li class="mg-profile-icon">

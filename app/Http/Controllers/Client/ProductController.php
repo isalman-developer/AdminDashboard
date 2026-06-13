@@ -14,7 +14,7 @@ class ProductController extends Controller
             ->with(['brand', 'media' => fn ($q) => $q->where('file_type', 'image')])
             ->when(request()->input('marked_as_id'), function ($query) {
                 $query->where('marked_as_id', request()->input('marked_as_id'));
-            })->paginate(12);
+            })->paginate(2);
 
         $brands = Brand::orderBy('name')->get();
 

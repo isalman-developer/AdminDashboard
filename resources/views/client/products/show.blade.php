@@ -246,27 +246,33 @@
                     <hr>
 
                     {{-- Quantity + CTA --}}
-                    <div class="d-flex align-items-center gap-3 mb-4">
-                        <div class="d-flex align-items-center border rounded px-2 py-1">
-                            <button type="button" class="btn btn-link p-0 text-dark text-decoration-none fs-5 lh-1"
-                                onclick="mgQty(-1)">−</button>
-                            <input type="number" id="mg-qty" value="1" min="1"
-                                max="{{ $product->stock_quantity ?: 99 }}"
-                                class="form-control form-control-sm border-0 text-center p-0 mx-2"
-                                style="width:42px;">
-                            <button type="button" class="btn btn-link p-0 text-dark text-decoration-none fs-5 lh-1"
-                                onclick="mgQty(1)">+</button>
+                    <form method="POST" action="{{ route('cart.add') }}">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="d-flex align-items-center border rounded px-2 py-1">
+                                <button type="button" class="btn btn-link p-0 text-dark text-decoration-none fs-5 lh-1"
+                                    onclick="mgQty(-1)">−</button>
+                                <input type="number" id="mg-qty" name="qty" value="1" min="1"
+                                    max="{{ $product->stock_quantity ?: 99 }}"
+                                    class="form-control form-control-sm border-0 text-center p-0 mx-2"
+                                    style="width:42px;">
+                                <button type="button" class="btn btn-link p-0 text-dark text-decoration-none fs-5 lh-1"
+                                    onclick="mgQty(1)">+</button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="d-flex gap-2 flex-wrap">
-                        <button type="button" class="btn btn-dark px-4" style="min-width:150px;">
-                            <i class="fa-solid fa-cart-shopping me-2"></i>Add to Cart
-                        </button>
-                        <button type="button" class="btn btn-outline-dark px-4">
-                            <i class="fa-regular fa-heart me-1"></i> Wishlist
-                        </button>
-                    </div>
+                        <div class="d-flex gap-2 flex-wrap">
+                            @if($product->stock_quantity > 0)
+                                <button type="submit" class="btn btn-dark px-4" style="min-width:150px;">
+                                    <i class="fa-solid fa-cart-shopping me-2"></i>Add to Cart
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-secondary px-4" disabled style="min-width:150px;">
+                                    Out of Stock
+                                </button>
+                            @endif
+                        </div>
+                    </form>
 
                     <hr class="mt-4">
 

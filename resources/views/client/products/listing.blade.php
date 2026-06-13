@@ -93,9 +93,12 @@
                                     </a>
                                 </div>
                                 <div class="mg-atc-overlay">
-                                    <a href="javascript:void(0);">
-                                        <div class="mg-cart-box">ADD TO CART</div>
-                                    </a>
+                                    <form method="POST" action="{{ route('cart.add') }}">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" name="qty" value="1">
+                                        <button type="submit" class="mg-cart-box" style="border:none;background:none;width:100%;cursor:pointer;">ADD TO CART</button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="mg-tab-text mt-3">
