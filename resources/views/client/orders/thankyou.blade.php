@@ -1,5 +1,5 @@
 @extends('client.layouts.master')
-
+@section('title', 'Thank you - Order #' . ($order->order_number ?? ''))
 @push('styles')
     <link rel="stylesheet" href="{{ asset('client/libs/swiper/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('client/css/theme.min.css') }}">

@@ -1,5 +1,7 @@
 @extends('client.layouts.master')
 
+@section('title', 'Ecommerce Store')
+
 @push('styles')
     <link rel="stylesheet" href="{{ asset('client/libs/swiper/swiper-bundle.min.css') }}">
     <link rel="stylesheet" href="{{ asset('client/css/theme.min.css') }}">

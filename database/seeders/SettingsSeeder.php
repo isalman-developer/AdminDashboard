@@ -15,8 +15,12 @@ class SettingsSeeder extends Seeder
         $settings = [
             // General Settings
             [
-                'key' => 'site_name',
+                'key' => 'site_admin_name',
                 'value' => 'Admin Dashboard',
+            ],
+            [
+                'key' => 'site_name',
+                'value' => 'E-commerce',
             ],
             [
                 'key' => 'support_email',

@@ -13,6 +13,16 @@
                 @csrf
 
                 <div class="mb-3">
+                    <label for="site_admin_name" class="form-label">Site Admin Name <span class="text-danger">*</span></label>
+                    <input type="text" name="site_admin_name" id="site_admin_name" class="form-control"
+                        value="{{ old('site_admin_name', $settings['site_admin_name']) }}" required>
+                    <small class="text-muted">The name displayed throughout the application</small>
+                    @error('site_admin_name')
+                        <div class="text-danger mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
                     <label for="site_name" class="form-label">Site Name <span class="text-danger">*</span></label>
                     <input type="text" name="site_name" id="site_name" class="form-control"
                         value="{{ old('site_name', $settings['site_name']) }}" required>

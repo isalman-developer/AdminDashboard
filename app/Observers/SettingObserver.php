@@ -16,6 +16,7 @@ class SettingObserver
      */
     public function created(Setting $setting): void
     {
+        info('Setting created: ' . $setting->key);
         $this->repository->forgetKey($setting->key);
     }
 
@@ -24,6 +25,7 @@ class SettingObserver
      */
     public function updated(Setting $setting): void
     {
+        info('Setting updated: ' . $setting->key);
         $this->repository->forgetKey($setting->key);
     }
 

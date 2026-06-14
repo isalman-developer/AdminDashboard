@@ -7,13 +7,13 @@
                     <div class="col-md-5">
                         <div class="mg-footer-bio">
                             <a class="mg-footer-logo" href="{{ route('home') }}">
-                                {{ site_settings()[0]['name'] ?? 'E-commerce'}}
+                                {{ setting('site_name', 'E-commerce') }}
                             </a>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+                            <p>{{ setting('site_description', 'Quality products delivered to your door. Shop the latest collections and enjoy a seamless shopping experience.') }}</p>
                         </div>
                         <div class="mg-newsletter-outer">
                             <h6>Subscribe Our Newsletter</h6>
-                            <span>Lorem Ipsum is simply dummy text</span>
+                            <span>Get exclusive deals straight to your inbox</span>
                             <div class="mg-newsletter-inner">
                                 <form class="d-flex mt-3">
                                     <input class="form-control" type="search" placeholder="Email address" aria-label="search">
@@ -34,7 +34,7 @@
                                         <li><a href="javascript:void(0);">Brands</a></li>
                                         <li><a href="javascript:void(0);">Gift Cards</a></li>
                                         <li><a href="javascript:void(0);">Careers</a></li>
-                                        <li><a href="about-us.html">About Us</a></li>
+                                        <li><a href="{{ route('aboutUs') }}">About Us</a></li>
                                         <li><a href="javascript:void(0);">Shipping</a></li>
                                         <li><a href="javascript:void(0);">Return</a></li>
                                         <li><a href="my-account.html">My Account</a></li>
@@ -71,7 +71,7 @@
                                         <li><a href="javascript:void(0);">Sales</a></li>
                                         <li><a href="shop.html">All Collection</a></li>
                                         <li><a href="wishlist.html">Wishlist</a></li>
-                                        <li><a href="contact-us.html">Contact Us</a></li>
+                                        <li><a href="{{ route('contactUs') }}">Contact Us</a></li>
                                     </ul>
                                 </div>
                             </div>

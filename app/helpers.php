@@ -62,27 +62,6 @@ if (! function_exists('site_categories')) {
     }
 }
 
-if (! function_exists('site_settings')) {
-    function site_settings(): array
-    {
-        return Cache::remember('site_settings.client', 600, function () {
-            $s = Setting::pluck('value', 'key');
-
-            return [[
-                'name'           => $s->get('site_name', ''),
-                'address'        => $s->get('site_address', ''),
-                'phone_number_1' => $s->get('site_phone_1', ''),
-                'phone_number_2' => $s->get('site_phone_2', ''),
-                'email_1'        => $s->get('site_email_1', ''),
-                'email_2'        => $s->get('site_email_2', ''),
-                'faceboook'      => $s->get('site_facebook', ''),
-                'instagram'      => $s->get('site_instagram', ''),
-                'linkedin'       => $s->get('site_linkedin', ''),
-                'twitter'        => $s->get('site_twitter', ''),
-            ]];
-        });
-    }
-}
 
 if (! function_exists('setting')) {
     function setting(string $key, mixed $default = null): mixed

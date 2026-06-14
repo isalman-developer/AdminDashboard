@@ -39,6 +39,18 @@ enum PermissionEnum: string
     case SLIDERS_UPDATE = 'sliders.update';
     case SLIDERS_DELETE = 'sliders.delete';
 
+    case ORDERS_VIEW = 'orders.view';
+    case ORDERS_CREATE = 'orders.create';
+    case ORDERS_UPDATE = 'orders.update';
+    case ORDERS_DELETE = 'orders.delete';
+
+
+    case INVOICES_VIEW = 'invoices.view';
+    case INVOICES_CREATE = 'invoices.create';
+    case INVOICES_UPDATE = 'invoices.update';
+    case INVOICES_DELETE = 'invoices.delete';
+
+
     case SETTINGS_UPDATE = 'settings.update';
 
     public static function userPermissions(): array

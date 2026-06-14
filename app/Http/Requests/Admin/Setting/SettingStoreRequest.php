@@ -23,6 +23,7 @@ class SettingStoreRequest extends FormRequest
     {
         return [
             'site_name' => ['required', 'string', 'max:255'],
+            'site_admin_name' => ['required', 'string', 'max:255'],
             'site_email' => ['nullable', 'email', 'max:255'],
             'site_description' => ['nullable', 'string', 'max:500'],
             'items_per_page' => ['required', 'integer', 'min:5', 'max:100'], //
@@ -33,6 +34,7 @@ class SettingStoreRequest extends FormRequest
     {
         return [
             'site_name.required' => 'Site name is required.',
+            'site_admin_name' => 'Site admin name is required.',
             'items_per_page.min' => 'Items per page must be at least 5.',
             'items_per_page.max' => 'Items per page cannot exceed 100.',
         ];
@@ -42,6 +44,7 @@ class SettingStoreRequest extends FormRequest
     {
         return [
             'site_name' => 'Site Name',
+            'site_admin_name' => 'Site Admin Name',
             'site_email' => 'Site Email',
             'site_description' => 'Site Description',
             'items_per_page' => 'Items Per Page',

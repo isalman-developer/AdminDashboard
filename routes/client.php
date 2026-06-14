@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Client\ContactController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ProductController;
 use App\Http\Controllers\Client\SiteSettingController;
@@ -23,6 +24,7 @@ Route::namespace('App\Http\Controllers\Client')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/about-us', [HomeController::class, 'aboutUs'])->name('aboutUs');
     Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('contactUs');
+    Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
 
     Route::resource('products', ProductController::class)->only(['index', 'show']);
 

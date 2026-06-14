@@ -14,7 +14,14 @@ class ProductController extends Controller
             ->with(['brand', 'media' => fn ($q) => $q->where('file_type', 'image')])
             ->when(request()->input('marked_as_id'), function ($query) {
                 $query->where('marked_as_id', request()->input('marked_as_id'));
-            })->paginate(2);
+            })
+            ->when(request()->input('category_id') !== 'all_categories', function ($query) {
+                $query->where('category_id', request()->input('category_id'));
+            })
+            ->when(request()->input('search'), function ($query) {
+            $query->where('name', 'like', '%'.request()->input('search').'%');
+            })
+            ->paginate(config('admin.pagination_per_page'));
 
         $brands = Brand::orderBy('name')->get();
 

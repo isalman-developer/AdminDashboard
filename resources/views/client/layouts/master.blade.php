@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-        <title>{{ site_settings()[0]['name'] ?? 'E-commerce'}}</title>
+    <title>@yield('title', 'Ecommerce Store')</title>
     @include('client.partials.head')
 </head>
 
@@ -15,4 +15,5 @@
     @include('client.partials.footer')
     @include('client.partials.scripts')
 </body>
+
 </html>

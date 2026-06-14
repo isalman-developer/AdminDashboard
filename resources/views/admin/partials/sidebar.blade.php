@@ -276,6 +276,42 @@
             </ul>
         </li>
 
+        <li class="menu-item">
+            <a href="{{ url('admin/orders') }}" class="menu-link">
+                <i class="menu-icon icon-base ti tabler-clipboard-list"></i>
+                <div data-i18n="Orders">Orders</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{{ url('admin/invoices') }}" class="menu-link">
+                <i class="menu-icon icon-base ti tabler-file-invoice"></i>
+                <div data-i18n="Invoices">Invoices</div>
+            </a>
+        </li>
+
+        <!-- Pages Content Management -->
+        <li class="menu-header small mt-3">
+            <span class="menu-header-text" data-i18n="Pages">Pages</span>
+        </li>
+        <li class="menu-item">
+            <a href="{{ url('admin/pages/about') }}" class="menu-link">
+                <i class="menu-icon icon-base ti tabler-file-description"></i>
+                <div data-i18n="About Us">About Us</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{{ url('admin/pages/contact') }}" class="menu-link">
+                <i class="menu-icon icon-base ti tabler-address-book"></i>
+                <div data-i18n="Contact Us">Contact Us</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{{ url('admin/contact-messages') }}" class="menu-link">
+                <i class="menu-icon icon-base ti tabler-mail"></i>
+                <div data-i18n="Messages">Messages</div>
+            </a>
+        </li>
+
         <!-- Access Management -->
         <li class="menu-header small mt-3">
             <span class="menu-header-text" data-i18n="Access Management">Access Management</span>

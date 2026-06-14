@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\ContactMessageController;
+use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MarkedAsController;
 use App\Http\Controllers\Admin\ProductController;
@@ -12,9 +16,6 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
-
-// Front-end / client routes (loaded first so /, /about-us, /contact-us, /products work without auth)
-require base_path('routes/client.php');
 
 // Admin Authentication Routes
 Route::middleware('guest:web')->prefix('admin')->name('admin.')->group(function () {
@@ -75,6 +76,41 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
         Route::get('/{slider}/edit', [SliderController::class, 'edit'])->name('edit');
         Route::put('/{slider}', [SliderController::class, 'update'])->name('update');
         Route::delete('/{slider}', [SliderController::class, 'destroy'])->name('destroy');
+    });
+
+    // ── Pages Content Management ──────────────────────────────────────────────
+    Route::prefix('pages')->name('pages.')->group(function () {
+        Route::get('/about',   [PageController::class, 'editAbout'])->name('about');
+        Route::put('/about',   [PageController::class, 'updateAbout'])->name('about.update');
+        Route::get('/contact', [PageController::class, 'editContact'])->name('contact');
+        Route::put('/contact', [PageController::class, 'updateContact'])->name('contact.update');
+    });
+
+    Route::prefix('contact-messages')->name('contact-messages.')->group(function () {
+        Route::get('/',                 [ContactMessageController::class, 'index'])->name('index');
+        Route::patch('/{message}/read', [ContactMessageController::class, 'markRead'])->name('markRead');
+        Route::delete('/{message}',     [ContactMessageController::class, 'destroy'])->name('destroy');
+    });
+
+    // ── Invoice Management ────────────────────────────────────────────────────
+    Route::prefix('invoices')->name('invoices.')->group(function () {
+        Route::get('/',                    [InvoiceController::class, 'index'])->name('index');
+        Route::get('/{invoice}',           [InvoiceController::class, 'show'])->name('show');
+        Route::get('/{invoice}/edit',      [InvoiceController::class, 'edit'])->name('edit');
+        Route::put('/{invoice}',           [InvoiceController::class, 'update'])->name('update');
+        Route::patch('/{invoice}/paid',    [InvoiceController::class, 'markPaid'])->name('markPaid');
+        Route::delete('/{invoice}',        [InvoiceController::class, 'destroy'])->name('destroy');
+        Route::post('/from-order/{order}', [InvoiceController::class, 'generateFromOrder'])->name('fromOrder');
+    });
+
+    // ── Order Management ──────────────────────────────────────────────────────
+    Route::prefix('orders')->name('orders.')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('index');
+        Route::get('/{order}', [OrderController::class, 'show'])->name('show');
+        Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('edit');
+        Route::put('/{order}', [OrderController::class, 'update'])->name('update');
+        Route::patch('/{order}/status', [OrderController::class, 'updateStatus'])->name('updateStatus');
+        Route::delete('/{order}', [OrderController::class, 'destroy'])->name('destroy');
     });
 
     // ── Marker Management ─────────────────────────────────────────────────────

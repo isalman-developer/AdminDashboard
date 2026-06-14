@@ -1,34 +1,34 @@
 @font-face {
-    font-family: 'Sora-Bold';
-    src: url('../fonts/Sora-Bold.ttf');
+    font-family: "Sora-Bold";
+    src: url("../fonts/Sora-Bold.ttf");
 }
 @font-face {
-    font-family: 'Sora-ExtraBold';
-    src: url('../fonts/Sora-ExtraBold.ttf');
+    font-family: "Sora-ExtraBold";
+    src: url("../fonts/Sora-ExtraBold.ttf");
 }
 @font-face {
-    font-family: 'Sora-ExtraLight';
-    src: url('../fonts/Sora-ExtraLight.ttf');
+    font-family: "Sora-ExtraLight";
+    src: url("../fonts/Sora-ExtraLight.ttf");
 }
 @font-face {
-    font-family: 'Sora-Light';
-    src: url('../fonts/Sora-Light.ttf');
+    font-family: "Sora-Light";
+    src: url("../fonts/Sora-Light.ttf");
 }
 @font-face {
-    font-family: 'Sora-Medium';
-    src: url('../fonts/Sora-Medium.ttf');
+    font-family: "Sora-Medium";
+    src: url("../fonts/Sora-Medium.ttf");
 }
 @font-face {
-    font-family: 'Sora-Regular';
-    src: url('../fonts/Sora-Regular.ttf');
+    font-family: "Sora-Regular";
+    src: url("../fonts/Sora-Regular.ttf");
 }
 @font-face {
-    font-family: 'Sora-SemiBold';
-    src: url('../fonts/Sora-SemiBold.ttf');
+    font-family: "Sora-SemiBold";
+    src: url("../fonts/Sora-SemiBold.ttf");
 }
 @font-face {
-    font-family: 'Sora-Thin';
-    src: url('../fonts/Sora-Thin.ttf');
+    font-family: "Sora-Thin";
+    src: url("../fonts/Sora-Thin.ttf");
 }
 body {
     font-family: Sora-Regular;
@@ -39,11 +39,11 @@ body {
     color: #171717;
     font-weight: 700;
 }
-.mg-section-padding{
+.mg-section-padding {
     padding-top: 30px;
     padding-bottom: 30px;
 }
-.mg-section-padding2{
+.mg-section-padding2 {
     padding-top: 30px;
     padding-bottom: 60px;
 }
@@ -59,7 +59,7 @@ body {
 .mg-logo {
     color: #171717;
     font-size: 28px;
-    font-family: 'Sora-ExtraBold';
+    font-family: "Sora-ExtraBold";
 }
 .mg-logo:hover {
     color: #171717;
@@ -88,11 +88,11 @@ body {
     max-width: 16px;
 }
 .header-icons-outer ul li.mg-search-icon::after {
-    background: #8F6B6C;
+    background: #8f6b6c;
     width: 1px;
     height: 16px;
     top: 7px;
-    content: '';
+    content: "";
     position: absolute;
     right: 0;
 }
@@ -110,7 +110,7 @@ body {
     padding-right: 0;
 }
 .mg-home3 .mg-header-icon-counter {
-    background-color: #8F6B6C;
+    background-color: #8f6b6c;
 }
 .mg-home3 .mg-header-icon-counter {
     background-color: #000;
@@ -148,7 +148,7 @@ body {
     width: 1px;
     height: 12px;
     background-color: #000;
-    content: '';
+    content: "";
     right: 0px;
     top: 7px;
 }
@@ -230,7 +230,8 @@ body {
     margin: auto;
     border: none;
 }
-.mg-search-filed button.btn.btn.d-flex.justify-content-center.align-items-center {
+.mg-search-filed
+    button.btn.btn.d-flex.justify-content-center.align-items-center {
     box-shadow: none;
 }
 .mg-search-bar-dropdwon .dropdown {
@@ -258,7 +259,7 @@ body {
     font-family: sora-bold;
 }
 .mg-search-bar-dropdwon select.form-select.mg-font-style {
-    width: 116px;
+    width: auto;
     border: none;
     margin: auto;
     padding: 12px 10px;
@@ -325,16 +326,16 @@ span.mg-spcb-bar-two {
     background-color: transparent;
     border-radius: 0;
     border: none;
-    border-bottom: 2px solid rgba(255,255,255, 0.5);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
     color: #fff;
 }
 .form-control:focus {
     background-color: transparent;
     box-shadow: none;
-    border-color: rgba(255,255,255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 .form-control:focus {
-    border-color: rgba(255,255,255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
     color: #171717;
 }
 .mg-erro-page-section .mg-search-filed input {
@@ -347,7 +348,7 @@ span.mg-spcb-bar-two {
 /*
 *Quick view popup
 */
-.mg-quick-view-modal  .mg-product-deatils-section {
+.mg-quick-view-modal .mg-product-deatils-section {
     padding-top: 0px;
     padding-bottom: 0px;
     background-color: #fff;
@@ -364,7 +365,7 @@ span.mg-spcb-bar-two {
 }
 .mg-quick-view-modal .mg-product-details-box .mg-product-heading {
     font-size: 32px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     line-height: 1.2;
 }
 .mg-quick-view-modal .mg-product-rating span.mg-review {
@@ -435,7 +436,7 @@ span.mg-spcb-bar-two {
 a.mg-shop-btn {
     background: #fff;
     padding: 12px 36px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     border-radius: 0;
     font-size: 12px;
 }
@@ -484,7 +485,7 @@ a.mg-shop-btn:hover {
 }
 .mg-feature-box .card-title {
     font-size: 15px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-feature-box .card-text {
     font-size: 13px;
@@ -522,7 +523,7 @@ a.mg-shop-btn:hover {
 }
 
 .mg-text-bg-image1 {
-   background-image: url(../images/overlay/mg-overlay-img3.jpg); 
+    background-image: url(../images/overlay/mg-overlay-img3.jpg);
 }
 .mg-text-bg-style1 {
     position: relative;
@@ -567,7 +568,7 @@ a.mg-shop-btn:hover {
     position: relative;
 }
 .mg-img-overlay-inner:hover .mg-overlay-text {
-    background-color: rgba(0, 0, 0, 0.10);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 /*******************************/
 
@@ -575,7 +576,7 @@ a.mg-shop-btn:hover {
 *Tabs section
 */
 .mg-section-heading h5 {
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     font-size: 28px;
     color: #171717;
     margin-bottom: 0;
@@ -600,7 +601,7 @@ a.mg-shop-btn:hover {
     font-family: sora-bold;
 }
 .mg-tabs-box .nav-tabs .nav-link {
-    border: 1px solid  #e8e8e8;
+    border: 1px solid #e8e8e8;
     padding: 13px 40px;
     margin: 0 5px;
     font-size: 12px;
@@ -693,7 +694,7 @@ a.mg-shop-btn:hover {
 .mg-atc-overlay a {
     text-decoration: none;
     font-size: 14px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     color: #171717;
 }
 .mg-cart-box:hover {
@@ -750,7 +751,7 @@ a.mg-shop-btn:hover {
     font-size: 11px;
     color: #ffff;
     letter-spacing: 3px;
-    font-family: 'Sora-Medium';
+    font-family: "Sora-Medium";
 }
 .mg-container-fit-slider .mg-slider-section .mg-price span {
     font-size: 26px;
@@ -831,7 +832,7 @@ a.mg-shop-btn:hover {
     padding: 40px;
 }
 .mg-img-bg-text:hover {
-    background-color: rgba(0, 0, 0, 0.10);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .mg-img-bg-text span {
@@ -845,7 +846,7 @@ a.mg-shop-btn:hover {
     color: #171717;
     margin-bottom: 70px;
 }
-.mg-img-bg-text  a {
+.mg-img-bg-text a {
     text-decoration: none;
     color: #fff;
     background-color: #171717;
@@ -860,7 +861,7 @@ a.mg-shop-btn:hover {
 }
 
 .mg-img-overlay-inner:hover .mg-img-bg-text {
-    background-color: rgba(0, 0, 0, 0.10);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 /*****************************************/
 
@@ -895,7 +896,7 @@ a.mg-shop-btn:hover {
     font-size: 11.5px;
     color: #909090;
     letter-spacing: 3px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-toprated-text a {
     text-decoration: none;
@@ -920,7 +921,7 @@ a.mg-shop-btn:hover {
     width: 100%;
 }
 .mg-text-bg-image2 {
-  background-image: url('../images/overlay/mg-overlay-img4.jpg');  
+    background-image: url("../images/overlay/mg-overlay-img4.jpg");
 }
 .mg-text-bg-style2 {
     position: relative;
@@ -961,7 +962,7 @@ a.mg-shop-btn:hover {
     font-size: 12px;
     color: #fff;
     letter-spacing: 3px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-small-banner-text-inner h6 {
     font-size: 28px;
@@ -1020,7 +1021,7 @@ a.mg-shop-btn:hover {
 .mg-footer-bio .mg-footer-logo {
     text-decoration: none;
     font-size: 29px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     color: #fff;
 }
 .mg-footer-bio p {
@@ -1069,13 +1070,13 @@ a.mg-shop-btn:hover {
     text-decoration: none;
     color: #909090;
     font-size: 12px;
-    font-family: 'Sora-Medium';
+    font-family: "Sora-Medium";
 }
 .mg-newsletter-inner input.form-control:focus {
     box-shadow: none;
 }
 .mg-footer-link li:hover a {
-    color: #B3B2B0;
+    color: #b3b2b0;
 }
 .mg-newsletter-inner button:hover {
     background-color: #232323;
@@ -1098,7 +1099,7 @@ a.mg-shop-btn:hover {
     color: #979797;
     text-decoration: none;
 }
-.mg-payment-option-img  img {
+.mg-payment-option-img img {
     width: 200px;
 }
 .mg-copy-right-text {
@@ -1137,14 +1138,9 @@ a.mg-shop-btn:hover {
 }
 /**********************************/
 
-
-
-
-
 /*
 *Shop page style start here
 */
-
 
 /*
 *Page header section
@@ -1162,12 +1158,11 @@ a.mg-shop-btn:hover {
     font-family: sora-bold;
     color: #171717;
 }
-.mg-page-header-style  li.breadcrumb-item.active {
+.mg-page-header-style li.breadcrumb-item.active {
     color: #171717;
 }
 .mg-page-header-section {
     background-image: url(../images/banner/page-header-image.jpg);
-    
 }
 .mg-page-header-inner {
     height: 100%;
@@ -1187,7 +1182,7 @@ li.breadcrumb-item.active {
     color: #171717;
     padding-left: 6px;
 }
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
     padding-right: 4px;
 }
 /**********************/
@@ -1262,7 +1257,7 @@ li.breadcrumb-item.active {
 .mg-grid-icons a {
     text-decoration: none;
 }
-.mg-range-price  span.mg-rp-heading {
+.mg-range-price span.mg-rp-heading {
     color: #a8a8a8;
     letter-spacing: 1px;
     font-size: 13px;
@@ -1340,7 +1335,7 @@ li.breadcrumb-item.active {
 }
 .mg-category-heading h5 {
     font-size: 28px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     color: #171717;
 }
 .mg-category ul.list-group {
@@ -1351,7 +1346,7 @@ li.breadcrumb-item.active {
     border-left: none;
     padding: 25px 0;
     background-color: #fff;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     font-size: 15px;
 }
 .mg-category ul.list-group li.list-group-item a {
@@ -1362,7 +1357,7 @@ li.breadcrumb-item.active {
     color: #72716e;
 }
 .mg-text-bg-image3 {
-  background-image: url('../images/overlay/mg-overlay-img5.jpg');  
+    background-image: url("../images/overlay/mg-overlay-img5.jpg");
 }
 .mg-text-bg-style3 {
     position: relative;
@@ -1376,7 +1371,7 @@ li.breadcrumb-item.active {
 .mg-text-bg-style3 .mg-img-bg-text h6 {
     color: #fff;
 }
-.mg-text-bg-style3 .mg-img-bg-text  a {
+.mg-text-bg-style3 .mg-img-bg-text a {
     color: #171717;
     background-color: #fff;
 }
@@ -1408,7 +1403,7 @@ li.breadcrumb-item.active {
     width: 1px;
     height: 100px;
     position: absolute;
-    content: '';
+    content: "";
     right: 0;
     top: 65px;
     background-color: #e3e3e3;
@@ -1420,7 +1415,7 @@ li.breadcrumb-item.active {
 
 /*****************************************************************/
 
-    /*
+/*
     *Single products page style
     */
 
@@ -1441,7 +1436,7 @@ li.breadcrumb-item.active {
     padding-bottom: 60px;
     background-color: #f0f0f0;
 }
-.mg-slide-nav-img  img {
+.mg-slide-nav-img img {
     width: 100%;
 }
 .mg-product-slider-nav {
@@ -1458,14 +1453,13 @@ li.breadcrumb-item.active {
     padding-right: 0;
 }*/
 
-
 .mg-product-details-box {
     padding: 0 10px 10px;
     border-bottom: 1px solid #ddd;
 }
 .mg-product-details-box .mg-product-heading {
     font-size: 28px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-product-rating {
     display: flex;
@@ -1563,7 +1557,7 @@ li.breadcrumb-item.active {
     font-size: 12px;
     font-family: sora-medium;
 }
-.mg-radio-input input:checked[type=radio] + label {
+.mg-radio-input input:checked[type="radio"] + label {
     background-color: #171717;
     color: #fff;
 }
@@ -1583,7 +1577,7 @@ li.breadcrumb-item.active {
     opacity: 0.5;
     border: 1px solid #fff;
 }
-.mg-radio-clr-input input:checked[type=radio] + label {
+.mg-radio-clr-input input:checked[type="radio"] + label {
     opacity: 1;
     border: 1px solid #000;
 }
@@ -1630,7 +1624,7 @@ li.breadcrumb-item.active {
 }
 .mg-feature-info-text span {
     font-size: 15px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     line-height: 1.2;
     display: inline-block;
 }
@@ -1703,7 +1697,7 @@ li.breadcrumb-item.active {
 }
 .mg-review-form .mg-comment-form form h5 {
     font-size: 17px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-review-star-rating-form-inner > input:checked ~ label {
     color: #ffbc00;
@@ -1776,21 +1770,20 @@ li.breadcrumb-item.active {
 /**********************/
 /************************************/
 
-    /*
+/*
     *about us page style
     */
-    
+
 /*
 *page header section
 */
 .mg-page-header-section2 {
     background-image: url(../images/banner/page-header-image2.jpg);
-    
 }
 .mg-page-header-section2.mg-page-header-style .mg-page-header-heading h3 {
     color: #fff;
 }
-.mg-page-header-section2.mg-page-header-style  li.breadcrumb-item.active {
+.mg-page-header-section2.mg-page-header-style li.breadcrumb-item.active {
     color: #fff;
 }
 /********************/
@@ -1999,7 +1992,7 @@ li.breadcrumb-item.active {
 }
 .mg-testimonial-text p {
     font-size: 14px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     letter-spacing: 0.5px;
 }
 .mg-customer-img img {
@@ -2021,7 +2014,7 @@ li.breadcrumb-item.active {
 /*************************/
 /*********************************/
 
-        /*
+/*
         *404 page style
         */
 /*
@@ -2037,12 +2030,12 @@ li.breadcrumb-item.active {
 }
 .mg-error-content h5 {
     font-size: 66px;
-    font-family: 'Sora-ExtraBold';
+    font-family: "Sora-ExtraBold";
     margin-bottom: 20px;
 }
 .mg-error-content span {
     font-size: 50px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     line-height: 1;
 }
 .mg-error-content p {
@@ -2081,16 +2074,15 @@ li.breadcrumb-item.active {
 /***********************/
 /****************************/
 
-        /*
+/*
         *Blogs page style
         */
-        
+
 /*
 *blog page header section
 */
 .mg-page-header-section3 {
     background-image: url(../images/banner/page-header-image3.jpg);
-    
 }
 .mg-page-header-section3.mg-page-header-style {
     margin-bottom: 15px;
@@ -2109,7 +2101,7 @@ li.breadcrumb-item.active {
     margin: 12px 0;
     height: calc(100% - 24px);
     background-size: cover;
-    background-color:#f0f0f0;
+    background-color: #f0f0f0;
 }
 .mg-blogs-grid-box .mg-text-bg-style3 span.mg-comment-on-img {
     border-color: #fff;
@@ -2123,7 +2115,7 @@ span.mg-comment-on-img {
     padding: 55px 30px;
 }
 .mg-text-bg-image4 {
-  background-image: url('../images/overlay/mg-overlay-img6.jpg');  
+    background-image: url("../images/overlay/mg-overlay-img6.jpg");
 }
 .mg-img-bg-text a:focus {
     box-shadow: none;
@@ -2131,7 +2123,7 @@ span.mg-comment-on-img {
 /*************************/
 /**************************************/
 
-            /*
+/*
             *single blog style
             */
 
@@ -2140,7 +2132,6 @@ span.mg-comment-on-img {
 */
 .mg-page-header-section4 {
     background-image: url(../images/banner/page-header-image4.jpg);
-    
 }
 /****************/
 
@@ -2283,7 +2274,7 @@ span.mg-views-text {
 }
 .mg-comment-user-personal-info span {
     font-size: 22px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-comment-date span {
     font-size: 14px;
@@ -2328,7 +2319,7 @@ span.mg-views-text {
     border: none;
     font-size: 12px;
     padding: 15px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     min-height: 200px;
 }
 .mg-form-submit-btn button.btn {
@@ -2337,7 +2328,7 @@ span.mg-views-text {
     color: #fff;
     padding: 12px 38px;
     margin-top: 14px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     font-size: 12px;
     border: 1px solid transparent;
 }
@@ -2352,10 +2343,10 @@ span.mg-views-text {
 /**********************/
 /********************************/
 
-            /*
+/*
             *my account page
             */
-            
+
 /*
 *my account page header
 */
@@ -2420,7 +2411,7 @@ span.mg-views-text {
     background-color: #171717;
     margin-top: 10px;
 }
-.mg-forget-form{
+.mg-forget-form {
     display: none;
 }
 .mg-forget-form {
@@ -2536,7 +2527,7 @@ span.mg-views-text {
 /********************/
 /***************************/
 
-            /*
+/*
             *cart page style
             */
 /*
@@ -2639,7 +2630,7 @@ span.mg-views-text {
 }
 .mg-cart-sub-total span {
     font-size: 16px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-radio-option {
     padding-top: 15px;
@@ -2677,11 +2668,11 @@ span.mg-views-text {
     margin-bottom: 0;
     margin-right: 5px;
     font-size: 26px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-total-heading span {
     font-size: 13px;
-    font-family: 'Sora-medium';
+    font-family: "Sora-medium";
 }
 span.mg-grand-total-price {
     font-size: 16px;
@@ -2746,7 +2737,7 @@ span.mg-grand-total-price {
     font-size: 12px;
     padding: 14px 38px;
     margin-top: 5px;
-    font-family: 'Sora-Regular';
+    font-family: "Sora-Regular";
 }
 .mg-related-product-info a.btn:focus {
     box-shadow: none;
@@ -2771,11 +2762,10 @@ span.mg-grand-total-price {
 /************/
 /**********************/
 
-            /*
+/*
             *my order page
             */
-            
-            
+
 /*
 *my order section
 */
@@ -2784,7 +2774,7 @@ span.mg-grand-total-price {
 }
 .mg-my-order-inner .mg-my-order-heading {
     font-size: 44px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     margin-bottom: 25px;
 }
 .mg-product-delivery-date h5 {
@@ -2797,7 +2787,7 @@ span.mg-grand-total-price {
 }
 .mg-my-order-product th {
     padding: 12px 16px;
-     border-bottom: none;
+    border-bottom: none;
 }
 .mg-my-order-product td {
     border-bottom: none;
@@ -2815,14 +2805,14 @@ span.mg-grand-total-price {
 }
 .mg-product-color span {
     font-size: 12px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 /**********************/
 
-        /*
+/*
         *Privacy policy page
         */
-        
+
 /*
 *privcy policy section
 */
@@ -2832,13 +2822,13 @@ span.mg-grand-total-price {
 }
 .mg-pp-heading {
     font-size: 44px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     margin-bottom: 25px;
 }
 .mg-pp-para-section span {
     font-size: 12px;
     color: #171717;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-pp-para-section p {
     font-size: 12px;
@@ -2847,7 +2837,7 @@ span.mg-grand-total-price {
 }
 .mg-pp-heighlight-text h5 {
     font-size: 20px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     margin-top: 34px;
     margin-bottom: 34px;
 }
@@ -2864,10 +2854,10 @@ ul.mg-pp-list {
 /************************/
 /***************************/
 
-        /*
+/*
         *faq page
         */
-        
+
 /*
 *faq page header 
 */
@@ -2895,7 +2885,7 @@ ul.mg-pp-list {
 .mg-faq-inner button.accordion-button {
     background-color: #fff;
     color: #171717;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     font-size: 22px;
     padding: 20px 10px;
 }
@@ -2907,12 +2897,12 @@ ul.mg-pp-list {
 }
 .mg-accordian-text p {
     font-size: 14px;
-    font-family: 'Sora-Medium';
+    font-family: "Sora-Medium";
     color: #989898;
 }
 .mg-accordian-text-main span {
     font-size: 22px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-faq-inner h2.accordion-header {
     padding: 16px 4px;
@@ -2926,10 +2916,10 @@ ul.mg-pp-list {
 }
 /**************************/
 
-            /*
+/*
             *my profile
             */
-            
+
 /*
 *profile section
 */
@@ -2963,7 +2953,7 @@ ul.mg-pp-list {
     margin-left: 20px;
 }
 .mg-my-profile-details h5 {
-    font-family: 'Sora-bold';
+    font-family: "Sora-bold";
     font-size: 24px;
 }
 .mg-my-profile-details a {
@@ -2976,7 +2966,7 @@ ul.mg-pp-list {
 }
 a.mg-profile-shortcut {
     color: #000;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-my-profile-edit-details {
     display: flex;
@@ -2998,7 +2988,7 @@ a.mg-profile-shortcut {
     margin: 0;
 }
 .mg-my-profile-details-text span {
-    font-family: 'Sora-Medium';
+    font-family: "Sora-Medium";
     font-size: 14px;
     color: #989898;
 }
@@ -3023,10 +3013,10 @@ a.mg-profile-shortcut {
     margin-top: 20px;
 }
 /**********************/
-        /*
+/*
         *Thank you page
         */
-        
+
 /*
 *Thank you page section
 */
@@ -3048,12 +3038,12 @@ a.mg-profile-shortcut {
 }
 .mg-thanku-content h5 {
     font-size: 60px;
-    font-family: 'Sora-ExtraBold';
+    font-family: "Sora-ExtraBold";
     margin-bottom: 30px;
 }
 .mg-thanku-content span {
     font-size: 50px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     line-height: 1;
 }
 .mg-thanku-content p {
@@ -3117,7 +3107,7 @@ a.mg-profile-shortcut {
     padding-bottom: 15px;
 }
 .mg-odc-list-inner h5 {
-    font-family: 'Sora-Medium';
+    font-family: "Sora-Medium";
     font-size: 16px;
     padding-left: 30px;
 }
@@ -3126,7 +3116,7 @@ a.mg-profile-shortcut {
     color: #989898;
     margin: 0;
     padding-left: 30px;
-    font-family: 'Sora-Medium';
+    font-family: "Sora-Medium";
 }
 /*****************/
 
@@ -3160,10 +3150,10 @@ a.mg-profile-shortcut {
 /*********************/
 /**************************/
 
-            /*
+/*
             *contact us page
             */
-            
+
 /*
 *contact us page header
 */
@@ -3190,7 +3180,7 @@ a.mg-profile-shortcut {
 }
 .mg-contact-info-heading h5 {
     font-size: 28px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     margin-bottom: 20px;
 }
 .mg-contact-info-content {
@@ -3199,11 +3189,11 @@ a.mg-profile-shortcut {
 }
 .mg-contact-info-content h5 {
     font-size: 14px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-contact-info-content span {
     font-size: 12px;
-    font-family: 'Sora-Medium';
+    font-family: "Sora-Medium";
     color: #989898;
 }
 .mg-contact-info-content a {
@@ -3252,10 +3242,10 @@ a.mg-profile-shortcut {
 /****************/
 /************************/
 
-            /*
+/*
             *list view page
             */
-            
+
 /*
 *list view section
 */
@@ -3275,7 +3265,7 @@ a.mg-profile-shortcut {
     color: #989898;
     text-decoration: none;
     font-size: 12px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     letter-spacing: 3px;
 }
 .mg-lvc-wishlist img {
@@ -3283,7 +3273,7 @@ a.mg-profile-shortcut {
 }
 .mg-lvc-heading a {
     text-decoration: none;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     color: #171717;
 }
 .mg-lvc-heading a h5 {
@@ -3295,10 +3285,10 @@ a.mg-profile-shortcut {
 /***********/
 /********************/
 
-        /*
+/*
         *checkout page
         */
-        
+
 /*
 *checkout tab section
 */
@@ -3390,7 +3380,10 @@ a.mg-profile-shortcut {
     min-height: 100px;
     border-bottom: 1px solid #eee;
 }
-.mg-checkout-tab-content2 .mg-form-main .mg-form-textarea label.form-check-label {
+.mg-checkout-tab-content2
+    .mg-form-main
+    .mg-form-textarea
+    label.form-check-label {
     font-size: 12px;
     font-family: sora-medium;
     margin-left: 15px;
@@ -3411,7 +3404,7 @@ a.mg-profile-shortcut {
     padding-bottom: 20px;
     padding-top: 20px;
 }
-.mg-co-order-table .table>:not(:last-child)>:last-child>* {
+.mg-co-order-table .table > :not(:last-child) > :last-child > * {
     border-bottom-color: #eee;
 }
 .mg-radio {
@@ -3428,7 +3421,7 @@ a.mg-profile-shortcut {
     background-color: #171717;
     border: #171717;
 }
-.mg-co-radio .form-check-input[type=radio] {
+.mg-co-radio .form-check-input[type="radio"] {
     border-radius: 50%;
     border: 2px solid #171717;
 }
@@ -3445,13 +3438,13 @@ a.mg-profile-shortcut {
 /***********************************/
 /*************************************/
 
-                /*
+/*
                 *home 2 page style here
                 */
- /*
+/*
  *desktop search popup
  */
- .mg-desktop-search-popup button.btn {
+.mg-desktop-search-popup button.btn {
     background-color: #fff;
     padding: 7px 28px;
     margin-top: 20px;
@@ -3503,7 +3496,7 @@ a.mg-profile-shortcut {
 .mg-home2-header-outer .mg-header-icon-counter {
     background-color: #fff;
     color: #171717;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-home2-header-outer .header-icons-outer ul li {
     padding: 0 2px;
@@ -3581,7 +3574,7 @@ a.mg-profile-shortcut {
 .mg-tp-text a {
     font-size: 12px;
     text-decoration: none;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     color: #989898;
     letter-spacing: 2px;
 }
@@ -3589,11 +3582,13 @@ a.mg-profile-shortcut {
     color: #171717;
 }
 .mg-tp-text h5 {
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     font-size: 16px;
     margin-bottom: 3px;
 }
-.mg-top-products-inner .mg-top-products-box-outer:first-child .mg-top-products-box {
+.mg-top-products-inner
+    .mg-top-products-box-outer:first-child
+    .mg-top-products-box {
     border-left: none;
 }
 .mg-top-products-box:hover img {
@@ -3618,14 +3613,14 @@ a.mg-profile-shortcut {
 }
 .mg-cf-text span {
     font-size: 12px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     letter-spacing: 2px;
 }
 .mg-cf-text h2 {
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
     font-size: 22px;
 }
-.mg-cf-text  p {
+.mg-cf-text p {
     font-size: 12px;
     margin-top: 20px;
     color: #989898;
@@ -3638,7 +3633,7 @@ a.mg-profile-shortcut {
     color: #fff;
     font-size: 12px;
     padding: 12px 40px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-cf-text a.btn.btn-default:hover {
     background-color: #fff;
@@ -3869,7 +3864,7 @@ a.mg-profile-shortcut {
 .mg-footer-section.mg-home2-footer-section {
     background-color: #f6f6f6;
     padding-top: 0px;
-    padding-bottom:0px;
+    padding-bottom: 0px;
 }
 .mg-home2-footer-section .mg-footer-bio .mg-footer-logo {
     color: #171717;
@@ -3914,8 +3909,7 @@ a.mg-profile-shortcut {
     padding-right: 0;
 }*/
 
-
-            /*
+/*
             *Home 3 page start here
             */
 /*
@@ -4000,7 +3994,7 @@ a.mg-profile-shortcut {
 .mg-home3-overlay-section .mg-overlay-text p {
     font-size: 12px;
     color: #989898;
-    font-family: 'Sora-Medium';
+    font-family: "Sora-Medium";
 }
 .mg-home3-overlay-section .mg-overlay-text h6 {
     margin-bottom: 10px;
@@ -4026,12 +4020,12 @@ a.mg-profile-shortcut {
 }
 .mg-home3-overlay-heading h6 {
     font-size: 26px;
-    font-family: 'Sora-Bold';
+    font-family: "Sora-Bold";
 }
 .mg-home3-overlay-heading p {
     font-size: 12px;
     color: #989898;
-    font-family: 'Sora-Medium';
+    font-family: "Sora-Medium";
 }
 .mg-home3-overlay-section .mg-img-overlay-inner {
     height: 100%;
@@ -4101,7 +4095,7 @@ a.mg-profile-shortcut {
 .mg-home3-tab-section .mg-cart-box a {
     color: #fff;
 }
-.mg-tab-text-top  a {
+.mg-tab-text-top a {
     width: 80%;
 }
 .mg-home3-tab-section .mg-tab-text h5 {
@@ -4142,7 +4136,7 @@ a.mg-profile-shortcut {
 .mg-home3-overlay-section2 .mg-overlay-text span {
     color: #fff;
 }
-.mg-home3-overlay-section.mg-home3-overlay-section2  .mg-overlay-text h6 {
+.mg-home3-overlay-section.mg-home3-overlay-section2 .mg-overlay-text h6 {
     color: #fff;
 }
 .mg-home3-overlay-section.mg-home3-overlay-section2 .mg-overlay-text p {
@@ -4152,11 +4146,14 @@ a.mg-profile-shortcut {
 .mg-home3-overlay-section.mg-home3-overlay-section2 .mg-overlay-text a {
     color: #fff;
 }
-.mg-home3-overlay-section.mg-home3-overlay-section2 .mg-overlay-text a.btn:hover {
+.mg-home3-overlay-section.mg-home3-overlay-section2
+    .mg-overlay-text
+    a.btn:hover {
     color: #fff;
     background-color: transparent;
 }
-/********************/*
+/********************/
+*
 /*
 *home 3 top rated products section
 */

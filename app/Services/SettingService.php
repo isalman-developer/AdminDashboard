@@ -31,6 +31,7 @@ class SettingService
     public function getAdminFormSettings(): array
     {
         return [
+            'site_admin_name'  => $this->get('site_admin_name', config('app.name')),
             'site_name'        => $this->get('site_name', config('app.name')),
             'site_email'       => $this->get('site_email'),
             'site_description' => $this->get('site_description'),
@@ -48,6 +49,7 @@ class SettingService
     {
         return $this->setMultiple([
             'site_name'        => $validated['site_name'],
+            'site_admin_name'  => $validated['site_admin_name'],
             'site_email'       => $validated['site_email'] ?? '',
             'site_description' => $validated['site_description'] ?? '',
             'items_per_page'   => (int) $validated['items_per_page'],
