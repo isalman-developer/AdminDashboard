@@ -20,9 +20,9 @@ class ProductController extends Controller
                 'category',
                 'media' => fn ($q) => $q->where('file_type', 'image'),
             ])
-            ->when($request->filled('brand_id'), fn ($q) =>
+            ->when(is_array($request->brand_id) && count($request->brand_id) > 0, fn ($q) =>
                 $q->whereIn('brand_id', $request->brand_id))
-            ->when($request->filled('category_id'), fn ($q) =>
+            ->when(is_array($request->category_id) && count($request->category_id) > 0, fn ($q) =>
                 $q->whereIn('category_id', $request->category_id))
             ->when($request->filled('price_min'), fn ($q) =>
                 $q->where('price', '>=', (float) $request->price_min))

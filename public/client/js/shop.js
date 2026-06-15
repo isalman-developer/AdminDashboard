@@ -1,66 +1,76 @@
 (function () {
     "use strict";
 
-    // ─── PRICE SLIDER (nouislider) ───────────────────────────
-    const sliderEl = document.getElementById("price-slider");
+    const filterForm = document.getElementById("filter-form");
+    const sliderEl   = document.getElementById("price-slider");
 
+    // ─── PRICE SLIDER (nouislider) ───────────────────────────
     if (sliderEl && typeof noUiSlider !== "undefined") {
-        const globalMin = parseFloat(sliderEl.dataset.min) || 0;
-        const globalMax = parseFloat(sliderEl.dataset.max) || 9999;
-        const startMin = parseFloat(sliderEl.dataset.startMin) || globalMin;
-        const startMax = parseFloat(sliderEl.dataset.startMax) || globalMax;
+        const globalMin = parseFloat(sliderEl.dataset.min)  || 0;
+        const globalMax = parseFloat(sliderEl.dataset.max)  || 9999;
+
+        // Safe parse: avoid falsy-zero bug where parseFloat(0) || fallback = fallback
+        function safeParse(val, fallback) {
+            var n = parseFloat(val);
+            return (val !== "" && val != null && isFinite(n)) ? n : fallback;
+        }
+        const startMin = safeParse(sliderEl.dataset.startMin, globalMin);
+        const startMax = safeParse(sliderEl.dataset.startMax, globalMax);
 
         const minDisplay = document.getElementById("price-min-display");
         const maxDisplay = document.getElementById("price-max-display");
-        const minInput = document.getElementById("price-min-input");
-        const maxInput = document.getElementById("price-max-input");
+        const minInput   = document.getElementById("price-min-input");
+        const maxInput   = document.getElementById("price-max-input");
 
         noUiSlider.create(sliderEl, {
-            start: [startMin, startMax],
+            start:   [startMin, startMax],
             connect: true,
-            range: { min: globalMin, max: globalMax },
-            step: 1,
+            range:   { min: globalMin, max: globalMax },
+            step:    1,
         });
 
         sliderEl.noUiSlider.on("update", function (values) {
-            const lo = Math.round(values[0]);
-            const hi = Math.round(values[1]);
-
+            var lo = Math.round(values[0]);
+            var hi = Math.round(values[1]);
             if (minDisplay) minDisplay.textContent = lo;
             if (maxDisplay) maxDisplay.textContent = hi;
-            if (minInput) minInput.value = lo;
-            if (maxInput) maxInput.value = hi;
+            if (minInput)   minInput.value = lo;
+            if (maxInput)   maxInput.value = hi;
         });
 
-        // Submit form only when user releases handle (avoids mid-drag submits)
+        // Auto-submit on desktop when handle is released
         sliderEl.noUiSlider.on("change", function () {
-            // On desktop auto-submit; on mobile user clicks Apply
-            if (window.innerWidth >= 992) {
-                const form = document.getElementById("filter-form");
-                if (form) form.submit();
-            }
+            if (window.innerWidth >= 992 && filterForm) filterForm.submit();
         });
+
+        // Keep URL clean: strip price params when slider is at the full global range
+        // so unconfigured price doesn't pollute the URL on every checkbox/sort submit
+        if (filterForm) {
+            filterForm.addEventListener("submit", function () {
+                if (minInput && maxInput &&
+                    parseInt(minInput.value) === globalMin &&
+                    parseInt(maxInput.value) === globalMax) {
+                    minInput.removeAttribute("name");
+                    maxInput.removeAttribute("name");
+                }
+            });
+        }
     }
 
     // ─── CHECKBOX AUTO-SUBMIT (desktop only) ─────────────────
     document.querySelectorAll(".filter-checkbox").forEach(function (cb) {
         cb.addEventListener("change", function () {
-            if (window.innerWidth >= 992) {
-                const form = document.getElementById("filter-form");
-                if (form) form.submit();
-            }
+            if (window.innerWidth >= 992 && filterForm) filterForm.submit();
         });
     });
 
     // ─── SORT DROPDOWN ───────────────────────────────────────
-    const sortSelect = document.getElementById("sort-select");
+    var sortSelect = document.getElementById("sort-select");
     if (sortSelect) {
         sortSelect.addEventListener("change", function () {
-            const hiddenSortBy = document.getElementById("hidden-sort-by");
+            var hiddenSortBy = document.getElementById("hidden-sort-by");
             if (hiddenSortBy) hiddenSortBy.value = this.value;
-
-            const form = document.getElementById("filter-form");
-            if (form) form.submit();
+            if (filterForm) filterForm.submit();
         });
     }
 })();
