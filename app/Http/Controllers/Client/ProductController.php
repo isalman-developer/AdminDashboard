@@ -24,6 +24,8 @@ class ProductController extends Controller
                 $q->whereIn('brand_id', $request->brand_id))
             ->when(is_array($request->category_id) && count($request->category_id) > 0, fn ($q) =>
                 $q->whereIn('category_id', $request->category_id))
+            ->when($request->filled('marked_as_id'), fn ($q) =>
+                $q->where('marked_as_id', (int) $request->marked_as_id))
             ->when($request->filled('price_min'), fn ($q) =>
                 $q->where('price', '>=', (float) $request->price_min))
             ->when($request->filled('price_max'), fn ($q) =>

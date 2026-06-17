@@ -205,6 +205,23 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="col-md-6">
+                <label for="marked_as_id" class="form-label">Mark As</label>
+                <select class="form-select @error('marked_as_id') is-invalid @enderror"
+                    id="marked_as_id" name="marked_as_id">
+                    <option value="">— None —</option>
+                    @foreach ($markedAs as $mark)
+                        <option value="{{ $mark->id }}"
+                            {{ old('marked_as_id', $product?->marked_as_id) == $mark->id ? 'selected' : '' }}>
+                            {{ $mark->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('marked_as_id')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
         </div>
     </div>
 </div>

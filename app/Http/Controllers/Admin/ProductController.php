@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Product\ProductStoreRequest;
 use App\Http\Requests\Admin\Product\ProductUpdateRequest;
+use App\Models\MarkedAs;
 use App\Models\Product;
 use App\Services\BrandService;
 use App\Services\CategoryService;
@@ -39,8 +40,9 @@ class ProductController extends Controller
     {
         $categories = $categoryService->allOrdered();
         $brands = $brandService->allOrdered();
+        $markedAs = MarkedAs::orderBy('id')->get();
 
-        return view('admin.products.create', compact('categories', 'brands'));
+        return view('admin.products.create', compact('categories', 'brands', 'markedAs'));
     }
 
     public function store(ProductStoreRequest $request, ProductService $productService): RedirectResponse
@@ -63,8 +65,9 @@ class ProductController extends Controller
     {
         $categories = $categoryService->allOrdered();
         $brands = $brandService->allOrdered();
+        $markedAs = MarkedAs::orderBy('id')->get();
 
-        return view('admin.products.edit', compact('product', 'categories', 'brands'));
+        return view('admin.products.edit', compact('product', 'categories', 'brands', 'markedAs'));
     }
 
     public function update(

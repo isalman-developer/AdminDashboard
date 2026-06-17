@@ -1,6 +1,6 @@
 @extends('client.layouts.master')
 
-@section('title', 'Ecommerce Store')
+@section('title', setting('site_name', 'LaptopStore') . ' - Laptops & Computers')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('client/libs/swiper/swiper-bundle.min.css') }}">
@@ -64,13 +64,9 @@
                         <div class="product-card">
                             <div class="text-center product-card-img mb-4">
                                 <a href="{{ route('products.show', $item) }}">
-                                    @if ($item->image_path)
                                         <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}" class="img-fluid">
-                                        <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}" class="img-fluid product-img-hover">
-                                    @else
-                                        <img src="{{ asset('client/images/product/product-img-1.jpg') }}" alt="{{ $item->name }}" class="img-fluid">
-                                        <img src="{{ asset('client/images/product/product-img-hover-1.jpg') }}" alt="{{ $item->name }}" class="img-fluid product-img-hover">
-                                    @endif
+                                        <img src="{{ Storage::url($item->image_path2) }}" alt="{{ $item->name }}" class="img-fluid product-img-hover">
+                                   
                                 </a>
                                 <div class="product-card-btn">
                                     <a href="{{ route('products.show', $item) }}" class="btn btn-primary btn-icon btn-sm animate-pulse">
@@ -150,112 +146,90 @@
     <!--Marquee start-->
     <div class="marquee mb-lg-8 py-6">
         <div class="text-track display-1 fw-bold text-primary py-lg-6" style="font-size: 128px">
-            Good design is everyone's right. Good design is everyone's right. Good design is everyone's right. Good design
-            is everyone's right. Good design is everyone's right. Good design is everyone's right.
+            Performance. Power. Precision. Your Perfect Laptop Awaits. Performance. Power. Precision. Your Perfect Laptop Awaits. Performance. Power. Precision. Your Perfect Laptop Awaits.
         </div>
     </div>
     <!--Marquee end-->
 
-    <!--Shop the look start-->
-    <div class="py-lg-10 mb-6 mb-lg-6 d-flex flex-column align-items-center justify-content-center"
-        style="background: url({{ asset('client/images/shop/shop-the-look-img-big.jpg') }}) no-repeat; background-position: center; background-size: cover; min-height: 750px">
+    <!--Featured Laptops start-->
+    @if($data['featured_products']->isNotEmpty())
+    <section class="py-lg-10 pt-6 mx-3 mx-lg-0">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3 d-flex flex-column gap-10 justify-content-between">
-                    <div class="d-flex justify-content-center">
-                        <a href="#!" class="btn btn-icon btn-sm btn-white rounded-circle pulse-button"
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="focus"
-                            data-bs-placement="left" data-bs-content='<div class="d-flex align-items-center gap-3">
-                                <div><img src="{{ asset("client/images/shop/shop-look-img-3.jpg") }}" alt="" /></div>
-                                <div>
-                                    <h3 class="fs-6 mb-1">Photo Frame</h3>
-                                    <span>$259.00</span>
-                                    <a href="#!" class="text-link">+Add to cart</a>
-                                </div>
-                            </div>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus" viewBox="0 0 16 16">
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="#!" class="btn btn-icon btn-sm btn-white rounded-circle pulse-button"
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="focus"
-                            data-bs-placement="right" data-bs-content='<div class="d-flex align-items-center gap-3">
-                                <div><img src="{{ asset("client/images/shop/shop-look-img-2.jpg") }}" alt="" /></div>
-                                <div>
-                                    <h3 class="fs-6 mb-1">Flower Pot</h3>
-                                    <span>$259.00</span>
-                                    <a href="#!" class="text-link">+Add to cart</a>
-                                </div>
-                            </div>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus" viewBox="0 0 16 16">
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 d-flex flex-column gap-10 mx-auto justify-content-start mt-n9">
-                    <div class="d-flex flex-column align-items-center">
-                        <a href="#!" class="btn btn-icon btn-sm btn-white rounded-circle pulse-button"
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="focus"
-                            data-bs-placement="right" data-bs-content='<div class="d-flex align-items-center gap-3">
-                                <div><img src="{{ asset("client/images/shop/shop-look-img-4.jpg") }}" alt="" /></div>
-                                <div>
-                                    <h3 class="fs-6 mb-1">Design Wall Clock</h3>
-                                    <span>$259.00</span>
-                                    <a href="#!" class="text-link">+Add to cart</a>
-                                </div>
-                            </div>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus" viewBox="0 0 16 16">
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 d-flex flex-column gap-10 mx-auto">
-                    <div class="mb-10 d-flex flex-column align-items-end">
-                        <a href="#!" class="btn btn-icon btn-sm btn-white rounded-circle pulse-button"
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="focus"
-                            data-bs-placement="left" data-bs-content='<div class="d-flex align-items-center gap-3">
-                                <div><img src="{{ asset("client/images/shop/shop-look-img-1.jpg") }}" alt="" /></div>
-                                <div>
-                                    <h3 class="fs-6 mb-1">Lamp</h3>
-                                    <span>$79.00</span>
-                                    <a href="#!" class="text-link">+Add to cart</a>
-                                </div>
-                            </div>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus" viewBox="0 0 16 16">
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="mt-lg-10">
-                        <a href="#!" class="btn btn-icon btn-sm btn-white rounded-circle pulse-button"
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="focus"
-                            data-bs-placement="right" data-bs-content='<div class="d-flex align-items-center gap-3">
-                                <div><img src="{{ asset("client/images/shop/shop-look-img-5.jpg") }}" alt="" /></div>
-                                <div>
-                                    <h3 class="fs-6 mb-1">Designer Sofa</h3>
-                                    <span>$259.00</span>
-                                    <a href="#!" class="text-link">+Add to cart</a>
-                                </div>
-                            </div>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus" viewBox="0 0 16 16">
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                            </svg>
-                        </a>
+            <div class="row mb-md-8 mb-4">
+                <div class="col-lg-12">
+                    <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-md-between gap-4">
+                        <div class="col-sm-7">
+                            <h2>Featured laptops</h2>
+                            <p class="mb-0">Hand-picked selections from our top brands — built for performance, designed for life.</p>
+                        </div>
+                        <div class="col-auto">
+                            <a href="{{ route('products.index') }}" class="d-flex align-items-center gap-2 btn-dark-link">
+                                <span class="text-link">View all</span>
+                                <span class="btn btn-outline-primary btn-icon btn-xxs rounded-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                        class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                                    </svg>
+                                </span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--Shop the look end-->
+        <div class="swiper-container swiper px-3" data-pagination-type="progressbar" data-speed="400"
+            data-space-between="30" data-pagination="true" data-navigation="true" data-autoplay="false"
+            data-effect="slides" data-autoplay-delay="3000"
+            data-breakpoints='{"480": {"slidesPerView": 2}, "768": {"slidesPerView": 3}, "1024": {"slidesPerView": 4}}'>
+            <div class="swiper-wrapper pb-10">
+                @foreach ($data['featured_products'] as $item)
+                    <div class="swiper-slide">
+                        <div class="product-card">
+                            <div class="text-center product-card-img mb-4">
+                                <a href="{{ route('products.show', $item) }}">
+                                    <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}" class="img-fluid">
+                                    <img src="{{ Storage::url($item->image_path2) }}" alt="{{ $item->name }}" class="img-fluid product-img-hover">
+                                </a>
+                                <div class="product-card-btn">
+                                    <a href="{{ route('products.show', $item) }}" class="btn btn-primary btn-icon btn-sm animate-pulse">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                            class="bi bi-eye animate-target" viewBox="0 0 16 16">
+                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                        </svg>
+                                    </a>
+                                    <a href="{{ route('products.show', $item) }}" class="btn btn-primary btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                            class="bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                        </svg>
+                                        View
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small fw-medium text-uppercase">{{ $item->brand?->name ?? '' }}</span>
+                            </div>
+                            <div class="mb-3">
+                                <h3 class="fs-6 mb-0 product-heading d-inline-block text-truncate">
+                                    <a href="{{ route('products.show', $item) }}">{{ Str::limit($item->name, 30) }}</a>
+                                </h3>
+                                <p class="mb-0 lh-1 text-dark fw-semibold">${{ number_format($item->price, 2) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="swiper-pagination top-100 mt-n4 start-lg-10 w-lg-75"></div>
+            <div class="swiper-navigation position-absolute end-10 bottom-0 mb-4 d-none d-lg-block">
+                <div class="swiper-button-next btn btn-icon btn-sm btn-outline-primary rounded-circle"></div>
+                <div class="swiper-button-prev me-2 btn btn-icon btn-sm btn-outline-primary rounded-circle"></div>
+            </div>
+        </div>
+    </section>
+    @endif
+    <!--Featured Laptops end-->
 
     <!--Explore collection start-->
     <section class="py-lg-10 py-6">
@@ -287,81 +261,47 @@
                     data-effect="slides" data-autoplay-delay="3000"
                     data-breakpoints='{"480": {"slidesPerView": 2}, "768": {"slidesPerView": 3}, "1024": {"slidesPerView": 5}}'>
                     <div class="swiper-wrapper pb-8">
-                        <div class="swiper-slide">
-                            <a href="{{ route('products.index') }}" class="text-center p-4 card-animation d-block bg-light">
-                                <img src="{{ asset('client/images/product/product-img-1.jpg') }}" alt="product image" class="mb-3 img-fluid" />
-                                <div class="d-flex align-items-center gap-2 justify-content-center link-animation">
-                                    <h3 class="fs-6 mb-0">Armchair</h3>
-                                    <span class="btn btn-outline-dark btn-icon btn-xxs rounded-circle circle-chevron">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
-                                            class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{{ route('products.index') }}" class="text-center p-4 card-animation d-block bg-light">
-                                <img src="{{ asset('client/images/product/product-img-2.jpg') }}" alt="product image" class="mb-3 img-fluid" />
-                                <div class="d-flex align-items-center gap-2 justify-content-center link-animation">
-                                    <h3 class="fs-6 mb-0">Lamp</h3>
-                                    <span class="btn btn-outline-dark btn-icon btn-xxs rounded-circle circle-chevron">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
-                                            class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{{ route('products.index') }}" class="text-center p-4 card-animation d-block bg-light">
-                                <img src="{{ asset('client/images/product/product-img-10.jpg') }}" alt="product image" class="mb-3 img-fluid" />
-                                <div class="d-flex align-items-center gap-2 justify-content-center link-animation">
-                                    <h3 class="fs-6 mb-0">Sofa</h3>
-                                    <span class="btn btn-outline-dark btn-icon btn-xxs rounded-circle circle-chevron">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
-                                            class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{{ route('products.index') }}" class="text-center p-4 card-animation d-block bg-light">
-                                <img src="{{ asset('client/images/product/product-img-7.jpg') }}" alt="product image" class="mb-3 img-fluid" />
-                                <div class="d-flex align-items-center gap-2 justify-content-center link-animation">
-                                    <h3 class="fs-6 mb-0">Wood Stool</h3>
-                                    <span class="btn btn-outline-dark btn-icon btn-xxs rounded-circle circle-chevron">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
-                                            class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{{ route('products.index') }}" class="text-center p-4 card-animation d-block bg-light">
-                                <img src="{{ asset('client/images/product/product-img-8.jpg') }}" alt="product image" class="mb-3 img-fluid" />
-                                <div class="d-flex align-items-center gap-2 justify-content-center link-animation">
-                                    <h3 class="fs-6 mb-0">Pot</h3>
-                                    <span class="btn btn-outline-dark btn-icon btn-xxs rounded-circle circle-chevron">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
-                                            class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </a>
-                        </div>
+                        @forelse($categories as $category)
+                            @php $firstProduct = $category->products->first(); @endphp
+                            <div class="swiper-slide">
+                                <a href="{{ route('products.index', ['category' => $category->slug]) }}" class="text-center p-4 card-animation d-block bg-light">
+                                    @if($firstProduct && $firstProduct->image_path)
+                                        <img src="{{ Storage::url($firstProduct->image_path) }}" alt="{{ $category->name }}" class="mb-3 img-fluid" style="height: 140px; object-fit: contain;" />
+                                    @else
+                                        <div class="mb-3 d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 rounded" style="height: 140px;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-laptop text-secondary" viewBox="0 0 16 16">
+                                                <path d="M13.5 3a.5.5 0 0 1 .5.5V11H2V3.5a.5.5 0 0 1 .5-.5zm-11-1A1.5 1.5 0 0 0 1 3.5V12h.5a.5.5 0 0 0 0 1H3v.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V13h1.5a.5.5 0 0 0 0-1H15V3.5A1.5 1.5 0 0 0 13.5 2z"/>
+                                            </svg>
+                                        </div>
+                                    @endif
+                                    <div class="d-flex align-items-center gap-2 justify-content-center link-animation">
+                                        <h3 class="fs-6 mb-0">{{ $category->name }}</h3>
+                                        <span class="btn btn-outline-dark btn-icon btn-xxs rounded-circle circle-chevron">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
+                                                class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        @empty
+                            <div class="swiper-slide">
+                                <a href="{{ route('products.index') }}" class="text-center p-4 card-animation d-block bg-light">
+                                    <div class="d-flex align-items-center gap-2 justify-content-center link-animation">
+                                        <h3 class="fs-6 mb-0">Browse all laptops</h3>
+                                        <span class="btn btn-outline-dark btn-icon btn-xxs rounded-circle circle-chevron">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
+                                                class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforelse
                     </div>
                     <div class="swiper-pagination"></div>
                     <div class="swiper-navigation position-absolute start-50 bottom-0 mb-4">
@@ -374,110 +314,85 @@
     </section>
     <!--Explore collection end-->
 
-    <!--Shop room start-->
-    <section class="pb-lg-10 py-6">
+    <!--Best Sellers start-->
+    @if($data['best_seller_products']->isNotEmpty())
+    <section class="pb-lg-10 py-6 mx-3 mx-lg-0">
         <div class="container">
-            <div class="row mb-lg-8 mb-5">
+            <div class="row mb-md-8 mb-4">
                 <div class="col-lg-12">
-                    <h2 class="mb-0">Shop the room</h2>
-                </div>
-            </div>
-            <div class="row gy-4">
-                <div class="col-lg-6">
-                    <div class="position-relative">
-                        <img src="{{ asset('client/images/shop/shop-room-1.jpg') }}" alt="shop room" class="img-fluid" />
-                        <a id="hint1" href="#!"
-                            class="btn btn-icon btn-sm btn-white rounded-circle pulse-button position-absolute bottom-50 end-25 hint2"
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="focus"
-                            data-bs-placement="right" data-bs-content='<div class="d-flex align-items-center gap-3">
-                            <div><img src="{{ asset("client/images/shop/shop-look-img-5.jpg") }}" alt="shop look" /></div>
-                            <div>
-                                <h3 class="fs-6 mb-1">Designer Sofa</h3>
-                                <span>$259.00</span>
-                                <a href="#!" class="text-link">+Add to cart</a>
-                            </div>
-                        </div>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus" viewBox="0 0 16 16">
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                            </svg>
-                        </a>
-                        <a id="hint2" href="#!"
-                            class="btn btn-icon btn-sm btn-white rounded-circle pulse-button position-absolute bottom-50 start-25 hint"
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-trigger="focus"
-                            data-bs-placement="right" data-bs-content='<div class="d-flex align-items-center gap-3">
-                            <div><img src="{{ asset("client/images/shop/shop-look-img-2.jpg") }}" alt="shop look" /></div>
-                            <div>
-                                <h3 class="fs-6 mb-1">Flower Pot</h3>
-                                <span>$259.00</span>
-                                <a href="#!" class="text-link">+Add to cart</a>
-                            </div>
-                        </div>'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus" viewBox="0 0 16 16">
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="offset-lg-1 col-lg-4">
-                    <div class="swiper-container swiper" id="swiper-2" data-pagination-type="" data-speed="400"
-                        data-space-between="100" data-pagination="false" data-navigation="true" data-autoplay="false"
-                        data-effect="slides" data-autoplay-delay="3000"
-                        data-breakpoints='{"480": {"slidesPerView": 2}, "768": {"slidesPerView": 1}, "1024": {"slidesPerView": 1}}'>
-                        <div class="swiper-wrapper pb-6">
-                            <div class="swiper-slide">
-                                <div>
-                                    <img src="{{ asset('client/images/shop/shop-room-1.jpg') }}" alt="shop room" class="img-fluid mb-4" />
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="small fw-medium text-uppercase">BRAND</span>
-                                        <span>
-                                            4.3
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
-                                                class="bi bi-star-fill align-baseline text-warning" viewBox="0 0 16 16">
-                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <h3 class="fs-6 mb-1 text-link d-inline-block">Stylish Wooden Table Lamp</h3>
-                                        <p class="mb-0 lh-1 text-dark fw-semibold">$78.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide mb-5">
-                                <div>
-                                    <img src="{{ asset('client/images/shop/shop-room-1.jpg') }}" alt="shop room" class="img-fluid mb-4" />
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="small fw-medium text-uppercase">BRAND</span>
-                                        <span>
-                                            4.3
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
-                                                class="bi bi-star-fill align-baseline text-warning" viewBox="0 0 16 16">
-                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <h3 class="fs-6 mb-1 text-link d-inline-block">Stylish Wooden Table Lamp</h3>
-                                        <p class="mb-0 lh-1 text-dark fw-semibold">$78.00</p>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-md-between gap-4">
+                        <div class="col-sm-7">
+                            <h2>Best sellers</h2>
+                            <p class="mb-0">Our most popular laptops — loved by gamers, professionals, and everyday users alike.</p>
                         </div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-navigation position-absolute end-50 bottom-0 mb-4">
-                            <div class="swiper-button-next btn btn-icon btn-sm btn-outline-primary rounded-circle slide"
-                                data-hint-id="hint1"></div>
-                            <div class="swiper-button-prev me-2 btn btn-icon btn-sm btn-outline-primary rounded-circle slide"
-                                data-hint-id="hint2"></div>
+                        <div class="col-auto">
+                            <a href="{{ route('products.index') }}" class="d-flex align-items-center gap-2 btn-dark-link">
+                                <span class="text-link">View all</span>
+                                <span class="btn btn-outline-primary btn-icon btn-xxs rounded-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
+                                        class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd"
+                                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                                    </svg>
+                                </span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="swiper-container swiper px-3" data-pagination-type="progressbar" data-speed="400"
+            data-space-between="30" data-pagination="true" data-navigation="true" data-autoplay="false"
+            data-effect="slides" data-autoplay-delay="3000"
+            data-breakpoints='{"480": {"slidesPerView": 2}, "768": {"slidesPerView": 3}, "1024": {"slidesPerView": 4}}'>
+            <div class="swiper-wrapper pb-10">
+                @foreach ($data['best_seller_products'] as $item)
+                    <div class="swiper-slide">
+                        <div class="product-card">
+                            <div class="text-center product-card-img mb-4">
+                                <a href="{{ route('products.show', $item) }}">
+                                    <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}" class="img-fluid">
+                                    <img src="{{ Storage::url($item->image_path2) }}" alt="{{ $item->name }}" class="img-fluid product-img-hover">
+                                </a>
+                                <div class="product-card-btn">
+                                    <a href="{{ route('products.show', $item) }}" class="btn btn-primary btn-icon btn-sm animate-pulse">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                            class="bi bi-eye animate-target" viewBox="0 0 16 16">
+                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                        </svg>
+                                    </a>
+                                    <a href="{{ route('products.show', $item) }}" class="btn btn-primary btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                            class="bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                        </svg>
+                                        View
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small fw-medium text-uppercase">{{ $item->brand?->name ?? '' }}</span>
+                            </div>
+                            <div class="mb-3">
+                                <h3 class="fs-6 mb-0 product-heading d-inline-block text-truncate">
+                                    <a href="{{ route('products.show', $item) }}">{{ Str::limit($item->name, 30) }}</a>
+                                </h3>
+                                <p class="mb-0 lh-1 text-dark fw-semibold">${{ number_format($item->price, 2) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="swiper-pagination top-100 mt-n4 start-lg-10 w-lg-75"></div>
+            <div class="swiper-navigation position-absolute end-10 bottom-0 mb-4 d-none d-lg-block">
+                <div class="swiper-button-next btn btn-icon btn-sm btn-outline-primary rounded-circle"></div>
+                <div class="swiper-button-prev me-2 btn btn-icon btn-sm btn-outline-primary rounded-circle"></div>
+            </div>
+        </div>
     </section>
-    <!--Shop room end-->
+    @endif
+    <!--Best Sellers end-->
 
     <!--Testimonial start-->
     <div class="py-lg-10 bg-dark px-3 py-6">
@@ -491,34 +406,31 @@
                         <div class="swiper-wrapper pb-lg-10">
                             <div class="swiper-slide">
                                 <div class="text-center">
-                                    <p class="text-white fs-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Repudiandae quasi, quod sunt autem iste debitis ducimus, in voluptatem quidem explicabo!</p>
+                                    <p class="text-white fs-2">"Incredibly fast delivery and the gaming laptop I ordered exceeded all my expectations. The screen quality and performance are absolutely top-notch."</p>
                                     <div class="mt-6">
-                                        <img src="{{ asset('client/images/avatar/avatar-13.jpg') }}" alt=""
+                                        <img src="{{ asset('client/images/avatar/avatar-13.jpg') }}" alt="Alex M."
                                             class="avatar avatar-md rounded-circle mb-2" />
-                                        <p class="mb-0 lh-1 text-white">Mette Hay</p>
+                                        <p class="mb-0 lh-1 text-white">Alex M.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="text-center">
-                                    <p class="text-white fs-2">Dolor sit amet consectetur adipisicing elit.
-                                        Similique et quisquam minima facilis voluptatem corrupti.</p>
+                                    <p class="text-white fs-2">"I needed a reliable business laptop and this store had exactly what I was looking for. Great pricing and excellent after-sales support."</p>
                                     <div class="mt-6">
-                                        <img src="{{ asset('client/images/avatar/avatar-14.jpg') }}" alt=""
+                                        <img src="{{ asset('client/images/avatar/avatar-14.jpg') }}" alt="Sarah K."
                                             class="avatar avatar-md rounded-circle mb-2" />
-                                        <p class="mb-0 lh-1 text-white">Mette Hay</p>
+                                        <p class="mb-0 lh-1 text-white">Sarah K.</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="text-center">
-                                    <p class="text-white fs-2">Consectetur adipisicing elit dolor, sit amet
-                                        Illo recusandae ipsum itaque tempora labore voluptate.</p>
+                                    <p class="text-white fs-2">"The ultrabook I bought is whisper-quiet and incredibly light. Perfect for travel. Highly recommend this store to anyone looking for quality."</p>
                                     <div class="mt-6">
-                                        <img src="{{ asset('client/images/avatar/avatar-15.jpg') }}" alt=""
+                                        <img src="{{ asset('client/images/avatar/avatar-15.jpg') }}" alt="James R."
                                             class="avatar avatar-md rounded-circle mb-2" />
-                                        <p class="mb-0 lh-1 text-white">Mette Hay</p>
+                                        <p class="mb-0 lh-1 text-white">James R.</p>
                                     </div>
                                 </div>
                             </div>
@@ -567,13 +479,12 @@
                                 <img src="{{ asset('client/images/blog/blog-img-1.jpg') }}" alt="blog image" class="img-fluid" />
                             </figure>
                             <div class="position-absolute bottom-0 p-3">
-                                <span class="badge text-bg-info">Home Décor Inspiration</span>
+                                <span class="badge text-bg-info">Gaming</span>
                             </div>
                         </a>
                         <div class="mt-4">
-                            <h3 class="fs-5"><a href="#!" class="text-inherit">The Sowden Collection</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque quis diam at risus
-                                gravida facilisis. In at lacus at metus sodales rhoncus.</p>
+                            <h3 class="fs-5"><a href="#!" class="text-inherit">Best Gaming Laptops of 2025</a></h3>
+                            <p>Discover the top-performing gaming laptops this year, from budget beasts to flagship powerhouses with RTX 4090 graphics and high-refresh-rate displays.</p>
                             <p class="d-flex gap-3 align-items-center">
                                 <span class="d-flex align-items-center gap-1 small">Jun 29, 2025</span>
                                 <span class="d-flex align-items-center gap-1 small">1 Comment</span>
@@ -588,13 +499,12 @@
                                 <img src="{{ asset('client/images/blog/blog-img-2.jpg') }}" alt="blog image" class="img-fluid" />
                             </figure>
                             <div class="position-absolute bottom-0 p-3">
-                                <span class="badge text-bg-warning">Furniture Care Tips</span>
+                                <span class="badge text-bg-warning">Buying Guide</span>
                             </div>
                         </a>
                         <div class="mt-4">
-                            <h3 class="fs-5"><a href="#!" class="text-inherit">Discover our Kitchen Essentials</a></h3>
-                            <p>Aenean venenatis velit at dolor tempor iaculis. Vivamus rutrum tortor in facilisis
-                                posuere. Nam posuere purus eget est porta sagittis.</p>
+                            <h3 class="fs-5"><a href="#!" class="text-inherit">How to Choose the Right Business Laptop</a></h3>
+                            <p>Processor speed, battery life, security features — we break down exactly what matters most for professionals on the move.</p>
                             <p class="d-flex gap-3 align-items-center">
                                 <span class="d-flex align-items-center gap-1 small">Jun 29, 2025</span>
                                 <span class="d-flex align-items-center gap-1 small">1 Comment</span>
@@ -609,13 +519,12 @@
                                 <img src="{{ asset('client/images/blog/blog-img-3.jpg') }}" alt="blog image" class="img-fluid" />
                             </figure>
                             <div class="position-absolute bottom-0 p-3">
-                                <span class="badge text-bg-success">Interior Design</span>
+                                <span class="badge text-bg-success">Tips & Tricks</span>
                             </div>
                         </a>
                         <div class="mt-4">
-                            <h3 class="fs-5"><a href="#!" class="text-inherit">Sustainable products</a></h3>
-                            <p>Maecenas ultrices mollis dui, sed tempor mi pretium in. Pellentesque placerat
-                                pellentesque libero, ut finibus magna tincidunt vitae.</p>
+                            <h3 class="fs-5"><a href="#!" class="text-inherit">Laptop Maintenance Tips to Extend Battery Life</a></h3>
+                            <p>Simple habits that keep your laptop running fast and your battery healthy for years to come — no technical expertise required.</p>
                             <p class="d-flex gap-3 align-items-center">
                                 <span class="d-flex align-items-center gap-1 small">Jun 29, 2025</span>
                                 <span class="d-flex align-items-center gap-1 small">1 Comment</span>
@@ -653,7 +562,7 @@
                             </svg>
                         </div>
                         <h3 class="fs-5">Customer service</h3>
-                        <p class="mb-0">A question? Please contact us at <span class="fw-semibold text-dark">123-456-7890</span></p>
+                        <p class="mb-0">A question? Please contact us at <span class="fw-semibold text-dark">{{ setting('site_phone_1', '123-456-7890') }}</span></p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 col-12 border-end">

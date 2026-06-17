@@ -25,14 +25,16 @@
 
                                 <li class="menu-item"><a href="{{ route('home') }}">HOME</a></li>
                                 <li class="menu-item-has-children">
-                                    <a href="javascript:void(0);">SHOP <i class="fa-solid fa-caret-down"></i></a>
+                                    <a href="{{ route('products.index') }}">SHOP <i class="fa-solid fa-caret-down"></i></a>
                                     <div class="mg-sub-menu-outer">
                                         <div class="menu-subs">
                                             <ul>
+                                                <li><a href="{{ route('products.index') }}">All Products</a></li>
                                                 @foreach (site_marked_as() as $item)
-                                                    @if (!in_array($item['slug'], ['normal', 'primary', 'grand_sale', 'best_seller']))
+                                                    @if ($item['slug'] !== 'normal')
                                                         <li>
-                                                            <a href="{{ route('products.index') }}">
+                                                            <a href="{{ route('products.index', ['marked_as_id' => $item['id']]) }}"
+                                                               class="{{ request('marked_as_id') == $item['id'] ? 'active' : '' }}">
                                                                 {{ $item['title'] }}
                                                             </a>
                                                         </li>
@@ -43,7 +45,7 @@
                                     </div>
                                 </li>
                                 <li class="menu-item"><a href="{{ route('aboutUs') }}">ABOUT US</a></li>
-                                <li class="menu-item"><a href="{{ route('contactUs') }}">CONATCT</a></li>
+                                <li class="menu-item"><a href="{{ route('contactUs') }}">CONTACT</a></li>
                             </ul>
                         </nav>
                         <div>

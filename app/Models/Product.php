@@ -15,31 +15,33 @@ class Product extends Model
     protected $fillable = [
         'category_id',
         'brand_id',
-        'title',
+        'marked_as_id',
+        'name',
+        'slug',
+        'sku',
         'series',
+        'processor',
+        'processor_type',
+        'generation',
         'ram',
         'ram_type',
         'storage',
         'graphical_memory',
-        'backlight',
         'screen_size',
         'color',
+        'backlight',
         'price',
-        'marked_as_id',
-        'generation_id',
-        'processor_id',
-        'processor_type',
+        'discount_percent',
+        'stock_quantity',
+        'warranty_months',
         'description',
+        'is_active',
+        'status',
     ];
 
     public function getBackLightAttribute($value)
     {
         return $value == 1 ? 'Yes' : 'No';
-    }
-
-    public function getMarkedAsAttribute($value)
-    {
-        return ucwords(str_replace('_', ' ', $value));
     }
 
     public function media(): MorphMany
@@ -52,6 +54,11 @@ class Product extends Model
         return optional($this->media->firstWhere('file_type', 'image'))->file_path ?? '';
     }
 
+    //second image path
+    public function getImagePath2Attribute(): string
+    {
+        return optional($this->media->where('file_type', 'image')->skip(1)->first())->file_path ?? '';
+    }
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class)->withDefault();

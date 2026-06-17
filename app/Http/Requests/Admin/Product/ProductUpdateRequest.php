@@ -17,8 +17,9 @@ class ProductUpdateRequest extends FormRequest
         $product = $this->route('product');
 
         return [
-            'category_id' => ['required', 'integer', 'exists:categories,id'],
-            'brand_id' => ['required', 'integer', 'exists:brands,id'],
+            'category_id'  => ['required', 'integer', 'exists:categories,id'],
+            'brand_id'     => ['required', 'integer', 'exists:brands,id'],
+            'marked_as_id' => ['nullable', 'integer', 'exists:marked_as,id'],
             'name' => ['required', 'string', 'max:255'],
             'sku' => [
                 'nullable',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 
 class HomeController extends Controller
@@ -29,7 +30,14 @@ class HomeController extends Controller
 
         $sliders = site_sliders();
 
-        return view('client.index', compact('data', 'sliders'));
+        $categories = Category::where('is_active', true)
+            ->with(['products' => function ($q) {
+                $q->where('status', true)->with('media')->take(1);
+            }])
+            ->orderBy('name')
+            ->get();
+
+        return view('client.index', compact('data', 'sliders', 'categories'));
     }
 
     public function aboutUs()
