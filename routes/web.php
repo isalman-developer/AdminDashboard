@@ -1,14 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\ContactMessageController;
-use App\Http\Controllers\Admin\InvoiceController;
-use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PageController;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MarkedAsController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\PermissionController;
@@ -33,51 +27,6 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
     Route::put('/profile', [AdminAuthController::class, 'updateProfile'])->name('profile.update');
     Route::resource('settings', SettingsController::class)->only(['index', 'store']);
 
-    // ── Brand Management ──────────────────────────────────────────────────────
-    Route::prefix('brands')->name('brands.')->group(function () {
-        Route::get('/', [BrandController::class, 'index'])->name('index');
-        Route::get('/create', [BrandController::class, 'create'])->name('create');
-        Route::post('/', [BrandController::class, 'store'])->name('store');
-        Route::get('/{brand}', [BrandController::class, 'show'])->name('show');
-        Route::get('/{brand}/edit', [BrandController::class, 'edit'])->name('edit');
-        Route::put('/{brand}', [BrandController::class, 'update'])->name('update');
-        Route::delete('/{brand}', [BrandController::class, 'destroy'])->name('destroy');
-    });
-
-    // ── Category Management ───────────────────────────────────────────────────
-    Route::prefix('categories')->name('categories.')->group(function () {
-        Route::get('/', [CategoryController::class, 'index'])->name('index');
-        Route::get('/create', [CategoryController::class, 'create'])->name('create');
-        Route::post('/', [CategoryController::class, 'store'])->name('store');
-        Route::get('/{category}', [CategoryController::class, 'show'])->name('show');
-        Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
-        Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
-        Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
-    });
-
-    // ── Product Management ────────────────────────────────────────────────────
-    Route::prefix('products')->name('products.')->group(function () {
-        Route::get('/', [ProductController::class, 'index'])->name('index');
-        Route::get('/create', [ProductController::class, 'create'])->name('create');
-        Route::post('/', [ProductController::class, 'store'])->name('store');
-        Route::get('/{product}', [ProductController::class, 'show'])->name('show');
-        Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('edit');
-        Route::put('/{product}', [ProductController::class, 'update'])->name('update');
-        Route::patch('/{product}/toggle-status', [ProductController::class, 'toggleStatus'])
-            ->name('toggle-status');
-        Route::delete('/{product}', [ProductController::class, 'destroy'])->name('destroy');
-    });
-
-    // ── Slider Management ────────────────────────────────────────────────────
-    Route::prefix('sliders')->name('sliders.')->group(function () {
-        Route::get('/', [SliderController::class, 'index'])->name('index');
-        Route::get('/create', [SliderController::class, 'create'])->name('create');
-        Route::post('/', [SliderController::class, 'store'])->name('store');
-        Route::get('/{slider}/edit', [SliderController::class, 'edit'])->name('edit');
-        Route::put('/{slider}', [SliderController::class, 'update'])->name('update');
-        Route::delete('/{slider}', [SliderController::class, 'destroy'])->name('destroy');
-    });
-
     // ── Pages Content Management ──────────────────────────────────────────────
     Route::prefix('pages')->name('pages.')->group(function () {
         Route::get('/about',   [PageController::class, 'editAbout'])->name('about');
@@ -90,27 +39,6 @@ Route::middleware('auth:web')->prefix('admin')->name('admin.')->group(function (
         Route::get('/',                 [ContactMessageController::class, 'index'])->name('index');
         Route::patch('/{message}/read', [ContactMessageController::class, 'markRead'])->name('markRead');
         Route::delete('/{message}',     [ContactMessageController::class, 'destroy'])->name('destroy');
-    });
-
-    // ── Invoice Management ────────────────────────────────────────────────────
-    Route::prefix('invoices')->name('invoices.')->group(function () {
-        Route::get('/',                    [InvoiceController::class, 'index'])->name('index');
-        Route::get('/{invoice}',           [InvoiceController::class, 'show'])->name('show');
-        Route::get('/{invoice}/edit',      [InvoiceController::class, 'edit'])->name('edit');
-        Route::put('/{invoice}',           [InvoiceController::class, 'update'])->name('update');
-        Route::patch('/{invoice}/paid',    [InvoiceController::class, 'markPaid'])->name('markPaid');
-        Route::delete('/{invoice}',        [InvoiceController::class, 'destroy'])->name('destroy');
-        Route::post('/from-order/{order}', [InvoiceController::class, 'generateFromOrder'])->name('fromOrder');
-    });
-
-    // ── Order Management ──────────────────────────────────────────────────────
-    Route::prefix('orders')->name('orders.')->group(function () {
-        Route::get('/', [OrderController::class, 'index'])->name('index');
-        Route::get('/{order}', [OrderController::class, 'show'])->name('show');
-        Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('edit');
-        Route::put('/{order}', [OrderController::class, 'update'])->name('update');
-        Route::patch('/{order}/status', [OrderController::class, 'updateStatus'])->name('updateStatus');
-        Route::delete('/{order}', [OrderController::class, 'destroy'])->name('destroy');
     });
 
     // ── Marker Management ─────────────────────────────────────────────────────

@@ -18,10 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(SettingsSeeder::class);
-        $this->call(CategorySeeder::class);
-        $this->call(BrandSeeder::class);
         $this->call(MarkedAsSeeder::class);
-        $this->call(SliderSeeder::class);
-        $this->call(ProductSeeder::class);
     }
 }
