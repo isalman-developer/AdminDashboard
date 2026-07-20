@@ -210,12 +210,12 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="{{ url('admin/brands') }}" class="menu-link">
+                    <a href="{{ url('admin.home') }}" class="menu-link">
                         <div data-i18n="All Brands">All Brands</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('admin.brands.create') }}" class="menu-link">
+                    <a href="{{ route('admin.home') }}" class="menu-link">
                         <div data-i18n="Add Brand">Add Brand</div>
                     </a>
                 </li>
@@ -233,80 +233,16 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="{{ route('admin.categories.create') }}" class="menu-link">
+                    <a href="{{ route('admin.home') }}" class="menu-link">
                         <div data-i18n="Add Category">Add Category</div>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon menu-icon icon-base ti tabler-package"></i>
-                <div data-i18n="Products">Products</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="{{ url('admin/products') }}" class="menu-link">
-                        <div data-i18n="All Products">All Products</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('admin.products.create') }}" class="menu-link">
-                        <div data-i18n="Add Product">Add Product</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon menu-icon icon-base ti tabler-slideshow"></i>
-                <div data-i18n="Sliders">Sliders</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="{{ url('admin/sliders') }}" class="menu-link">
-                        <div data-i18n="All Sliders">All Sliders</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('admin.sliders.create') }}" class="menu-link">
-                        <div data-i18n="Add Slider">Add Slider</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <li class="menu-item">
-            <a href="{{ url('admin/orders') }}" class="menu-link">
-                <i class="menu-icon icon-base ti tabler-clipboard-list"></i>
-                <div data-i18n="Orders">Orders</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="{{ url('admin/invoices') }}" class="menu-link">
-                <i class="menu-icon icon-base ti tabler-file-invoice"></i>
-                <div data-i18n="Invoices">Invoices</div>
-            </a>
-        </li>
 
         <!-- Pages Content Management -->
-        <li class="menu-header small mt-3">
-            <span class="menu-header-text" data-i18n="Pages">Pages</span>
-        </li>
         <li class="menu-item">
-            <a href="{{ url('admin/pages/about') }}" class="menu-link">
-                <i class="menu-icon icon-base ti tabler-file-description"></i>
-                <div data-i18n="About Us">About Us</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="{{ url('admin/pages/contact') }}" class="menu-link">
-                <i class="menu-icon icon-base ti tabler-address-book"></i>
-                <div data-i18n="Contact Us">Contact Us</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="{{ url('admin/contact-messages') }}" class="menu-link">
+            <a href="{{ url('admin.home') }}" class="menu-link">
                 <i class="menu-icon icon-base ti tabler-mail"></i>
                 <div data-i18n="Messages">Messages</div>
             </a>
